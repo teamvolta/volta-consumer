@@ -1,5 +1,6 @@
 var config = require('./config');
 var socket = require('socket.io-client')(config.systemIp);
+var simulation = require('./simulation');
 
 socket.on('connect', function() {
   
@@ -11,7 +12,7 @@ socket.on('connect', function() {
 //   duration: ms
 // }
 socket.on('sendBids', function(data) {
-  socket.emit('consumerBid', simulation.getBid(data));
+  socket.emit('consumerBid', simulation.sendBid(data));
 });
 
 // System admin sends back the price for the time-slot
@@ -21,5 +22,5 @@ socket.on('price', function(data) {
 
 // System admin keeps track of total consumption of all consumers
 setInterval( function () {
-  socket.emit('currentConsumption', simulation.currentConsumption(data));
+  socket.emit('currentConsumption', simulation.currentConsumption());
 }, 100);
