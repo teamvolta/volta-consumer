@@ -1,8 +1,19 @@
+// Made as per http://www.hydroone.com/RegulatoryAffairs/RatesPrices/Pages/ElectricityPrices.aspx
+var config = require('./config');
 
-exports.sendBid = function (data) {
+exports.currentConsumption = function () {
+  var currentTime = Date();
+  var slice = currentTime.slice;
+  var time = slice(16,18);  // 24 hour format
 
-}
-
-exports.currentConsumption = function() {
-
+// Simluating demand according to the time of the day
+  if(time > 9 && time < 22){
+    if(time < 12 && time > 18) {
+      return config.maxConsumption - (Math.random() * config.deviation);
+    } else {
+      return config.midConsumption + (Math.random() * config.deviation); 
+    } 
+  } else {
+    return config.midConsumption - (Math.random() * config.deviation);
+  }
 }
