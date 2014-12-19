@@ -11,9 +11,9 @@ socket.on('connect', function() {
 //   timeSlot: UTC ms,
 //   duration: ms
 // }
-socket.on('sendBids', function() {
-  socket.emit('consumerBid', simulation.currentConsumption());
-});
+// socket.on('sendBids', function() {
+//   socket.emit('consumerBid', simulation.sendBid());
+// });
 
 // System admin sends back the price for the time-slot
 socket.on('price', function(data) {
