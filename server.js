@@ -13,3 +13,13 @@ socket.on('connect', function() {
 socket.on('sendBids', function(data) {
   socket.emit('consumerBid', simulation.getBid(data));
 });
+
+// System admin sends back the price for the time-slot
+socket.on('price', function(data) {
+ // Do something with price
+});
+
+// System admin keeps track of total consumption of all consumers
+setInterval( function () {
+  socket.emit('currentConsumption', simulation.currentConsumption(data));
+}, 100);
