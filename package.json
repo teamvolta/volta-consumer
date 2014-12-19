@@ -1,0 +1,22 @@
+{
+  "name": "volta-consumer",
+  "version": "1.0.0",
+  "description": "Consumer node for Volta smart grid",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teamvolta/volta-consumer.git"
+  },
+  "author": "John, Anastasia, Michael &  Nikhil",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/teamvolta/volta-consumer/issues"
+  },
+  "homepage": "https://github.com/teamvolta/volta-consumer",
+  "dependencies": {
+    "socket.io-client": "^1.2.1"
+  }
+}
