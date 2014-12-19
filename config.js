@@ -1,4 +1,4 @@
-module.exports = {
+exports.development = {
   systemIp: 'localhost:3000',
   consumerId: Math.random().toString(36).substr(2),
   minimumConsumption: 0,
