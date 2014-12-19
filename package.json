@@ -18,5 +18,8 @@
   "homepage": "https://github.com/teamvolta/volta-consumer",
   "dependencies": {
     "socket.io-client": "^1.2.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.10"
   }
 }
