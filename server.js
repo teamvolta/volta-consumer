@@ -12,7 +12,7 @@ socket.on('connect', function() {
 //   duration: ms
 // }
 socket.on('sendBids', function(data) {
-  socket.emit('consumerBid', simulation.getBid(data));
+  socket.emit('consumerBid', simulation.sendBid(data));
 });
 
 // System admin sends back the price for the time-slot
