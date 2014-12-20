@@ -9,7 +9,7 @@ socket.on('connect', function() {
 
 // Receive time-slot and duration from system operator to send bids
 // {
-//   time: UTC ms,
+//   timeslot: UTC ms,
 //   duration: ms
 // }
 socket.on('startBidding', function(data) {
