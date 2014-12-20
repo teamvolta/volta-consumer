@@ -34,4 +34,4 @@ exports.currentConsumption = function() {
     consumption = bid;
   }
   return consumption;
-}
+};
