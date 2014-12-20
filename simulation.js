@@ -5,20 +5,25 @@ var bidTime = Date();
 var consumption = bid;
 
 exports.bid = function (data) {
-  bidTime = data.timeslot.slice(16,18);  // UTC date
-  // Simluating demand according to the time of the day
-  if(bidTime > '9' && bidTime < '22'){
-    if(bidTime < '12' && bidTime > '18') {
-      bid = config.maxConsumption - (Math.random() * config.bidDeviation);
-      return bid;
-    } else {
-      bid = config.midConsumption + (Math.random() * config.bidDeviation); 
-      return bid;
-    } 
-  } else {
-    bid = config.midConsumption - (Math.random() * config.bidDeviation);
-    return bid;
-  }
+  var time = data.blockStart;  // UTC date
+  return [{
+      price: 10,
+      energy: 10
+  }];
+  // time = UTC milliseconds, result of Date.now()
+// Simulating demand according to the time of the day
+  // if(time > '9' && time < '22'){
+  //   if(time < '12' && time > '18') {
+  //     bid = config.maxConsumption - (Math.random() * config.bidDeviation);
+  //     return bid;
+  //   } else {
+  //     bid = config.midConsumption + (Math.random() * config.bidDeviation);
+  //     return bid;
+  //   }
+  // } else {
+  //   bid = config.midConsumption - (Math.random() * config.bidDeviation);
+  //   return bid;
+  // }
 };
 
 exports.currentConsumption = function() {
