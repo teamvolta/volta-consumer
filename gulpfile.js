@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var mocha = require('gulp-mocha');
 var install = require('gulp-install');
+var jshint = require('gulp-jshint');
 
 gulp.task('default', function() {
   // default task will be added here
@@ -14,5 +15,20 @@ gulp.task('test', function() {  //I am still not sure what it actually does
          .pipe(mocha({reporter: 'spec'}));  //reporter spec is just the nested structure of Mocha output
 });
 
+gulp.task('style', function() {
+  gulp.src('./*.js')
+  .pipe(jshint('.jshintrc'))
+  .pipe(jshint.reporter('jshint-stylish'));
+});
 
+gulp.task('deploy', function () {
+  
+});
 
+//Development: lint, (test), serve up locally
+
+// Push Only after circle CI
+
+// Add buttons, shortly deploy 
+
+// deploy: assemble everything, push Azure
