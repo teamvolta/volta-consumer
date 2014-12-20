@@ -1,4 +1,5 @@
-var config = require('./config');
+var config = require('./config').development;
+var consumerId = config.consumerId;
 var socket = require('socket.io-client')(config.systemIp);
 var simulation = require('./simulation');
 
@@ -8,11 +9,14 @@ socket.on('connect', function() {
 
 // Receive time-slot and duration from system operator to send bids
 // {
-//   timeSlot: UTC ms,
+//   time: UTC ms,
 //   duration: ms
 // }
-socket.on('sendBids', function(data) {
-  socket.emit('consumerBid', simulation.getBid(data));
+socket.on('startBidding', function(data) {
+  socket.emit('bid', {
+    bid: simulation.bid(data),
+    consumerId: consumerId
+  });
 });
 
 // System admin sends back the price for the time-slot
@@ -21,6 +25,9 @@ socket.on('price', function(data) {
 });
 
 // System admin keeps track of total consumption of all consumers
-setInterval( function () {
-  socket.emit('currentConsumption', simulation.currentConsumption());
+setInterval(function () {
+  socket.emit('currentConsumption', {
+    currentConsumption: simulation.currentConsumption(),
+    consumerId: config.consumerId
+  });
 }, 100);

@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/teamvolta/volta-consumer",
   "dependencies": {
+    "should": "^4.4.1",
     "socket.io-client": "^1.2.1"
   },
   "devDependencies": {
