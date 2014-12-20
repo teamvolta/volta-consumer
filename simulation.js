@@ -21,5 +21,5 @@ exports.bid = function (data) {
 
 
 exports.currentConsumption = function() {
-  return bid + (Math.random() * config.consumptionDeviation);
+  return bid;
 }
