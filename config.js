@@ -4,5 +4,6 @@ exports.development = {
   minimumConsumption: 0,
   midConsumption: 50,
   maxConsumption: 100,
-  deviation: 15
-}
+  bidDeviation: 20,
+  consumptionDeviation: 5
+};
