@@ -4,6 +4,7 @@ var install = require('gulp-install');
 var jshint = require('gulp-jshint');
 var concat = require('gulp-concat-util');
 var uglify = require('gulp-uglify');
+var minifyCSS = require('gulp-minify-css');
 
 gulp.task('default', function() {
    gulp.start('install', 'style');  // default task can be added here
@@ -31,17 +32,21 @@ gulp.task('style', function() {
 });
 
 gulp.task('concat', function () {
-  gulp.src('./{,*/}*.js')
+  return gulp.src('./{,*/}*.js') //need return here to hint that uglify should wait until the value is returned
     .pipe(concat('combined.js'))
     .pipe(concat.header('// file: <%= file.path %>\n'))
     .pipe(concat.footer('\n// end\n'))
     .pipe(gulp.dest('./dist')); //this creates a dist folder for the concatinated files
 });
 
-gulp.task('uglify', function () {
+gulp.task('uglify', ['concat'], function () {   // ['concat'] means that we should run 'concat' first  
   gulp.src('dist/combined.js')  //take the result of concatenation
     .pipe(uglify())
     .pipe(gulp.dest('dist/combined.min.js')); //put the minified file to the same folder
+});
+
+gulp.task('minifyCSS', function () {
+  // the content will be added when we have css. Instructions are here: https://www.npmjs.com/package/gulp-minify-css
 });
 
 /////////////
@@ -50,8 +55,7 @@ gulp.task('uglify', function () {
 
 gulp.task('test', ['mochaTest', 'style']);
 
-
-
+gulp.task('build', ['concat', 'uglify', 'minifyCSS']);
 
 
 
