@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var mocha = require('gulp-mocha');
 var install = require('gulp-install');
 var jshint = require('gulp-jshint');
+var concat = require('gulp-concat-util');
 
 gulp.task('default', function() {
    gulp.start('install', 'style');  // default task can be added here
@@ -9,20 +10,43 @@ gulp.task('default', function() {
 
 gulp.task('install', function() {
    gulp.src('./package.json') //gulp.src fetches the file and passes it on as an argument
-  .pipe(install());
-})
+     .pipe(install());
+});
 
-gulp.task('test', function() {  //I am still not sure what it actually does
+//////////////
+//Helper tasks
+//////////////
+
+gulp.task('mochaTest', function() {  //I am still not sure what it actually does
 	                            // passing shared module in all tests (according to docs)
   return gulp.src('test/test.js', {read: false})   
-         .pipe(mocha({reporter: 'spec'}));  //reporter spec is just the nested structure of Mocha output
+           .pipe(mocha({reporter: 'spec'}));  //reporter spec is just the nested structure of Mocha output
 });
 
 gulp.task('style', function() {
   gulp.src('./*.js')
-  .pipe(jshint('.jshintrc'))
-  .pipe(jshint.reporter('jshint-stylish'));
+    .pipe(jshint('.jshintrc'))
+    .pipe(jshint.reporter('jshint-stylish'));
 });
+
+gulp.task('concat', function () {
+  gulp.src('./{,*/}*.js')
+    .pipe(concat('combined.js'))
+    .pipe(concat.header('// file: <%= file.path %>\n'))
+    .pipe(concat.footer('\n// end\n'))
+    .pipe(gulp.dest('./dist')); //this creates a dist folder for the concatinated files
+});
+
+/////////////
+//Main tasks
+/////////////
+
+gulp.task('test', ['mochaTest', 'style']);
+
+
+
+
+
 
 gulp.task('deploy', function () {
   

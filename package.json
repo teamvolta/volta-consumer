@@ -23,6 +23,7 @@
   "devDependencies": {
     "chai": "^1.10.0",
     "gulp": "^3.8.10",
+    "gulp-concat-util": "^0.5.1",
     "gulp-install": "^0.2.0",
     "gulp-jshint": "^1.9.0",
     "gulp-mocha": "^2.0.0",
