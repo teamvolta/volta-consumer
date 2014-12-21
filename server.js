@@ -3,6 +3,8 @@ var consumerId = config.consumerId;
 var socket = require('socket.io-client')(config.systemIp);
 var simulation = require('./simulation');
 
+console.log("Running the server file");
+
 socket.on('connect', function() {
   consumerId = socket.io.engine.id;
 });
