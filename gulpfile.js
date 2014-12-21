@@ -3,6 +3,7 @@ var mocha = require('gulp-mocha');
 var install = require('gulp-install');
 var jshint = require('gulp-jshint');
 var concat = require('gulp-concat-util');
+var uglify = require('gulp-uglify');
 
 gulp.task('default', function() {
    gulp.start('install', 'style');  // default task can be added here
@@ -35,6 +36,12 @@ gulp.task('concat', function () {
     .pipe(concat.header('// file: <%= file.path %>\n'))
     .pipe(concat.footer('\n// end\n'))
     .pipe(gulp.dest('./dist')); //this creates a dist folder for the concatinated files
+});
+
+gulp.task('uglify', function () {
+  gulp.src('dist/combined.js')  //take the result of concatenation
+    .pipe(uglify())
+    .pipe(gulp.dest('dist/combined.min.js')); //put the minified file to the same folder
 });
 
 /////////////
