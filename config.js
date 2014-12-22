@@ -1,4 +1,5 @@
 exports.development = {
+  port: 8002,
   systemIp: 'http://localhost:8000/consumers',
   consumerId: Math.random().toString(36).substr(2),
   minimumConsumption: 0,
