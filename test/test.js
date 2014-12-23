@@ -10,3 +10,10 @@ var options ={
   transports: ['websocket'],
   'force new connection': true
 };
+
+describe("test for tests", function(){ //mock test, to test gulp and deployment
+  it("tests should run", function(){
+    var a = 2;  
+    expect(a).to.equal(2);
+  });
+});

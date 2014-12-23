@@ -7,9 +7,7 @@ var uglify = require('gulp-uglify');
 var minifyCSS = require('gulp-minify-css');
 var run = require('gulp-run');
 
-gulp.task('default', function() {
-   gulp.start('install', 'style');  // default task can be added here
-});
+gulp.task('default', ['mochaTest']); 
 
 gulp.task('install', function() {
    gulp.src('./package.json') //gulp.src fetches the file and passes it on as an argument
