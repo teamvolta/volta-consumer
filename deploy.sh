@@ -68,12 +68,12 @@ fi
 if [[ ! -n "$GULP_CMD" ]]; then
   # Install gulp
   echo Installing Gulp
-  npm --registry "http://registry.npmjs.org/" install gulp -g --silent
+  npm install gulp -g --silent
   exitWithMessageOnError "gulp installation failed"
 #  IF !ERRORLEVEL! NEQ 0 goto error
 
   # Locally just running "gulp" would also work
-  GULP_CMD=$APPDATA/npm/gulp.cmd
+  GULP_CMD=gulp
 
 fi
 
