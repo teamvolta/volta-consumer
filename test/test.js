@@ -17,4 +17,11 @@ describe("test for tests", function(){ //mock test, to test gulp and deployment
     console.log("testing");  
     expect(a).to.equal(2);
   });
+
+  it("failing tests should stop deployment", function(){
+    var a = 2;
+    console.log("testing");  
+    expect(a).to.equal(3);
+  });
+
 });
