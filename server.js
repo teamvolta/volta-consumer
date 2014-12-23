@@ -28,6 +28,7 @@ app.get('/api/stats', function(req, res){
 });
 
 console.log("Running the server file again");
+console.log("node_env", process.env.node_env); //to check whether it's been set to production when deployed
 
 socket.on('connect', function() {
   consumerId = socket.io.engine.id;
