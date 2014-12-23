@@ -120,7 +120,7 @@ fi
 # 4. Test
 pushd %DEPLOYMENT_TARGET%
 call :ExecuteCmd !NPM_CMD! install --development
-call :ExecuteCmd "%NODE_EXE%" node_modules\gulp\bin\gulp
+call :ExecuteCmd "%NODE_EXE%" node_modules\\gulp\\bin\\gulp
 IF !ERRORLEVEL! NEQ 0 goto error
 popd
 
