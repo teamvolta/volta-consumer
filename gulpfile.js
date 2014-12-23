@@ -20,6 +20,7 @@ gulp.task('install', function() {
 
 gulp.task('mochaTest', function() {  //I am still not sure what it actually does
 	                            // passing shared module in all tests (according to docs)
+  console.log("gulptest");
   return gulp.src('test/test.js', {read: false})   
            .pipe(mocha({reporter: 'spec'}));  //reporter spec is just the nested structure of Mocha output
 });
