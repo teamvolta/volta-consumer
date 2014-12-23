@@ -68,7 +68,8 @@ fi
 if [[ ! -n "$GULP_CMD" ]]; then
   # Install gulp
   echo Installing Gulp
-  npm install gulp -g --silent
+  npm install gulp -g --quiet
+  echo installed gulp
   exitWithMessageOnError "gulp installation failed"
 #  IF !ERRORLEVEL! NEQ 0 goto error
 
