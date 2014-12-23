@@ -64,19 +64,19 @@ if [[ ! -n "$KUDU_SYNC_CMD" ]]; then
   fi
 fi
 
-# IF NOT DEFINED GULP_CMD (
-if [[ ! -n "$GULP_CMD" ]]; then
-  # Install gulp
-  echo Installing Gulp
-  npm install gulp -g --quiet
-  echo installed gulp
-  exitWithMessageOnError "gulp installation failed"
-#  IF !ERRORLEVEL! NEQ 0 goto error
+# # IF NOT DEFINED GULP_CMD (
+# if [[ ! -n "$GULP_CMD" ]]; then
+#   # Install gulp
+#   echo Installing Gulp
+#   npm install gulp -g --quiet
+#   echo installed gulp
+#   exitWithMessageOnError "gulp installation failed"
+# #  IF !ERRORLEVEL! NEQ 0 goto error
 
-  # Locally just running "gulp" would also work
-  GULP_CMD=gulp
+#   # Locally just running "gulp" would also work
+#   GULP_CMD=gulp
 
-fi
+# fi
 
 
 # Node Helpers
@@ -127,15 +127,16 @@ selectNodeVersion
 # 3. Install npm packages
 if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   cd "$DEPLOYMENT_TARGET"
-  eval $NPM_CMD install --production
+  # eval $NPM_CMD install --production
+  eval $NPM_CMD install
   exitWithMessageOnError "npm failed"
   cd - > /dev/null
 fi
 
 # 4. Test
 pushd "$DEPLOYMENT_TARGET"
-eval $NPM_CMD install --development
-eval $GULP_CMD default
+# eval $NPM_CMD install --development
+gulp
 exitWithMessageOnError "test failed"
 popd
 
