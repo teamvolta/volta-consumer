@@ -136,7 +136,7 @@ fi
 # 4. Test
 pushd "$DEPLOYMENT_TARGET"
 # eval $NPM_CMD install --development
-gulp
+eval $NODE_EXE node_modules/gulp/bin/gulp
 exitWithMessageOnError "test failed"
 popd
 
