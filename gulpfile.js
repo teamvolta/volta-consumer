@@ -50,8 +50,8 @@ gulp.task('minifyCSS', function () {
   // the content will be added when we have css. Instructions are here: https://www.npmjs.com/package/gulp-minify-css
 });
 
-gulp.task('upload', function () {
-  run('git push azure').exec();
+gulp.task('upload', function () { 
+  run('git push azure').exec(); //this runs the deployment command
 });
 
 /////////////

@@ -27,7 +27,7 @@ app.get('/api/stats', function(req, res){
   res.json(reporter.update())
 });
 
-console.log("Running the server file");
+console.log("Running the server file again");
 
 socket.on('connect', function() {
   consumerId = socket.io.engine.id;
