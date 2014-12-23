@@ -13,7 +13,8 @@ var options ={
 
 describe("test for tests", function(){ //mock test, to test gulp and deployment
   it("tests should run", function(){
-    var a = 2;  
+    var a = 2;
+    console.log("testing");  
     expect(a).to.equal(2);
   });
 });
