@@ -1,4 +1,6 @@
-var config = require('./config').development;
+process.env.node_env = process.env.node_env || "development";
+
+var config = require('./config')[process.env.node_env];
 var express = require('express');
 var app = express();
 // Setup reporter
@@ -25,7 +27,7 @@ app.get('/api/stats', function(req, res){
   res.json(reporter.update())
 });
 
-console.log("Running the server file");
+console.log("Running the server file again");
 
 socket.on('connect', function() {
   consumerId = socket.io.engine.id;
