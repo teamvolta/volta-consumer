@@ -64,6 +64,18 @@ if [[ ! -n "$KUDU_SYNC_CMD" ]]; then
   fi
 fi
 
+IF NOT DEFINED GULP_CMD (
+  # Install gulp
+  echo Installing Gulp
+  call npm --registry "http://registry.npmjs.org/" install gulp -g --silent
+  IF !ERRORLEVEL! NEQ 0 goto error
+
+  # Locally just running "gulp" would also work
+  SET GULP_CMD="%appdata%\npm\gulp.cmd"
+
+)
+
+
 # Node Helpers
 # ------------
 
@@ -120,7 +132,7 @@ fi
 # 4. Test
 pushd %DEPLOYMENT_TARGET%
 call :ExecuteCmd !NPM_CMD! install --development
-call :ExecuteCmd "%NODE_EXE%" node_modules\\gulp\\bin\\gulp
+call :ExecuteCmd !GULP_CMD! default
 IF !ERRORLEVEL! NEQ 0 goto error
 popd
 
