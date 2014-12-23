@@ -134,11 +134,21 @@ if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
 fi
 
 # 4. Test
-pushd "$DEPLOYMENT_TARGET"
-# eval $NPM_CMD install --development
-eval $NODE_EXE node_modules/gulp/bin/gulp
-exitWithMessageOnError "test failed"
-popd
+if [ -e "$DEPLOYMENT_TARGET/gulpfile.js" ]; then
+  cd "$DEPLOYMENT_TARGET"
+ # eval $NPM_CMD install grunt-cli
+ # exitWithMessageOnError "installing grunt failed"
+  ./node_modules/.bin/gulp default
+  exitWithMessageOnError "test failed"
+  cd - > /dev/null
+fi
+
+
+# pushd "$DEPLOYMENT_TARGET"
+# # eval $NPM_CMD install --development
+# eval $NODE_EXE node_modules/gulp/bin/gulp
+# exitWithMessageOnError "test failed"
+# popd
 
 ##################################################################################################################################
 
