@@ -64,7 +64,8 @@ if [[ ! -n "$KUDU_SYNC_CMD" ]]; then
   fi
 fi
 
-IF NOT DEFINED GULP_CMD (
+# IF NOT DEFINED GULP_CMD (
+if [[ ! -n "$GULP_CMD" ]]; then
   # Install gulp
   echo Installing Gulp
   call npm --registry "http://registry.npmjs.org/" install gulp -g --silent
@@ -73,7 +74,7 @@ IF NOT DEFINED GULP_CMD (
   # Locally just running "gulp" would also work
   SET GULP_CMD="%appdata%\npm\gulp.cmd"
 
-)
+fi
 
 
 # Node Helpers
