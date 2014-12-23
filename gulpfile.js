@@ -5,6 +5,7 @@ var jshint = require('gulp-jshint');
 var concat = require('gulp-concat-util');
 var uglify = require('gulp-uglify');
 var minifyCSS = require('gulp-minify-css');
+var run = require('gulp-run');
 
 gulp.task('default', function() {
    gulp.start('install', 'style');  // default task can be added here
@@ -47,6 +48,10 @@ gulp.task('uglify', ['concat'], function () {   // ['concat'] means that we shou
 
 gulp.task('minifyCSS', function () {
   // the content will be added when we have css. Instructions are here: https://www.npmjs.com/package/gulp-minify-css
+});
+
+gulp.task('upload', function () {
+  run('git push azure').exec();
 });
 
 /////////////

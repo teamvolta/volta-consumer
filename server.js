@@ -1,4 +1,6 @@
-var config = require('./config').development;
+process.env.node_env = process.env.node_env || "development";
+
+var config = require('./config')[process.env.node_env];
 var express = require('express');
 var app = express();
 // Setup reporter
