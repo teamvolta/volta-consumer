@@ -68,11 +68,12 @@ fi
 if [[ ! -n "$GULP_CMD" ]]; then
   # Install gulp
   echo Installing Gulp
-  call npm --registry "http://registry.npmjs.org/" install gulp -g --silent
-  IF !ERRORLEVEL! NEQ 0 goto error
+  npm --registry "http://registry.npmjs.org/" install gulp -g --silent
+  exitWithMessageOnError "gulp installation failed"
+#  IF !ERRORLEVEL! NEQ 0 goto error
 
   # Locally just running "gulp" would also work
-  SET GULP_CMD="%appdata%\npm\gulp.cmd"
+  GULP_CMD=$APPDATA/npm/gulp.cmd
 
 fi
 
@@ -131,10 +132,10 @@ if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
 fi
 
 # 4. Test
-pushd %DEPLOYMENT_TARGET%
-call :ExecuteCmd !NPM_CMD! install --development
-call :ExecuteCmd !GULP_CMD! default
-IF !ERRORLEVEL! NEQ 0 goto error
+pushd "$DEPLOYMENT_TARGET"
+eval $NPM_CMD install --development
+eval $GULP_CMD default
+exitWithMessageOnError "test failed"
 popd
 
 ##################################################################################################################################
