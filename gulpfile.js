@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var mocha = require('gulp-mocha');
+var istanbul = require('gulp-istanbul');
 var install = require('gulp-install');
 var jshint = require('gulp-jshint');
 var concat = require('gulp-concat-util');
@@ -29,6 +30,18 @@ gulp.task('style', function() {
   gulp.src('./*.js')
     .pipe(jshint('.jshintrc'))
     .pipe(jshint.reporter('jshint-stylish'));
+});
+
+gulp.task('testCoverage', function (cb) {
+  gulp.src(['./*.js'])
+    .pipe(istanbul({includeUntested: true})) // Covering files; includeUntested is needed to include all files, and not only 'required' ones
+    .pipe(istanbul.hookRequire()) // Force `require` to return covered files
+    .on('finish', function () {
+      gulp.src(['test/test.js'])
+        .pipe(mocha({reporter: 'spec'}))
+        .pipe(istanbul.writeReports()) // Creating the reports after tests ran
+        .on('end', cb);
+    });
 });
 
 gulp.task('concat', function () {
