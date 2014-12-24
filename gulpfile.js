@@ -33,7 +33,6 @@ gulp.task('style', function() {
 });
 
 
-
 gulp.task('testCoverage', function (cb) {
   gulp.src(['./*.js'])
     .pipe(istanbul({includeUntested: true})) // Covering files; includeUntested is needed to include all files, and not only 'required' ones
