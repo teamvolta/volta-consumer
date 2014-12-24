@@ -35,14 +35,13 @@ gulp.task('style', function() {
 
 
 gulp.task('testCoverage', function (cb) {
-  var coverageOutput = $CIRCLE_ARTIFACTS || 'coverage';
   gulp.src(['./*.js'])
     .pipe(istanbul({includeUntested: true})) // Covering files; includeUntested is needed to include all files, and not only 'required' ones
     .pipe(istanbul.hookRequire()) // Force `require` to return covered files
     .on('finish', function () {
       gulp.src(['test/test.js'])
         .pipe(mocha({reporter: 'spec'}))
-        .pipe(istanbul.writeReports({dir: coverageOutput})) // Creating the reports after tests ran
+        .pipe(istanbul.writeReports()) // Creating the reports after tests ran
         .on('end', cb);
     });
 });
