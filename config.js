@@ -11,7 +11,7 @@ exports.development = {
 
 exports.production = {
   port: process.env.PORT,
-  systemIp: 'http://95.25.87.120:8000/consumers', //to replace later
+  systemIp: 'http://gridsystemtest.azurewebsites.net/consumers', //to replace later
   consumerId: Math.random().toString(36).substr(2),
   minimumConsumption: 0,
   midConsumption: 50,
