@@ -70,7 +70,7 @@ gulp.task('upload', function () {
 //Main tasks
 /////////////
 
-gulp.task('test', ['mochaTest', 'style']);
+gulp.task('test', ['mochaTest', 'style', 'testCoverage']);
 
 gulp.task('build', ['concat', 'uglify', 'minifyCSS']);
 
