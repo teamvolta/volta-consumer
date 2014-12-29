@@ -1,6 +1,6 @@
 process.env.node_env = process.env.node_env || "development";
 
-var config = require('./config')[process.env.node_env];
+var config = require('./config')[process.env.node_env].consumption;
 var express = require('express');
 var app = express();
 // Setup reporter
@@ -11,7 +11,7 @@ app.use(express.static(__dirname + '/public'));
 
 var server = require('http').Server(app);
 var consumerId = config.consumerId;
-var socket = require('socket.io-client')(config.systemIp);
+var socket = require('socket.io')(config.systemIp);
 var simulation = require('./simulation');
 
 // Setup server.
@@ -46,16 +46,16 @@ socket.on('startBidding', function(data) {
   });
 });
 
+var energy;
 // System admin sends back the price for the time-slot
 socket.on('receipt', function(receipt) {
- // Do something with price
- console.log(receipt);
+ energy = receipt.energy;
 });
 
 // System admin keeps track of total consumption of all consumers
 setInterval(function () {
   socket.emit('consume', {
-    currentConsumption: simulation.currentConsumption(),
+    currentConsumption: simulation.currentConsumption(energy),
     consumerId: config.consumerId
   });
 }, 100);

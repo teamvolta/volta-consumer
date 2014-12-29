@@ -1,4 +1,4 @@
-exports.development = {
+exports.development.consumption = {
   port: 8002,
   systemIp: 'http://localhost:8000/consumers',
   consumerId: Math.random().toString(36).substr(2),
@@ -7,13 +7,17 @@ exports.development = {
   maxConsumption: 100,
   bidDeviation: 20,
   consumptionDeviation: 5,
-  peakTimeStart1: '9',
-  peakTimeEnd1: '12',
-  peakTimeStart1: '18',
-  peakTimeEnd1: '22'
+  // peakTimeStart1: '9',
+  // peakTimeEnd1: '12',
+  // peakTimeStart1: '18',
+  // peakTimeEnd1: '22'
 };
 
-exports.production = {
+exports.development.consumerProduction = {
+
+};
+
+exports.production.consumption = {
   port: process.env.PORT,
   systemIp: 'http://gridsystemtest.azurewebsites.net/consumers', //to replace later
   consumerId: Math.random().toString(36).substr(2),
@@ -22,4 +26,8 @@ exports.production = {
   maxConsumption: 100,
   bidDeviation: 20,
   consumptionDeviation: 5
+};
+
+exports.production.consumerProduction = {
+
 };
