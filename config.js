@@ -6,7 +6,11 @@ exports.development = {
   midConsumption: 50,
   maxConsumption: 100,
   bidDeviation: 20,
-  consumptionDeviation: 5
+  consumptionDeviation: 5,
+  peakTimeStart1: '9',
+  peakTimeEnd1: '12',
+  peakTimeStart1: '18',
+  peakTimeEnd1: '22'
 };
 
 exports.production = {
