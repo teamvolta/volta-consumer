@@ -11,12 +11,12 @@ app.use(express.static(__dirname + '/public'));
 
 var server = require('http').Server(app);
 var consumerId = config.consumerId;
-var io = require("socket.io").listen(8003);
+var io = require("socket.io").listen(config.serverPort);
 var socket = require('socket.io-client')(config.systemIp);
 var simulation = new (require('./simulation'))(config);
 
 // Setup server.
-server.listen(config.port);
+server.listen(config.clientPort);
 
 // Serve admin
 app.get('/admin', function(req, res){
@@ -66,6 +66,6 @@ setInterval(function () {
 // Consumer Production stuff
 io.on('connection', function(socket) {
   socket.on('production', function(data) {
-    console.log(data);
+    energy -= data.currentProduction;
   });
 })

@@ -1,7 +1,8 @@
 exports.development = {};
 exports.production = {};
 exports.development.consumption = {
-  port: 8002,
+  clientPort: 8002,
+  serverPort: 8004,
   systemIp: 'http://localhost:8000/consumers',
   consumerId: Math.random().toString(36).substr(2),
   minimumConsumption: 0,
@@ -16,12 +17,14 @@ exports.development.consumption = {
 };
 
 exports.development.consumerProduction = {
-  port: 8004,
-  systemIp: 'http://localhost:8003'
+  port: 8006,
+  systemIp: 'http://localhost:8004'
 };
 
+
 exports.production.consumption = {
-  port: process.env.PORT,
+  clientPort: process.env.PORT,
+  // serverPort:
   systemIp: 'http://gridsystemtest.azurewebsites.net/consumers', //to replace later
   consumerId: Math.random().toString(36).substr(2),
   minimumConsumption: 0,

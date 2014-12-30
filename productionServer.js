@@ -13,6 +13,6 @@ socket.on('connect', function() {
 
 setInterval(function () {
   socket.emit('production', {
-    currentProduction: 10,
+    currentProduction: Math.random()*50
   });
 }, 100);
