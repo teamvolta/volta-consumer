@@ -1,6 +1,6 @@
 process.env.node_env = process.env.node_env || "development";
 
-var config = require('./config')[process.env.node_env].consumption;
+var config = require('./config')[process.env.node_env]['consumption'];
 var express = require('express');
 var app = express();
 // Setup reporter
@@ -11,8 +11,9 @@ app.use(express.static(__dirname + '/public'));
 
 var server = require('http').Server(app);
 var consumerId = config.consumerId;
-var socket = require('socket.io')(config.systemIp);
-var simulation = require('./simulation');
+var io = require("socket.io").listen(8003);
+var socket = require('socket.io-client')(config.systemIp);
+var simulation = new (require('./simulation'))(config);
 
 // Setup server.
 server.listen(config.port);
@@ -27,7 +28,6 @@ app.get('/api/stats', function(req, res){
   res.json(reporter.update())
 });
 
-console.log("Running the server file again");
 console.log("node_env", process.env.node_env); //to check whether it's been set to production when deployed
 
 socket.on('connect', function() {
@@ -52,6 +52,7 @@ socket.on('receipt', function(receipt) {
  energy = receipt.energy;
 });
 
+
 // System admin keeps track of total consumption of all consumers
 setInterval(function () {
   socket.emit('consume', {
@@ -59,3 +60,12 @@ setInterval(function () {
     consumerId: config.consumerId
   });
 }, 100);
+
+
+
+// Consumer Production stuff
+io.on('connection', function(socket) {
+  socket.on('production', function(data) {
+    console.log(data);
+  });
+})

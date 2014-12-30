@@ -1,12 +1,11 @@
-
 var simulation = function (config) {
   this.config = config;
-  this.bidTime = Date.now(); // Default 
-  this.bid = config.midConsumption;
-  this.consumption = bid;
+  // Defaults
+  this.bidTime = Date.now();  
+  this.consumption = config.midConsumption;
 };
 
-reporter.register('consumption', function(){return {bidTime: bidTime, consumption: consumption, bid: bid}});
+// reporter.register('consumption', function(){return {bidTime: bidTime, consumption: consumption, bid: bid}});
 
 simulation.prototype.bid = function(data) {
   this.bidTime = data.blockStart; // UTC date
@@ -15,7 +14,7 @@ simulation.prototype.bid = function(data) {
     energy: 10
   }];
 
-  reporter.report('bids', function(){return bids});
+  // reporter.report('bids', function(){return bids});
   return bids;
 };
 
@@ -24,9 +23,9 @@ simulation.prototype.currentConsumption = function(energy) {
     this.consumption = energy;
   }
   return this.consumption;
-}
+};
 
-
+module.exports = simulation;
 
 // exports.bid = function (data) {
 //   var bidHours = Date(bidTime)).slice(16,18);

@@ -1,3 +1,5 @@
+exports.development = {};
+exports.production = {};
 exports.development.consumption = {
   port: 8002,
   systemIp: 'http://localhost:8000/consumers',
@@ -14,7 +16,8 @@ exports.development.consumption = {
 };
 
 exports.development.consumerProduction = {
-
+  port: 8004,
+  systemIp: 'http://localhost:8003'
 };
 
 exports.production.consumption = {
@@ -29,5 +32,6 @@ exports.production.consumption = {
 };
 
 exports.production.consumerProduction = {
-
+  port: process.env.PORT
+  // systemIp: 
 };
