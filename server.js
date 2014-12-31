@@ -1,6 +1,6 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-var config = require('./config')[process.env.NODE_ENV]['consumption'];
+var config = require('./config')[process.env.NODE_ENV]['consumer'];
 var simulation = new (require('./simulation'))(config);
 var express = require('express');
 var app = express();

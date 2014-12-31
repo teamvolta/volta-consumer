@@ -2,7 +2,7 @@ exports.development = {};
 exports.production = {};
 exports.client = {};
 
-exports.development.consumption = {
+exports.development.consumer = {
   port: 8002,
   systemIp: 'http://localhost:8000/consumers',
   brokerIp: 'http://localhost:8011/market',
@@ -20,7 +20,7 @@ exports.development.consumption = {
   // peakTimeEnd1: '22'
 };
 
-exports.development.consumerProduction = {
+exports.development.consumerProducer = {
   port: 8006,
   consumerIp: 'http://localhost:8002/production',
   midProduction: 25
@@ -31,9 +31,9 @@ exports.development.client = {
 };
 
 
+// PRODUCTION
 
-
-exports.production.consumption = {
+exports.production.consumer = {
   clientPort: process.env.PORT,
   systemIp: 'http://gridsystemtest.azurewebsites.net/consumers',
   // brokerIp: ,
@@ -46,7 +46,7 @@ exports.production.consumption = {
   // supplyMargin:
 };
 
-exports.production.consumerProduction = {
+exports.production.consumerProducer = {
   port: process.env.PORT
   // consumerIp: ,
   // midProduction : 
