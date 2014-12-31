@@ -1,19 +1,39 @@
 angular.module('consumer',[
   'dashboard',
-  'ngRoute'
+  // 'ngRoute'
+  'ui.router'
 ])
 
-.config(['$routeProvider', function($routeProvider){
-  $routeProvider
-    .when('/', {
+.config([
+  '$stateProvider',
+  '$urlRouterProvider',
+  '$locationProvider',
+  function($stateProvider, $urlRouterProvider, $locationProvider) {
+  $urlRouterProvider.otherwise("/");
+
+  $stateProvider
+    .state('dashboard', {
       templateUrl: 'app/dashboard/dashboard.html',
-      controller: 'DashboardController'
-    })
-    .when('/dashboard', {
-      templateUrl: 'app/dashboard/dashboard.html',
-      controller: 'DashboardController'
-    })
-    .otherwise({
-      redirectTo: '/'
-    })
+      controller: 'DashboardController',
+      url: '/dashboard'
+    });
+  $locationProvider.html5Mode({
+    enabled: true,
+    requireBase: false
+  }); 
 }])
+
+// .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider){
+//   $routeProvider
+//     .when('/dashboard', {
+//       templateUrl: 'app/dashboard/dashboard.html',
+//       controller: 'DashboardController'
+//     })
+//     .otherwise({
+//       redirectTo: '/'
+//     });
+//   $locationProvider.html5Mode({
+//     enabled: true,
+//     requireBase: false
+//   });
+// }])

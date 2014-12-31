@@ -12,19 +12,22 @@
   <nav>
     <ul>
       <!-- overall view -->
-      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a ui-sref="dashboard">Dashboard</a></li>
       <!-- current usage -->
-      <li><a href="#">Usage</a></li>
+      <li><a ui-sref="#">Usage</a></li>
       <!-- current production -->
-      <li><a href="#">Production</a></li>
+      <li><a ui-sref="#">Production</a></li>
       <!-- historical usage and production -->
-      <li><a href="#">History</a></li>
+      <li><a ui-sref="#">History</a></li>
     </ul>
   </nav>
   <div>
-    <div ng-view></div>
+    <div ui-view></div>
   </div>
-  <script type="text/javascript" src="../node_modules/angular/angular.js"></script>
-  <script type="text/javascript" src="../node_modules/angular-route/angular-route.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.8/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.8/angular-route.min.js"></script> -->
+  <script src="app/dashboard/dashboard.js"></script>
+  <script src="app/app.js"></script>
 </body>
 </html>
