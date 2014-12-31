@@ -6,7 +6,7 @@ var app = express();
 
 // Setup middleware
 app.use(express.static(__dirname + '/client'));
-console.log('server listening on port ' + config.port);
+app.use(express.static(__dirname + '/node_modules'));
 
 app.get('/*', function (req, res){
   res.sendFile(__dirname + '/client/index.html');
@@ -23,3 +23,5 @@ app.get('/admin', function (req, res){
 // });
 
 app.listen(config.port);
+console.log('client server listening on port ' + config.port);
+

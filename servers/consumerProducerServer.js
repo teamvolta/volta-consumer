@@ -6,6 +6,7 @@ var server = require('http').Server(app);
 var socket = require('socket.io-client')(config.consumerIp);
 
 server.listen(config.port);
+console.log('consumer production server listening on port ' + config.port);
 
 socket.on('connect', function() {
   console.log('Connected to my consumer');
