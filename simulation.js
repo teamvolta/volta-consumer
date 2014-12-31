@@ -10,7 +10,7 @@ var simulation = function (config) {
 
 simulation.prototype.bid = function(data, demandSystem) {
   this.bidTime = data.blockStart; // UTC date
-  this.expectedConsumption = Math.random * this.config.midConsumption;
+  this.expectedConsumption = Math.random() * this.config.midConsumption;
   var bids = [{
     price: 10,
     energy: demandSystem
