@@ -7,20 +7,22 @@ var simulation = function (config) {
 
 // reporter.register('consumption', function(){return {bidTime: bidTime, consumption: consumption, bid: bid}});
 
-simulation.prototype.bid = function(data) {
+
+simulation.prototype.bid = function(data, demandSystem) {
   this.bidTime = data.blockStart; // UTC date
+  this.expectedConsumption = Math.random * this.config.midConsumption;
   var bids = [{
     price: 10,
-    energy: 10
+    energy: demandSystem
   }];
 
   // reporter.report('bids', function(){return bids});
   return bids;
 };
 
-simulation.prototype.currentConsumption = function(energy) {
+simulation.prototype.currentConsumption = function() {
   if(Date.now() > this.bidTime) {
-    this.consumption = energy;
+    this.consumption = this.expectedConsumption;
   }
   return this.consumption;
 };
