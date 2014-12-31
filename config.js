@@ -1,15 +1,17 @@
 exports.development = {};
 exports.production = {};
 exports.development.consumption = {
-  clientPort: 8002,
-  serverPort: 8004,
+  port: 8002,
   systemIp: 'http://localhost:8000/consumers',
+  brokerIp: 'http://localhost:8011/market',
   consumerId: Math.random().toString(36).substr(2),
   minimumConsumption: 0,
   midConsumption: 50,
   maxConsumption: 100,
   bidDeviation: 20,
   consumptionDeviation: 5,
+  // Energy beyond which consumer is ready to sell
+  supplyMargin: 1
   // peakTimeStart1: '9',
   // peakTimeEnd1: '12',
   // peakTimeStart1: '18',
@@ -18,23 +20,25 @@ exports.development.consumption = {
 
 exports.development.consumerProduction = {
   port: 8006,
-  systemIp: 'http://localhost:8004'
+  consumerIp: 'http://localhost:8002',
+  midProduction: 25
 };
 
 
 exports.production.consumption = {
   clientPort: process.env.PORT,
-  // serverPort:
-  systemIp: 'http://gridsystemtest.azurewebsites.net/consumers', //to replace later
+  systemIp: 'http://gridsystemtest.azurewebsites.net/consumers',
+  // brokerIp: ,
   consumerId: Math.random().toString(36).substr(2),
   minimumConsumption: 0,
   midConsumption: 50,
   maxConsumption: 100,
   bidDeviation: 20,
-  consumptionDeviation: 5
+  consumptionDeviation: 5,
+  // supplyMargin:
 };
 
 exports.production.consumerProduction = {
   port: process.env.PORT
-  // systemIp: 
+  // consumerIp: 
 };
