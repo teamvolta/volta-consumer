@@ -25,6 +25,7 @@ var supplyBroker = 0;
 var demandSystem = 0;
 var allotedBySystem = 0;
 var allotedByBroker = 0;
+var currentProduction = 0;
 
 console.log('NODE_ENV', process.env.NODE_ENV); //to check whether it's been set to production when deployed
 
@@ -79,12 +80,12 @@ broker.on('receipt', function (receipt) {
 broker.on('startCollection', function (data) {
   if (supplyBroker) {
     broker.emit('demand', {
-      demand: demandBroker,
+      energy: demandBroker,
       consumerId: consumerId
     });
   } else if (demandBroker) {
     broker.emit('supply', {
-      supply: supplyBroker,
+      energy: supplyBroker,
       consumerId: consumerId
     });
   }
@@ -96,7 +97,8 @@ broker.on('startCollection', function (data) {
 var productionNsp = io.of('/production');
 productionNsp.on('connection', function (socket) {
   socket.on('production', function(data) {
-    var net = data.currentProduction - currentConsumption;
+    currentProduction = data.currentProduction;
+    var net = currentProduction - currentConsumption;
     if (net > config.supplyMargin) {
       supplyBroker = net;
       demandBroker = 0;
@@ -115,7 +117,8 @@ clientNsp.on('connection', function (socket) {
   setInterval(function() {
     socket.emit('data', {
       consumerId: consumerId,
-      currentConsumption: currentConsumption, 
+      currentConsumption: currentConsumption,
+      currentProduction: currentProduction, 
       demandBroker: demandBroker,
       supplyBroker: supplyBroker,
       demandSystem: demandSystem,
