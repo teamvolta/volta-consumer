@@ -2,7 +2,7 @@ var data = [{name: 'price', value: 10}];
 
 var StatsBox = React.createClass({
   getInitialState: function(){
-    return {data: []}
+    return {data: []};
   },
   loadStats: function(){
     $.ajax({
@@ -21,32 +21,39 @@ var StatsBox = React.createClass({
     setInterval(this.loadStats.bind(this), 1000);
   },
   render: function() {
+      /* jshint ignore:start */
     return (
       <div className="statsBox">
         <StatsList data={this.state.data} />
       </div>
-    )
+    );
+      /* jshint ignore:end */
   }
 });
 
 var StatsList = React.createClass({
   render: function(){
     var statNodes = this.props.data.map(function(stat){
+        /* jshint ignore:start */
       return (
         <Stat name={stat.name} value={stat.value}>
         </Stat>
-      )
+      );
+        /* jshint ignore:end */
     });
+      /* jshint ignore:start */
     return (
       <div className="statsList">
         {statNodes}
       </div>
-    )
+    );
+      /* jshint ignore:end */
   }
 });
 
 var Stat = React.createClass({
   render: function(){
+      /* jshint ignore:start */
     return (
       <div className="stat">
         <h4 className="statHeader">
@@ -56,11 +63,14 @@ var Stat = React.createClass({
           {JSON.stringify(this.props.value)}
         </div>
       </div>
-    )
+    );
+      /* jshint ignore:end */
   }
 });
 
 React.render(
+  /* jshint ignore:start */
   <StatsBox url="api/stats"/>,
+  /* jshint ignore:end */
   document.getElementById('content')
-)
+);

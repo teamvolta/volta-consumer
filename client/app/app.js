@@ -8,7 +8,7 @@ angular.module('consumer',[
   '$urlRouterProvider',
   '$locationProvider',
   function($stateProvider, $urlRouterProvider, $locationProvider) {
-  $urlRouterProvider.otherwise("/");
+  $urlRouterProvider.otherwise('/');
 
   $stateProvider
     .state('dashboard', {
@@ -20,4 +20,4 @@ angular.module('consumer',[
     enabled: true,
     requireBase: false
   }); 
-}])
+}]);
