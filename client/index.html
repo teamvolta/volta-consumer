@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html ng-app="consumer">
+<head>
+  <meta charset="utf-8"/>
+  <title>Consumer</title>
+  <link rel="stylesheet" type="text/css" href="styles/style.css"/>
+</head>
+<body>
+  <header>
+    <h1>Welcome, Consumer</h1>
+  </header>
+  <nav>
+    <ul>
+      <!-- overall view -->
+      <li><a href="/dashboard">Dashboard</a></li>
+      <!-- current usage -->
+      <li><a href="#">Usage</a></li>
+      <!-- current production -->
+      <li><a href="#">Production</a></li>
+      <!-- historical usage and production -->
+      <li><a href="#">History</a></li>
+    </ul>
+  </nav>
+  <div>
+    <div ng-view></div>
+  </div>
+  <script type="text/javascript" src="../node_modules/angular/angular.js"></script>
+  <script type="text/javascript" src="../node_modules/angular-route/angular-route.js"></script>
+</body>
+</html>
