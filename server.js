@@ -1,14 +1,17 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-var config = require('./config')[process.env.NODE_ENV].consumption;
+var config = require('./config')[process.env.NODE_ENV]['consumption'];
 var simulation = new (require('./simulation'))(config);
 var express = require('express');
 var app = express();
 // Setup middleware
-app.use(express.static(__dirname + '/public'));
+
+app.use(express.static(__dirname + '/client'));
+
 // Setup server.
 var server = require('http').Server(app);
 server.listen(config.port);
+console.log('server listening on port ' + config.port);
 
 var io = require('socket.io')(server);
 var system = require('socket.io-client')(config.systemIp);
@@ -27,13 +30,17 @@ var allotedBySystem = 0;
 var allotedByBroker = 0;
 // Server for consumer production
 
+app.get('/*', function(req, res){
+  res.sendFile(__dirname + '/client/index.html');
+});
+
 // Serve admin
-app.get('/admin', function (req, res){
-  res.sendFile(__dirname + '/public/admin.html');
+app.get('/admin', function(req, res){
+  res.sendFile(__dirname + '/client/public/admin.html');
 });
 
 // Serve stats
-app.get('/api/stats', function (req, res){
+app.get('/api/stats', function(req, res){
   res.json(reporter.update());
 });
 

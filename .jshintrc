@@ -27,6 +27,13 @@
     "node": true,
 
     "predef": [
-     
-    ]
+      "angular",
+      "React",
+      "$",
+      "document",
+      "describe",
+      "it"
+    ],
+
+    "sub": true
 }

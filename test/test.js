@@ -11,16 +11,16 @@ var options ={
   'force new connection': true
 };
 
-describe("test for tests", function(){ //mock test, to test gulp and deployment
-  it("tests should run", function(){
+describe('test for tests', function(){ //mock test, to test gulp and deployment
+  it('tests should run', function(){
     var a = 2;
-    console.log("testing");  
+    console.log('testing');  
     expect(a).to.equal(2);
   });
 
-  /*it("failing tests should stop deployment", function(){
+  /*it('failing tests should stop deployment', function(){
     var a = 2;
-    console.log("testing");  
+    console.log('testing');  
     expect(a).to.equal(3);
   });*/
 

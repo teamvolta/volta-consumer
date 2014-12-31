@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html ng-app="consumer">
+<head>
+  <meta charset="utf-8"/>
+  <title>Consumer</title>
+  <link rel="stylesheet" type="text/css" href="styles/style.css"/>
+</head>
+<body>
+  <header>
+    <h1>Welcome, Consumer</h1>
+  </header>
+  <nav>
+    <ul>
+      <!-- overall view -->
+      <li><a ui-sref="dashboard">Dashboard</a></li>
+      <!-- current usage -->
+      <li><a ui-sref="#">Usage</a></li>
+      <!-- current production -->
+      <li><a ui-sref="#">Production</a></li>
+      <!-- historical usage and production -->
+      <li><a ui-sref="#">History</a></li>
+    </ul>
+  </nav>
+  <div>
+    <div ui-view></div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.8/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.min.js"></script>
+  
+  <script src="app/dashboard/dashboard.js"></script>
+  <script src="app/app.js"></script>
+</body>
+</html>
