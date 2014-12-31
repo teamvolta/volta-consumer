@@ -8,12 +8,6 @@ var app = express();
 
 app.use(express.static(__dirname + '/client'));
 
-var server = require('http').Server(app);
-var consumerId = config.consumerId;
-var io = require("socket.io").listen(8003);
-var socket = require('socket.io-client')(config.systemIp);
-var simulation = new (require('./simulation'))(config);
-
 // Setup server.
 var server = require('http').Server(app);
 server.listen(config.port);

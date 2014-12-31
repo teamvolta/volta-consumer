@@ -1,6 +1,5 @@
 angular.module('consumer',[
   'dashboard',
-  // 'ngRoute'
   'ui.router'
 ])
 
@@ -22,18 +21,3 @@ angular.module('consumer',[
     requireBase: false
   }); 
 }])
-
-// .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider){
-//   $routeProvider
-//     .when('/dashboard', {
-//       templateUrl: 'app/dashboard/dashboard.html',
-//       controller: 'DashboardController'
-//     })
-//     .otherwise({
-//       redirectTo: '/'
-//     });
-//   $locationProvider.html5Mode({
-//     enabled: true,
-//     requireBase: false
-//   });
-// }])
