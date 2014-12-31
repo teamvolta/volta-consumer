@@ -4,22 +4,19 @@ var config = require('./config')[process.env.NODE_ENV]['consumption'];
 var simulation = new (require('./simulation'))(config);
 var express = require('express');
 var app = express();
-// Setup middleware
-
-app.use(express.static(__dirname + '/client'));
 
 // Setup server.
 var server = require('http').Server(app);
 server.listen(config.port);
-console.log('server listening on port ' + config.port);
 
 var io = require('socket.io')(server);
 var system = require('socket.io-client')(config.systemIp);
 var broker = require('socket.io-client')(config.brokerIp);
 
-// Setup reporter
-var reporter = new (require('./adminReporter'))();
-global.reporter = reporter;
+
+// // Setup reporter
+// var reporter = new (require('./adminReporter'))();
+// global.reporter = reporter;
 
 var consumerId;
 var currentConsumption = 0; 
@@ -28,21 +25,6 @@ var supplyBroker = 0;
 var demandSystem = 0;
 var allotedBySystem = 0;
 var allotedByBroker = 0;
-// Server for consumer production
-
-app.get('/*', function(req, res){
-  res.sendFile(__dirname + '/client/index.html');
-});
-
-// Serve admin
-app.get('/admin', function(req, res){
-  res.sendFile(__dirname + '/client/public/admin.html');
-});
-
-// Serve stats
-app.get('/api/stats', function(req, res){
-  res.json(reporter.update());
-});
 
 console.log('NODE_ENV', process.env.NODE_ENV); //to check whether it's been set to production when deployed
 
@@ -111,7 +93,8 @@ broker.on('startCollection', function (data) {
 
 
 // Consumer Production 
-io.on('connection', function (socket) {
+var productionNsp = io.of('/production');
+productionNsp.on('connection', function (socket) {
   socket.on('production', function(data) {
     var net = data.currentProduction - currentConsumption;
     if (net > config.supplyMargin) {
@@ -122,4 +105,22 @@ io.on('connection', function (socket) {
       supplyBroker = 0;
     }
   });
+});
+
+
+// Client
+var clientNsp = io.of('/client');
+// Client will connect to: 'http://localhost:8002/client'
+clientNsp.on('connection', function (socket) {
+  setInterval(function() {
+    socket.emit('data', {
+      consumerId: consumerId,
+      currentConsumption: currentConsumption, 
+      demandBroker: demandBroker,
+      supplyBroker: supplyBroker,
+      demandSystem: demandSystem,
+      allotedBySystem: allotedBySystem,
+      allotedByBroker: allotedByBroker
+    });
+  }, 100);
 });
