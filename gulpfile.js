@@ -27,14 +27,14 @@ gulp.task('mochaTest', function() {  //I am still not sure what it actually does
 });
 
 gulp.task('style', function() {
-  gulp.src(['./*.js', './client/app/*.js', './test/**/*.js'])
+  gulp.src(['./*.js', './client/app/*.js', './servers/**/*.js', './test/**/*.js'])
     .pipe(jshint('.jshintrc'))
     .pipe(jshint.reporter('jshint-stylish'));
 });
 
 
 gulp.task('testCoverage', function (cb) {
-  gulp.src(['./*.js', './client/app/*.js'])
+  gulp.src(['./*.js', './client/app/*.js', './servers/**/*.js'])
     // Covering files; includeUntested is needed to include all files, and not only 'required' ones
     .pipe(istanbul({includeUntested: true}))
     .pipe(istanbul.hookRequire()) // Force `require` to return covered files

@@ -1,10 +1,10 @@
 angular.module('dashboard', [])
 
 .controller('DashboardController', ['$scope', 'Socket', function ($scope, Socket) {
-  $scope.consumer = 'Volta';
   $scope.stat = {
     consumerId: '',
     currentConsumption: 0,
+    currentProduction: 0,
     demandBroker: 0,
     supplyBroker: 0,
     demandSystem: 0,
@@ -30,6 +30,7 @@ angular.module('dashboard', [])
     console.log('data received', data);
     $scope.stat.consumerId = data.consumerId.toString();
     $scope.stat.currentConsumption = data.currentConsumption;
+    $scope.stat.currentProduction = data.currentProduction;
     $scope.stat.demandBroker = data.demandBroker;
     $scope.stat.supplyBroker = data.supplyBroker;
     $scope.stat.demandSystem = data.demandSystem;

@@ -5,16 +5,17 @@ var express = require('express');
 var app = express();
 
 // Setup middleware
-app.use(express.static(__dirname + '/client'));
-app.use(express.static(__dirname + '/node_modules'));
+app.use(express.static(__dirname + '/../client'));
+console.log(__dirname + '/../client');
+app.use(express.static(__dirname + '/../node_modules'));
 
 app.get('/*', function (req, res){
-  res.sendFile(__dirname + '/client/index.html');
+  res.sendFile(__dirname + '/../client/index.html');
 });
 
 // Serve admin
 app.get('/admin', function (req, res){
-  res.sendFile(__dirname + '/client/public/admin.html');
+  res.sendFile(__dirname + '/../client/public/admin.html');
 });
 
 // Serve stats
