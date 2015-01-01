@@ -1,4 +1,5 @@
 angular.module('consumer',[
+  'consumer.filters',
   'consumer.services',
   'dashboard',
   'ui.router'
@@ -9,17 +10,18 @@ angular.module('consumer',[
   '$urlRouterProvider',
   '$locationProvider',
   function($stateProvider, $urlRouterProvider, $locationProvider) {
-  $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/');
 
-  $stateProvider
-    .state('dashboard', {
-      templateUrl: 'app/dashboard/dashboard.html',
-      controller: 'DashboardController',
-      url: '/dashboard'
+    $stateProvider
+      .state('dashboard', {
+        templateUrl: 'app/dashboard/dashboard.html',
+        controller: 'DashboardController',
+        url: '/dashboard'
+      });
+      
+    $locationProvider.html5Mode({
+      enabled: true,
+      requireBase: false
     });
-    
-  $locationProvider.html5Mode({
-    enabled: true,
-    requireBase: false
-  }); 
-}]);
+  }
+]);

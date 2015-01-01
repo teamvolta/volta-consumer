@@ -27,7 +27,7 @@ angular.module('dashboard', [])
   //   allotedByBroker: allotedByBroker
   // }
   Socket.on('data', function(data){
-    console.log('data received', data);
+    console.log('data received');
     $scope.stat.consumerId = data.consumerId.toString();
     $scope.stat.currentConsumption = data.currentConsumption;
     $scope.stat.currentProduction = data.currentProduction;
