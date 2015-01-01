@@ -1,3 +1,6 @@
 <div id="container">
-  <h1>Hello {{dashboard}}</h1>
+  <h3>Your current usage: </h3>
+  <ul>
+    <li ng-repeat="(key, value) in stat">{{key}} amount is {{value}}</li>
+  </ul>
 </div>

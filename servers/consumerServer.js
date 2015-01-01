@@ -1,13 +1,14 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-var config = require('./config')[process.env.NODE_ENV]['consumer'];
-var simulation = new (require('./simulation'))(config);
+var config = require('../config')[process.env.NODE_ENV]['consumer'];
+var simulation = new (require('../simulation'))(config);
 var express = require('express');
 var app = express();
 
 // Setup server.
 var server = require('http').Server(app);
 server.listen(config.port);
+console.log('consumer consumption server listening on port ' + config.port);
 
 var io = require('socket.io')(server);
 var system = require('socket.io-client')(config.systemIp);
@@ -114,6 +115,7 @@ productionNsp.on('connection', function (socket) {
 var clientNsp = io.of('/client');
 // Client will connect to: 'http://localhost:8002/client'
 clientNsp.on('connection', function (socket) {
+  console.log('connected with client');
   setInterval(function() {
     socket.emit('data', {
       consumerId: consumerId,

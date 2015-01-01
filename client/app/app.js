@@ -1,4 +1,5 @@
 angular.module('consumer',[
+  'consumer.services',
   'dashboard',
   'ui.router'
 ])
@@ -16,6 +17,7 @@ angular.module('consumer',[
       controller: 'DashboardController',
       url: '/dashboard'
     });
+    
   $locationProvider.html5Mode({
     enabled: true,
     requireBase: false
