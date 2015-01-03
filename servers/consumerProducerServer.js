@@ -11,7 +11,12 @@ socket.on('connect', function() {
   console.log('Connected to my consumer');
 });
 
-var currentProduction = Math.random() * config.midProduction;
+var currentProduction = config.midProduction;
+
+// To change production ouput every 15 secs
+setInterval(function() {
+  currentProduction *= Math.random();
+}, 15000) 
 
 setInterval(function () {
   socket.emit('production', {
