@@ -4,7 +4,9 @@
   <meta charset="utf-8"/>
   <title>Consumer</title>
   <link rel="stylesheet" type="text/css" href="styles/style.css"/>
-  <script src="/socket.io-client/socket.io.js"></script>  
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+  <script src="http://code.highcharts.com/highcharts.js"></script>
+  <script src="/socket.io-client/socket.io.js"></script>
   <!-- <script src="https://cdn.socket.io/socket.io-1.2.1.js"></script> -->
 </head>
 <body>
@@ -13,14 +15,16 @@
   </header>
   <nav>
     <ul>
-      <!-- overall view -->
+      <!-- overall nav view -->
       <li><a ui-sref="dashboard">Dashboard</a></li>
-      <!-- current usage -->
-      <li><a ui-sref="#">Usage</a></li>
-      <!-- current production -->
-      <li><a ui-sref="#">Production</a></li>
-      <!-- historical usage and production -->
-      <li><a ui-sref="#">History</a></li>
+      <!-- user controls -->
+      <li><a ui-sref="controls">User Controls</a></li>
+      <!-- consumption and production -->
+      <li><a ui-sref="usage">Usage</a></li>
+      <!-- market data -->
+      <li><a ui-sref="market">Market</a></li>
+      <!-- historical data-->
+      <li><a ui-sref="transactions">Transaction History</a></li>
     </ul>
   </nav>
   <div>
@@ -34,6 +38,10 @@
   <script src="app/filters/filters.js"></script>
   <script src="app/services/services.js"></script>
   <script src="app/dashboard/dashboard.js"></script>
+  <script src="app/controls/controls.js"></script>
+  <script src="app/usage/usage.js"></script>
+  <script src="app/market/market.js"></script>
+  <script src="app/transactions/transactions.js"></script>
   <script src="app/app.js"></script>
 </body>
 </html>
