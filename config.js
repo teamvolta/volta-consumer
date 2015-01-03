@@ -6,6 +6,7 @@ exports.development.consumer = {
   port: 8002,
   systemIp: 'http://localhost:8000/consumers',
   brokerIp: 'http://localhost:8011/market',
+  accountIp: 'http://localhost:8010/subscriptions',
   consumerId: Math.random().toString(36).substr(2),
   minConsumption: 1,
   maxConsumption: 100,

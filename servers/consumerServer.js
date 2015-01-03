@@ -13,6 +13,7 @@ console.log('consumer consumption server listening on port ' + config.port);
 var io = require('socket.io')(server);
 var system = require('socket.io-client')(config.systemIp);
 var broker = require('socket.io-client')(config.brokerIp);
+var account = require('socket.io-client')(config.accountIp);
 
 
 // // Setup reporter
@@ -71,20 +72,13 @@ broker.on('connect', function () {
   console.log('Connected to broker!');
 });
 
-broker.on('receipt', function (receipt) {
-  allotedByBroker = receipt.energy;
-  demandSystem = currentConsumption - allotedByBroker;
-  // In case the broker allots more than required, consumer should not demand from system
-  demandSystem = demandSystem < 0 ? 0 : demandSystem;
-});
-
 broker.on('startCollection', function (data) {
-  if (supplyBroker) {
+  if (demandBroker) {
     broker.emit('demand', {
       energy: demandBroker,
       consumerId: consumerId
     });
-  } else if (demandBroker) {
+  } else if (supplyBroker) {
     broker.emit('supply', {
       energy: supplyBroker,
       consumerId: consumerId
@@ -92,6 +86,19 @@ broker.on('startCollection', function (data) {
   }
 });
 
+
+// Accounting 
+account.on('connect', function () {
+  socket.emit('buyer', consumerId);
+  socket.emit('seller', consumerId);
+})
+
+account.on('transaction', function(transaction) {
+  allotedByBroker = transaction.energy;
+  demandSystem = currentConsumption - allotedByBroker;
+  // In case the broker allots more than required, consumer should not demand from system
+  demandSystem = demandSystem < 0 ? 0 : demandSystem;
+})
 
 
 // Consumer Production 
