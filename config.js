@@ -7,13 +7,13 @@ exports.development.consumer = {
   systemIp: 'http://localhost:8000/consumers',
   brokerIp: 'http://localhost:8011/market',
   consumerId: Math.random().toString(36).substr(2),
-  minimumConsumption: 0,
-  midConsumption: 50,
+  minConsumption: 1,
   maxConsumption: 100,
-  bidDeviation: 20,
-  consumptionDeviation: 5,
-  // Energy beyond which consumer is ready to sell
-  supplyMargin: 1
+  midConsumption: (this.maxConsumption + this.minConsumption) / 2,
+  consumptionDeviation: 7,
+  resetByPercentage: (this.maxConsumption - this.minConsumption) / 5 / 100, // When consumption crosses min/max
+  // Energy beyond which consumer is ready to sell 
+  supplyMargin: 5 // % of consumption
   // peakTimeStart1: '9',
   // peakTimeEnd1: '12',
   // peakTimeStart1: '18',
@@ -23,7 +23,7 @@ exports.development.consumer = {
 exports.development.consumerProducer = {
   port: 8006,
   consumerIp: 'http://localhost:8002/production',
-  midProduction: 25
+  midProduction: 50
 };
 
 exports.development.client = {
