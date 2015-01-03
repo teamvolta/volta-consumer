@@ -1,4 +1,4 @@
-var simulation = function (config) {
+var simulation = function(config) {
   this.config = config;
   // Defaults
   this.bidTime = Date.now();  
@@ -25,6 +25,23 @@ simulation.prototype.currentConsumption = function() {
     this.consumption = this.expectedConsumption;
   }
   return this.consumption;
+};
+
+simulation.prototype.randomDeviation = function(consumption, min, max) {
+  var randomNumber = Math.random();
+  var deviation = this.config.consumptionDeviation;
+  var deviatedConsumption = randomNumber < 0.5 ? consumption + deviation :  consumption - deviation;
+  return checkForMinMax(deviatedConsumption, min, max);
+};
+
+simulation.prototype.checkForMinMax = function(consumption, min, max) {
+  var resetPercent = this.config.resetByPercent;
+  if(consumption <= min) {
+    return min + (min * resetPercent);
+  } else if (consumption >= max) {
+    return max - (max * resetPercent);
+  } 
+  return consumption;
 };
 
 module.exports = simulation;
