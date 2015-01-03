@@ -21,4 +21,40 @@ angular.module('consumer.services', [])
         })
       }
     };
-  });
+  })
+  // .factory('script', ['$document', function ($document) {
+  //   var script = $document[0].createElement('script');
+  //   console.log(script);
+  //   return script;
+  // }])
+  .factory('charts', function () {
+    var barchart = function () {
+      $('#container').highcharts({
+        chart: {
+          type: 'bar'
+        },
+        title: {
+          text: 'Fruit Consumption'
+        },
+        xAxis: {
+          categories: ['Apples', 'Bananas', 'Oranges']
+        },
+        yAxis: {
+          title: {
+            text: 'Fruit eaten'
+          }
+        },
+        series: [{
+          name: 'Jane',
+          data: [1, 0, 4]
+        }, {
+          name: 'John',
+          data: [5, 7, 3]
+        }]
+      });
+    };
+
+    return {
+      barchart: barchart
+    }
+  })
