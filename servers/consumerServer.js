@@ -28,9 +28,14 @@ var allotedBySystem = 0;
 var allotedByBroker = 0;
 var currentProduction = 0;
 var simulationStartTime = Date.now();
+var maxConsumption = config.maxConsumption;
+var minConsumption = config.minConsumption;
+var supplyMargin = config.supplyMargin;
 
 console.log('NODE_ENV', process.env.NODE_ENV); //to check whether it's been set to production when deployed
 
+
+// System
 system.on('connect', function () {
   consumerId = system.io.engine.id;
   console.log('Connected to system!');
@@ -44,7 +49,7 @@ system.on('connect', function () {
 system.on('startBidding', function (data) {
   system.emit('bid', {
     // Better name for 'data' property
-    data: simulation.bid(data, demandSystem, simulationStartTime),
+    data: simulation.bid(data, demandSystem, simulationStartTime, minConsumption, maxConsumption),
     consumerId: consumerId
   });
 });
@@ -63,7 +68,7 @@ setInterval(function () {
     currentConsumption: currentConsumption,
     consumerId: consumerId
   });
-}, 300);
+}, 100);
 
 
 
@@ -110,8 +115,9 @@ productionNsp.on('connection', function (socket) {
   socket.on('production', function(data) {
     currentProduction = data.currentProduction;
     var net = currentProduction - currentConsumption;
-    if (net > config.supplyMargin) {
-      supplyBroker = net;
+    if (net > supplyMargin) {
+      supplyBroker = net - supplyMargin;
+      supplyBroker = supplyBroker < 0 ? 0 : supplyBroker;
       demandBroker = 0;
     } else {
       demandBroker = Math.abs(net);
@@ -125,6 +131,7 @@ productionNsp.on('connection', function (socket) {
 var clientNsp = io.of('/client');
 // Client will connect to: 'http://localhost:8002/client'
 clientNsp.on('connection', function (socket) {
+
   setInterval(function() {
     socket.emit('data', {
       consumerId: consumerId,
@@ -137,4 +144,11 @@ clientNsp.on('connection', function (socket) {
       allotedByBroker: allotedByBroker
     });
   }, 100);
+
+  socket.on('configChanges', function (data) {
+    minConsumption = data.minConsumption;
+    maxConsumption = data.maxConsumption;
+    supplyMargin = data.supplyMargin;
+  });
+
 });

@@ -8,9 +8,9 @@ var simulation = function(config) {
 // reporter.register('consumption', function(){return {bidTime: bidTime, consumption: consumption, bid: bid}});
 
 
-simulation.prototype.bid = function(data, demandSystem, startTime) {
+simulation.prototype.bid = function(data, demandSystem, startTime, min, max) {
   this.bidTime = data.blockStart; // UTC date
-  this.expectedConsumption = timeBasedChange(this.consumption, startTime, this.config.minConsumption, this.config.maxConsumption);
+  this.expectedConsumption = this.timeBasedChange(this.consumption, startTime, min, max);
   var bids = [{
     price: this.config.bidPrice,
     energy: demandSystem
@@ -31,7 +31,7 @@ simulation.prototype.deviate = function(number, deviation, min, max) {
   var deviateBy = deviation * Math.random();
   var deviatedNumber = number + (deviateBy);
 
-  return checkForMinMax(deviatedNumber, min, max);
+  return this.checkForMinMax(deviatedNumber, min, max);
 };
 
 simulation.prototype.checkForMinMax = function(number, min, max) {
@@ -54,19 +54,18 @@ simulation.prototype.timeBasedChange = function(number, startTime, min, max) {
   var minorDeviation = this.config.minorDeviation;
 
   if(stage > 0 && stage <= 19) {
-    return deviate(number, minorDeviation, min, max);
+    return this.deviate(number, minorDeviation, min, max);
   } else if(stage > 19 && stage < 50) {
-    return deviate(number, majorDeviation, min, max);
+    return this.deviate(number, majorDeviation, min, max);
   } else if(stage >= 50 && stage <=60) {
-    return deviate(number, minorDeviation, min, max);
+    return this.deviate(number, minorDeviation, min, max);
   } else if(stage > 60 && stage < 90) {
-    return deviate(number, -majorDeviation, min, max);
+    return this.deviate(number, -majorDeviation, min, max);
   } else if (stage >= 90 && stage < 100) {
-    return deviate(number, -minorDeviation, min, max);
+    return this.deviate(number, -minorDeviation, min, max);
   } else {
-    return number
+    return number;
   }
-
-}
+};
 
 module.exports = simulation;
