@@ -8,11 +8,11 @@ var simulation = function(config) {
 // reporter.register('consumption', function(){return {bidTime: bidTime, consumption: consumption, bid: bid}});
 
 
-simulation.prototype.bid = function(data, demandSystem) {
+simulation.prototype.bid = function(data, demandSystem, startTime) {
   this.bidTime = data.blockStart; // UTC date
-  this.expectedConsumption = randomDeviation(this.consumption, this.config.midConsumption, this.config.maxConsumption);
+  this.expectedConsumption = timeBasedChange(this.consumption, startTime, this.config.minConsumption, this.config.maxConsumption);
   var bids = [{
-    price: 10,
+    price: this.config.bidPrice,
     energy: demandSystem
   }];
 
@@ -27,35 +27,46 @@ simulation.prototype.currentConsumption = function() {
   return this.consumption;
 };
 
-simulation.prototype.randomDeviation = function(consumption, min, max) {
-  var randomNumber = Math.random();
-  var deviation = this.config.consumptionDeviation;
-  var deviatedConsumption = randomNumber < 0.5 ? consumption + deviation :  consumption - deviation;
-  return checkForMinMax(deviatedConsumption, min, max);
+simulation.prototype.deviate = function(number, deviation, min, max) {
+  var deviateBy = deviation * Math.random();
+  var deviatedNumber = number + (deviateBy);
+
+  return checkForMinMax(deviatedNumber, min, max);
 };
 
-simulation.prototype.checkForMinMax = function(consumption, min, max) {
+simulation.prototype.checkForMinMax = function(number, min, max) {
   var resetPercent = this.config.resetByPercent;
-  if(consumption <= min) {
+
+  if(number <= min) {
     return min + (min * resetPercent);
-  } else if (consumption >= max) {
+  } else if (number >= max) {
     return max - (max * resetPercent);
   } 
-  return consumption;
+
+  return number;
 };
 
-module.exports = simulation;
+simulation.prototype.timeBasedChange = function(number, startTime, min, max) {
+  var simulationTime = this.config.simulationTime;
+  var timeElapsed = Date.now - startTime;
+  var stage = timeElapsed / simulationTime * 100;
+  var majorDeviation = this.config.majorDeviation;
+  var minorDeviation = this.config.minorDeviation;
 
-// exports.bid = function (data) {
-//   var bidHours = Date(bidTime)).slice(16,18);
-  // time = UTC milliseconds, result of Date.now()
-  // Simulating demand according to the time of the day
-  // if(bidHours > config.peakTimeStart1 && bidHours < config.peakTimeEnd1  ||
-  //    bidHours > config.peakTimeStart2 && bidHours < config.peakTimeEnd2) {
-  //     bid = config.maxConsumption - (Math.random() * config.bidDeviation);
-  //     return bid;
-  // } else {
-  //   bid = config.midConsumption + (Math.random() * config.bidDeviation);
-  //   return bid;
-  // }
-// };
+  if(stage > 0 && stage <= 19) {
+    return deviate(number, minorDeviation, min, max);
+  } else if(stage > 19 && stage < 50) {
+    return deviate(number, majorDeviation, min, max);
+  } else if(stage >= 50 && stage <=60) {
+    return deviate(number, minorDeviation, min, max);
+  } else if(stage > 60 && stage < 90) {
+    return deviate(number, -majorDeviation, min, max);
+  } else if (stage >= 90 && stage < 100) {
+    return deviate(number, -minorDeviation, min, max);
+  } else {
+    return number
+  }
+
+}
+
+module.exports = simulation;

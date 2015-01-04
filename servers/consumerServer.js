@@ -27,6 +27,7 @@ var demandSystem = 0;
 var allotedBySystem = 0;
 var allotedByBroker = 0;
 var currentProduction = 0;
+var simulationStartTime = Date.now();
 
 console.log('NODE_ENV', process.env.NODE_ENV); //to check whether it's been set to production when deployed
 
@@ -41,16 +42,15 @@ system.on('connect', function () {
 //   duration: ms
 // }
 system.on('startBidding', function (data) {
-  currentConsumption = simulation.currentConsumption();
   system.emit('bid', {
     // Better name for 'data' property
-    data: simulation.bid(data, demandSystem),
+    data: simulation.bid(data, demandSystem, simulationStartTime),
     consumerId: consumerId
   });
 });
 
 
-// System admin sends back the price for the time-slot
+// System admin sends back the price/energy for the time-slot
 system.on('receipt', function (receipt) {
  allotedBySystem = receipt.energy;
 });
@@ -58,11 +58,12 @@ system.on('receipt', function (receipt) {
 
 // System admin keeps track of total consumption of all consumers
 setInterval(function () {
+  currentConsumption = simulation.currentConsumption();
   system.emit('consume', {
     currentConsumption: currentConsumption,
     consumerId: consumerId
   });
-}, 100);
+}, 300);
 
 
 
@@ -71,14 +72,16 @@ broker.on('connect', function () {
   console.log('Connected to broker!');
 });
 
-broker.on('startCollection', function (data) {
+broker.on('startCollection', function (timeBlock) {
   if (demandBroker) {
     broker.emit('demand', {
+      timeBlock: timeBlock,
       energy: demandBroker,
       consumerId: consumerId
     });
   } else if (supplyBroker) {
     broker.emit('supply', {
+      timeBlock: timeBlock,
       energy: supplyBroker,
       consumerId: consumerId
     });
@@ -88,6 +91,7 @@ broker.on('startCollection', function (data) {
 
 // Accounting 
 account.on('connect', function () {
+  console.log('Connected to account!');
   socket.emit('buyer', consumerId);
   socket.emit('seller', consumerId);
 })
