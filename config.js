@@ -8,12 +8,9 @@ exports.development.consumer = {
   brokerIp: 'http://localhost:8011/market',
   accountIp: 'http://localhost:8010/subscriptions',
   consumerId: Math.random().toString(36).substr(2),
-  minConsumption: 1,  
-  maxConsumption: 100,
-  midConsumption: (this.maxConsumption + this.minConsumption) / 2,
+  min: 1,  
+  max: 100,
   majorDeviation: 7,
-  minorDeviation: this.majorDeviation/3,
-  resetByPercentage: (this.maxConsumption - this.minConsumption) / 10 / 100, // When consumption crosses min/max
   simulationTime: 60 * 1000, // In ms. Should be same as consumerProducer's!
   // Energy beyond which consumer is ready to sell 
   supplyMargin: 5, // % of consumption
@@ -23,22 +20,30 @@ exports.development.consumer = {
   // peakTimeStart2: '18',
   // peakTimeEnd2: '22'
 };
+var consumerDev = exports.development.consumer;
+consumerDev.mid = (consumerDev.max + consumerDev.min) / 2;
+consumerDev.resetByPercentage = (consumerDev.max - consumerDev.min) / 10 / 100, // When consumption crosses min/max
+consumerDev.minorDeviation = consumerDev.majorDeviation/3;
+
 
 exports.development.consumerProducer = {
   port: 8006,
   consumerIp: 'http://localhost:8002/production',
-  minProduction: 0,
-  maxProduction: 150,
-  midProduction: (this.maxProduction + this.minProduction) / 2,
+  min: 0,
+  max: 150,
   majorDeviation: 7,
-  minorDeviation: this.majorDeviation/3,
   resetByPercentage: 1,
   simulationTime: 60 * 1000, // In ms. Should be same as consumer's!
 };
 
+var producerDev = exports.development.consumerProducer;
+producerDev.mid = (producerDev.max + producerDev.min) / 2;
+producerDev.minorDeviation = producerDev.majorDeviation/3;
+
 exports.development.client = {
   port: 8004
 };
+
 
 
 // PRODUCTION
@@ -49,10 +54,10 @@ exports.production.consumer = {
   // brokerIp: ,
   // accountIp: ,
   consumerId: Math.random().toString(36).substr(2),
-  minConsumption: 1, // Cannot be/Do not put 0 inplace of 1
-  midConsumption: 50,
-  maxConsumption: 100,
-  consumptionDeviation: 7,
+  min: 1, // Cannot be/Do not put 0 inplace of 1
+  mid: 50,
+  max: 100,
+  deviation: 7,
   // supplyMargin: ,
   // bidPrice: 
 };
@@ -60,7 +65,7 @@ exports.production.consumer = {
 exports.production.consumerProducer = {
   port: process.env.PORT
   // consumerIp: ,
-  // midProduction : 
+  // mid : 
 };
 
 exports.production.client = {

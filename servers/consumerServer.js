@@ -29,8 +29,8 @@ var allotedBySystem = 0;
 var allotedByBroker = 0;
 var currentProduction = 0;
 var simulationStartTime = Date.now();
-var maxConsumption = config.maxConsumption;
-var minConsumption = config.minConsumption;
+var maxConsumption = config.max;
+var minConsumption = config.min;
 var supplyMargin = config.supplyMargin;
 var systemPrice = 0;
 
@@ -100,8 +100,8 @@ broker.on('startCollection', function (timeBlock) {
 // Accounting 
 account.on('connect', function () {
   console.log('Connected to account!');
-  socket.emit('buyer', consumerId);
-  socket.emit('seller', consumerId);
+  account.emit('buyer', consumerId);
+  account.emit('seller', consumerId);
 })
 
 account.on('transaction', function(transaction) {
@@ -129,6 +129,7 @@ productionNsp.on('connection', function (socket) {
   });
 });
 
+console.log('currentConsumption ' + currentConsumption, 'currentProduction ' + currentProduction);
 
 // Client
 var clientNsp = io.of('/client');
