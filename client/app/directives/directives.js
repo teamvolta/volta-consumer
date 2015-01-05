@@ -1,11 +1,13 @@
 angular.module('consumer.directives', [])
-  .directive('consChart', ['Socket', function(Socket) {
+  .directive('consChart', ['Socket', '$rootScope', function(Socket, $rootScope) {
+    console.log($rootScope.sockectOn, $rootScope.data);
+    
     return {
       restrict: 'A',
       link: function(scope, element, attrs) {
-        Socket.on('data', function(data){
-          console.log('receiving data');
-        });
+        // Socket.on('data', function(data){
+        //   console.log('receiving data');
+        // });
 
         var options = {
           chart: {
@@ -14,12 +16,22 @@ angular.module('consumer.directives', [])
             marginRight: 10,
             events: {
               load: function(){
-                var series = this.series[0];          
-                // Socket.on('data', function(data){
-                //   console.log('data received', data.currentConsumption)
-                //   var consPoint = data.currentConsumption;
-                //   series.addPoint(consPoint,true,true);
-                // });
+                console.log($rootScope.sockectOn, $rootScope.data)
+                var series = this.series[0];
+                if ($rootScope.sockectOn === false) {
+                  Socket.on('data', function(data){
+                    console.log('data received', data.currentConsumption)
+                    $rootScope.data = data;
+                    series.addPoint($rootScope.data.currentConsumption,true,true);
+                  });
+                  $rootScope.sockectOn = true;
+                  console.log($rootScope.sockectOn, $rootScope.data.currentConsumption)
+                } else {
+                  console.log('got here')
+                  setInterval(function() {
+                    series.addPoint($rootScope.data.currentConsumption,true,true);
+                  }, 1000);
+                }
               }
             }
           },

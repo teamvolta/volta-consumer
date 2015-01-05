@@ -9,7 +9,6 @@ angular.module('consumer',[
   'transactions',
   'ui.router'
 ])
-
 .config([
   '$stateProvider',
   '$urlRouterProvider',
@@ -49,4 +48,17 @@ angular.module('consumer',[
       requireBase: false
     });
   }
-]);
+])
+.run(['$rootScope', function($rootScope) {
+  $rootScope.sockectOn = false;
+  $rootScope.data;
+  console.log($rootScope.sockectOn, $rootScope.data);
+}])
+
+// .run(['$rootScope', ['Socket', function($rootScope, Socket) {
+//   var $rootScope.consumption = new Array(10);
+
+//   Socket.on('data', function(data){
+//     console.log('data received', data.currentConsumption)
+//     $rootScope.consumption.push(data.currentConsumption);
+// }])

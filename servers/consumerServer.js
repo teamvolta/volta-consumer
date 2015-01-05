@@ -182,7 +182,7 @@ discoveryClient.discover('system', 'system', function(err, data) {
             allotedByBroker: allotedByBroker,
             systemPrice: systemPrice
           });
-        }, 100);
+        }, 1000);
 
         socket.on('configChanges', function (data) {
           minConsumption = data.minConsumption;
