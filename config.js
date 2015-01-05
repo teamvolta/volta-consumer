@@ -15,6 +15,12 @@ exports.development.consumer = {
   // Energy beyond which consumer is ready to sell 
   supplyMargin: 5, // % of consumption
   bidPrice: 10,
+  // For discovery server
+  discoveryIp: 'http://104.40.181.157:8001',
+  ip: 'http://localhost:8002',
+  id: Math.floor(Math.random() * 1000),
+  role: 'consumer',
+  subRole: 'consumer'
   // peakTimeStart1: '9',
   // peakTimeEnd1: '12',
   // peakTimeStart2: '18',
@@ -29,6 +35,7 @@ consumerDev.minorDeviation = consumerDev.majorDeviation/3;
 exports.development.consumerProducer = {
   port: 8006,
   consumerIp: 'http://localhost:8002/production',
+  discoveryIp: 'http://104.40.181.157:8001',
   min: 0,
   max: 150,
   majorDeviation: 7,
