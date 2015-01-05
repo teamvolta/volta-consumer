@@ -32,6 +32,7 @@ var simulationStartTime = Date.now();
 var maxConsumption = config.maxConsumption;
 var minConsumption = config.minConsumption;
 var supplyMargin = config.supplyMargin;
+var systemPrice = 0;
 
 console.log('NODE_ENV', process.env.NODE_ENV); //to check whether it's been set to production when deployed
 
@@ -59,6 +60,7 @@ system.on('startBidding', function (data) {
 // System admin sends back the price/energy for the time-slot
 system.on('receipt', function (receipt) {
  allotedBySystem = receipt.energy;
+ systemPrice = receipt.price;
 });
 
 
@@ -143,7 +145,8 @@ clientNsp.on('connection', function (socket) {
       supplyBroker: supplyBroker,
       demandSystem: demandSystem,
       allotedBySystem: allotedBySystem,
-      allotedByBroker: allotedByBroker
+      allotedByBroker: allotedByBroker,
+      systemPrice: systemPrice
     });
   }, 100);
 
