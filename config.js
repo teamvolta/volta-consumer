@@ -14,7 +14,7 @@ exports.development.consumer = {
   majorDeviation: 7,
   minorDeviation: this.majorDeviation/3,
   resetByPercentage: (this.maxConsumption - this.minConsumption) / 10 / 100, // When consumption crosses min/max
-  simulationTime: 60 * 100, // In ms. Should be same as consumerProducer's!
+  simulationTime: 60 * 1000, // In ms. Should be same as consumerProducer's!
   // Energy beyond which consumer is ready to sell 
   supplyMargin: 5, // % of consumption
   bidPrice: 10,
@@ -33,7 +33,7 @@ exports.development.consumerProducer = {
   majorDeviation: 7,
   minorDeviation: this.majorDeviation/3,
   resetByPercentage: 1,
-  simulationTime: 60 * 100, // In ms. Should be same as consumer's!
+  simulationTime: 60 * 1000, // In ms. Should be same as consumer's!
 };
 
 exports.development.client = {
