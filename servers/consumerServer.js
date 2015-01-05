@@ -133,6 +133,7 @@ var clientNsp = io.of('/client');
 // Client will connect to: 'http://localhost:8002/client'
 clientNsp.on('connection', function (socket) {
   console.log('Connected with client!');
+
   setInterval(function() {
     socket.emit('data', {
       consumerId: consumerId,
