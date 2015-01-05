@@ -6,24 +6,34 @@ exports.development.consumer = {
   port: 8002,
   systemIp: 'http://localhost:8000/consumers',
   brokerIp: 'http://localhost:8011/market',
+  accountIp: 'http://localhost:8010/subscriptions',
   consumerId: Math.random().toString(36).substr(2),
-  minimumConsumption: 0,
-  midConsumption: 50,
+  minConsumption: 1,  
   maxConsumption: 100,
-  bidDeviation: 20,
-  consumptionDeviation: 5,
-  // Energy beyond which consumer is ready to sell
-  supplyMargin: 1
+  midConsumption: (this.maxConsumption + this.minConsumption) / 2,
+  majorDeviation: 7,
+  minorDeviation: this.majorDeviation/3,
+  resetByPercentage: (this.maxConsumption - this.minConsumption) / 10 / 100, // When consumption crosses min/max
+  simulationTime: 60 * 100, // In ms. Should be same as consumerProducer's!
+  // Energy beyond which consumer is ready to sell 
+  supplyMargin: 5, // % of consumption
+  bidPrice: 10,
   // peakTimeStart1: '9',
   // peakTimeEnd1: '12',
-  // peakTimeStart1: '18',
-  // peakTimeEnd1: '22'
+  // peakTimeStart2: '18',
+  // peakTimeEnd2: '22'
 };
 
 exports.development.consumerProducer = {
   port: 8006,
   consumerIp: 'http://localhost:8002/production',
-  midProduction: 25
+  minProduction: 0,
+  maxProduction: 150,
+  midProduction: (this.maxProduction + this.minProduction) / 2,
+  majorDeviation: 7,
+  minorDeviation: this.majorDeviation/3,
+  resetByPercentage: 1,
+  simulationTime: 60 * 100, // In ms. Should be same as consumer's!
 };
 
 exports.development.client = {
@@ -37,13 +47,14 @@ exports.production.consumer = {
   clientPort: process.env.PORT,
   systemIp: 'http://gridsystemtest.azurewebsites.net/consumers',
   // brokerIp: ,
+  // accountIp: ,
   consumerId: Math.random().toString(36).substr(2),
-  minimumConsumption: 0,
+  minConsumption: 1, // Cannot be/Do not put 0 inplace of 1
   midConsumption: 50,
   maxConsumption: 100,
-  bidDeviation: 20,
-  consumptionDeviation: 5,
-  // supplyMargin:
+  consumptionDeviation: 7,
+  // supplyMargin: ,
+  // bidPrice: 
 };
 
 exports.production.consumerProducer = {

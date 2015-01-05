@@ -13,6 +13,7 @@ console.log('consumer consumption server listening on port ' + config.port);
 var io = require('socket.io')(server);
 var system = require('socket.io-client')(config.systemIp);
 var broker = require('socket.io-client')(config.brokerIp);
+var account = require('socket.io-client')(config.accountIp);
 
 
 // // Setup reporter
@@ -27,9 +28,15 @@ var demandSystem = 0;
 var allotedBySystem = 0;
 var allotedByBroker = 0;
 var currentProduction = 0;
+var simulationStartTime = Date.now();
+var maxConsumption = config.maxConsumption;
+var minConsumption = config.minConsumption;
+var supplyMargin = config.supplyMargin;
 
 console.log('NODE_ENV', process.env.NODE_ENV); //to check whether it's been set to production when deployed
 
+
+// System
 system.on('connect', function () {
   consumerId = system.io.engine.id;
   console.log('Connected to system!');
@@ -41,16 +48,15 @@ system.on('connect', function () {
 //   duration: ms
 // }
 system.on('startBidding', function (data) {
-  currentConsumption = simulation.currentConsumption();
   system.emit('bid', {
     // Better name for 'data' property
-    data: simulation.bid(data, demandSystem),
+    data: simulation.bid(data, demandSystem, simulationStartTime, minConsumption, maxConsumption),
     consumerId: consumerId
   });
 });
 
 
-// System admin sends back the price for the time-slot
+// System admin sends back the price/energy for the time-slot
 system.on('receipt', function (receipt) {
  allotedBySystem = receipt.energy;
 });
@@ -58,6 +64,7 @@ system.on('receipt', function (receipt) {
 
 // System admin keeps track of total consumption of all consumers
 setInterval(function () {
+  currentConsumption = simulation.currentConsumption(simulationStartTime, minConsumption, maxConsumption);
   system.emit('consume', {
     currentConsumption: currentConsumption,
     consumerId: consumerId
@@ -71,27 +78,36 @@ broker.on('connect', function () {
   console.log('Connected to broker!');
 });
 
-broker.on('receipt', function (receipt) {
-  allotedByBroker = receipt.energy;
-  demandSystem = currentConsumption - allotedByBroker;
-  // In case the broker allots more than required, consumer should not demand from system
-  demandSystem = demandSystem < 0 ? 0 : demandSystem;
-});
-
-broker.on('startCollection', function (data) {
-  if (supplyBroker) {
+broker.on('startCollection', function (timeBlock) {
+  if (demandBroker) {
     broker.emit('demand', {
+      timeBlock: timeBlock,
       energy: demandBroker,
       consumerId: consumerId
     });
-  } else if (demandBroker) {
+  } else if (supplyBroker) {
     broker.emit('supply', {
+      timeBlock: timeBlock,
       energy: supplyBroker,
       consumerId: consumerId
     });
   }
 });
 
+
+// Accounting 
+account.on('connect', function () {
+  console.log('Connected to account!');
+  socket.emit('buyer', consumerId);
+  socket.emit('seller', consumerId);
+})
+
+account.on('transaction', function(transaction) {
+  allotedByBroker = transaction.energy;
+  demandSystem = currentConsumption - allotedByBroker;
+  // In case the broker allots more than required, consumer should not demand from system
+  demandSystem = demandSystem < 0 ? 0 : demandSystem;
+})
 
 
 // Consumer Production 
@@ -100,8 +116,9 @@ productionNsp.on('connection', function (socket) {
   socket.on('production', function(data) {
     currentProduction = data.currentProduction;
     var net = currentProduction - currentConsumption;
-    if (net > config.supplyMargin) {
-      supplyBroker = net;
+    if (net > supplyMargin) {
+      supplyBroker = net - supplyMargin;
+      supplyBroker = supplyBroker < 0 ? 0 : supplyBroker;
       demandBroker = 0;
     } else {
       demandBroker = Math.abs(net);
@@ -115,7 +132,8 @@ productionNsp.on('connection', function (socket) {
 var clientNsp = io.of('/client');
 // Client will connect to: 'http://localhost:8002/client'
 clientNsp.on('connection', function (socket) {
-  console.log('connected with client');
+  console.log('Connected with client!');
+
   setInterval(function() {
     socket.emit('data', {
       consumerId: consumerId,
@@ -128,4 +146,11 @@ clientNsp.on('connection', function (socket) {
       allotedByBroker: allotedByBroker
     });
   }, 100);
+
+  socket.on('configChanges', function (data) {
+    minConsumption = data.minConsumption;
+    maxConsumption = data.maxConsumption;
+    supplyMargin = data.supplyMargin;
+  });
+
 });
