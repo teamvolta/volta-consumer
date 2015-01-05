@@ -1,10 +1,10 @@
-<div id="container">
+<div>
   <h3>Your current usage: </h3>
-    <div><p><a ui-sref="dashboard">Dashboard</a></p></div>
-    <div><p><a ui-sref="controls">User Controls</a></p></div>
-    <div><p><a ui-sref="usage">Usage</a></p></div>
-    <div><p><a ui-sref="market">Market</a></p></div>
-    <div><p><a ui-sref="transactions">Transaction History</a></p></div>    
+  <div><p><a ui-sref="dashboard">Dashboard</a></p></div>
+  <div><p><a ui-sref="controls">User Controls</a></p></div>
+  <div><p><a ui-sref="usage">Usage</a></p></div>
+  <div><p><a ui-sref="market">Market</a></p></div>
+  <div><p><a ui-sref="transactions">Transaction History</a></p></div>
   <ul>
     <li ng-repeat="(key, value) in stat">{{key | propercase}} is {{value}}</li>
   </ul>

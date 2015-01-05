@@ -3,6 +3,7 @@ angular.module('consumer.services', [])
     var socket = io.connect('http://localhost:8002/client');
     return {
       on: function (eventName, callback) {
+        
         socket.on(eventName, function () {
           var args = arguments;
           $rootScope.$apply(function () {
@@ -28,33 +29,10 @@ angular.module('consumer.services', [])
   //   return script;
   // }])
   .factory('charts', function () {
-    var barchart = function () {
-      $('#container').highcharts({
-        chart: {
-          type: 'bar'
-        },
-        title: {
-          text: 'Fruit Consumption'
-        },
-        xAxis: {
-          categories: ['Apples', 'Bananas', 'Oranges']
-        },
-        yAxis: {
-          title: {
-            text: 'Fruit eaten'
-          }
-        },
-        series: [{
-          name: 'Jane',
-          data: [1, 0, 4]
-        }, {
-          name: 'John',
-          data: [5, 7, 3]
-        }]
-      });
-    };
-
+    var chart = function (options) {
+      return new Highcharts.Chart(options);
+    }
     return {
-      barchart: barchart
+      chart: chart
     }
   })
