@@ -10,7 +10,7 @@ var simulation = function(config) {
 
 simulation.prototype.bid = function(data, demandSystem, startTime, min, max) {
   this.bidTime = data.blockStart; // UTC date
-  this.expectedConsumption = this.timeBasedChange(this.consumption, startTime, min, max);
+  this.expectedConsumption = this.timeBasedChange(this.consumption, startTime - data.blockDuration, min, max);
   var bids = [{
     price: this.config.bidPrice,
     energy: demandSystem
@@ -20,11 +20,11 @@ simulation.prototype.bid = function(data, demandSystem, startTime, min, max) {
   return bids;
 };
 
-simulation.prototype.currentConsumption = function() {
+simulation.prototype.currentConsumption = function(startTime, min, max) {
   if(Date.now() > this.bidTime) {
     this.consumption = this.expectedConsumption;
   }
-  return this.consumption;
+  return this.timeBasedChange(this.consumption, startTime, min, max);
 };
 
 simulation.prototype.deviate = function(number, deviation, min, max) {

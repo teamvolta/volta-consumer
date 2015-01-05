@@ -64,7 +64,7 @@ system.on('receipt', function (receipt) {
 
 // System admin keeps track of total consumption of all consumers
 setInterval(function () {
-  currentConsumption = simulation.currentConsumption();
+  currentConsumption = simulation.currentConsumption(simulationStartTime, minConsumption, maxConsumption);
   system.emit('consume', {
     currentConsumption: currentConsumption,
     consumerId: consumerId
