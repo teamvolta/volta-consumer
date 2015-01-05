@@ -1,7 +1,7 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var config = require('../config')[process.env.NODE_ENV]['consumerProducer'];
-var simulation = require('../simulation')(config);
+var simulation = new (require('../simulation'))(config);
 var app = require('express')();
 var server = require('http').Server(app);
 var socket = require('socket.io-client')(config.consumerIp);
