@@ -13,7 +13,6 @@ discoveryClient.discover('consumer', 'consumer', function(err, data) {
   var socket = require('socket.io-client')(JSON.parse(data.body)[0].ip + '/production');
   var simulationStartTime = Date.now();
 
-
   socket.on('connect', function() {
     console.log('Connected to my consumer!');
   });
@@ -32,4 +31,3 @@ discoveryClient.discover('consumer', 'consumer', function(err, data) {
   }, 1000);
 
 })
-

@@ -1,7 +1,6 @@
 angular.module('consumer.directives', [])
   .directive('consChart', ['Socket', '$rootScope', function(Socket, $rootScope) {
     console.log($rootScope.sockectOn, $rootScope.data);
-    
     return {
       restrict: 'A',
       link: function(scope, element, attrs) {
@@ -12,24 +11,27 @@ angular.module('consumer.directives', [])
         var options = {
           chart: {
             renderTo: 'container1',
-            type: 'line',
+            type: 'area',
             marginRight: 10,
             events: {
               load: function(){
                 console.log($rootScope.sockectOn, $rootScope.data)
-                var series = this.series[0];
+                var currCons = this.series[0];
+                var currProd = this.series[1];
                 if ($rootScope.sockectOn === false) {
                   Socket.on('data', function(data){
-                    console.log('data received', data.currentConsumption)
+                    console.log('data received', data.currentConsumption, data.currentProduction)
                     $rootScope.data = data;
-                    series.addPoint($rootScope.data.currentConsumption,true,true);
+                    currCons.addPoint($rootScope.data.currentConsumption,true,true);
+                    currProd.addPoint($rootScope.data.currentProduction,true,true);
                   });
                   $rootScope.sockectOn = true;
-                  console.log($rootScope.sockectOn, $rootScope.data.currentConsumption)
+                  console.log($rootScope.sockectOn, $rootScope.data.currentConsumption, $rootScope.data.currentProduction)
                 } else {
                   console.log('got here')
                   setInterval(function() {
-                    series.addPoint($rootScope.data.currentConsumption,true,true);
+                    currCons.addPoint($rootScope.data.currentConsumption,true,true);
+                    currProd.addPoint($rootScope.data.currentProduction,true,true);
                   }, 1000);
                 }
               }
@@ -54,7 +56,17 @@ angular.module('consumer.directives', [])
             }
           },
           series: [{
-            name:'cons',
+            name:'currCons',
+            data: (function () {
+              var data = [];
+              for (var i = -9; i <= 0; i += 1) {
+                data.push(Math.random());
+              }
+              return data;
+            }())
+          },
+          {
+            name:'currProd',
             data: (function () {
               var data = [];
               for (var i = -9; i <= 0; i += 1) {

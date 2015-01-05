@@ -1,6 +1,7 @@
 angular.module('usage', [])
   .controller('usageController', ['$scope', function($scope){
     
+    
   }]);
 
 
