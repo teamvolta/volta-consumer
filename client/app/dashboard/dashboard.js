@@ -1,3 +1,3 @@
 angular.module('dashboard', [])
 
-.controller('DashboardController', ['$scope', 'Socket', function ($scope, Socket) {}]);
+.controller('DashboardController', ['$scope', function($scope) {}]);

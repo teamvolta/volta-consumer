@@ -23,16 +23,3 @@ angular.module('consumer.services', [])
       }
     };
   })
-  // .factory('script', ['$document', function ($document) {
-  //   var script = $document[0].createElement('script');
-  //   console.log(script);
-  //   return script;
-  // }])
-  .factory('charts', function () {
-    var chart = function (options) {
-      return new Highcharts.Chart(options);
-    }
-    return {
-      chart: chart
-    }
-  })

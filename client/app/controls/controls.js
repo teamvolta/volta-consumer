@@ -1,7 +1,7 @@
 angular.module('controls', [])
-  .controller('controlsController', function($scope){
+  .controller('controlsController', ['$scope', function($scope){
 
     // $scope.sumbitControls = function(data){
     //   Socket.emit('configChanges', data);
     // }
-  })
+  }]);

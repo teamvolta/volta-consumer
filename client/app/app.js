@@ -1,6 +1,7 @@
 angular.module('consumer',[
   'consumer.filters',
   'consumer.services',
+  'consumer.directives',
   'dashboard',
   'controls',
   'usage',
