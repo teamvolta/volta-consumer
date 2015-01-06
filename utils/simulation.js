@@ -2,16 +2,19 @@ var simulation = function(config) {
   this.config = config;
   // Defaults
   this.bidTime = Date.now();  
-  this.consumption = config.mid;
-  console.log('--------' + config.mid);
+  this.consumption = config.min;
+  this.expectedConsumption = 0;
+  // console.log('--------' + config.mid);
 };
 
 // reporter.register('consumption', function(){return {bidTime: bidTime, consumption: consumption, bid: bid}});
 
 
 simulation.prototype.bid = function(data, demandSystem, startTime, min, max) {
-  this.bidTime = data.blockStart; // UTC date
-  this.expectedConsumption = this.timeBasedChange(this.consumption, startTime + data.blockDuration, min, max);
+  // var blockDuration = data.blockDuration;
+  // this.bidTime = data.blockStart + blockDuration; // UTC date
+
+  // this.expectedConsumption = this.timeBasedChange(this.consumption, startTime + blockDuration, min, max);
   var bids = [{
     price: this.config.bidPrice,
     energy: demandSystem
@@ -22,9 +25,13 @@ simulation.prototype.bid = function(data, demandSystem, startTime, min, max) {
 };
 
 simulation.prototype.currentConsumption = function(startTime, min, max) {
-  if(Date.now() > this.bidTime) {
-    this.consumption = this.expectedConsumption;
-  }
+  
+  // console.log('-------CURRENT-----', this.expectedConsumption);
+  // if(Date.now() > this.bidTime) {
+  //   this.consumption = this.expectedConsumption;
+  // }
+  this.consumption = this.timeBasedChange(this.consumption, startTime, min, max);
+  // console.log('INSIDE SIMULATION ' + this.consumption);
   return this.timeBasedChange(this.consumption, startTime, min, max);
 };
 
@@ -48,9 +55,9 @@ simulation.prototype.checkForMinMax = function(number, min, max) {
 };
 
 simulation.prototype.timeBasedChange = function(number, startTime, min, max) {
+  // is start time is gr
   var simulationTime = this.config.simulationTime;
   var timeElapsed = Date.now() - startTime;
-  // console.log('--------------  ' + timeElapsed);
   var stage = timeElapsed / simulationTime * 100;
   var majorDeviation = this.config.majorDeviation;
   var minorDeviation = this.config.minorDeviation;

@@ -29,7 +29,7 @@ var consumerId;
 var currentConsumption = config.min; 
 var demandBroker = 0;
 var supplyBroker = 0;
-var demandSystem = 0;
+var demandSystem = 1; // To be changed to 0 when accounting works
 var allotedBySystem = 0;
 var allotedByBroker = 0;
 var currentProduction = 0;
@@ -93,6 +93,7 @@ discoveryClient.discover('system', 'system', function(err, data) {
 
       // System admin sends back the price/energy for the time-slot
       system.on('receipt', function (receipt) {
+        // console.log('------------ RECEIPT FROM SYSTEM', receipt);
        allotedBySystem = receipt.energy;
        systemPrice = receipt.price;
       });
@@ -100,27 +101,30 @@ discoveryClient.discover('system', 'system', function(err, data) {
 
       // System admin keeps track of total consumption of all consumers
       setInterval(function () {
-        // console.log('currentConsumption ' + currentConsumption, 'currentProduction ' + currentProduction);
+        // console.log('BEFORE CURRENT CONSUMPTION---- ' + currentConsumption);
         currentConsumption = simulation.currentConsumption(simulationStartTime, minConsumption, maxConsumption);
+        console.log('currentConsumption ' + currentConsumption, 'currentProduction ' + currentProduction);
         system.emit('consume', {
           currentConsumption: currentConsumption,
           consumerId: consumerId
         });
-      }, 100);
+      }, 1000);
 
 
       // Broker 
 
       broker.on('startCollection', function (timeBlock) {
+        var blockStart = timeBlock.blockStart;
+        // console.log('BROKER TIMEBLOCK---------- '+blockStart);
         if (demandBroker) {
           broker.emit('demand', {
-            timeBlock: timeBlock,
+            timeBlock: blockStart,
             energy: demandBroker,
             consumerId: consumerId
           });
         } else if (supplyBroker) {
           broker.emit('supply', {
-            timeBlock: timeBlock,
+            timeBlock: blockStart,
             energy: supplyBroker,
             consumerId: consumerId
           });
@@ -132,7 +136,7 @@ discoveryClient.discover('system', 'system', function(err, data) {
 
       account.on('transaction', function(transaction) {
         allotedByBroker = transaction.energy;
-        console.log('ACCOUNT SENDS BACK TRANSACTION ' +allotedByBroker);
+        // console.log('NICE---------',transaction);
         demandSystem = currentConsumption - allotedByBroker;
         // In case the broker allots more than required, consumer should not demand from system
         demandSystem = demandSystem < 0 ? 0 : demandSystem;
@@ -145,8 +149,9 @@ discoveryClient.discover('system', 'system', function(err, data) {
         socket.on('production', function(data) {
           currentProduction = data.currentProduction;
           var net = currentProduction - currentConsumption;
+        // console.log('-----NET---- ' + net);
           supplyMargin = currentConsumption * supplyMarginPercent / 100;
-          console.log('--------------------------- '+ net);
+          // console.log('--------------------------- '+ net);
           if (net > supplyMargin) {
             supplyBroker = net - supplyMargin;
             supplyBroker = supplyBroker < 0 ? 0 : supplyBroker;

@@ -37,9 +37,8 @@ exports.development.consumerProducer = {
   consumerIp: 'http://localhost:8002/production',
   discoveryIp: 'http://104.40.181.157:8001',
   min: 1,
-  max: 50,
-  majorDeviation: 7,
-  resetByPercentage: 1,
+  max: 100,
+  majorDeviation: 6,
   simulationTime: 60 * 1000, // In ms. Should be same as consumer's!
 };
 
