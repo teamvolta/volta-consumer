@@ -1,0 +1,22 @@
+{
+  "name": "volta-consumer",
+  "version": "0.0.0",
+  "homepage": "https://github.com/mlom/volta-consumer",
+  "authors": [
+    "mal <lom.michael@gmail.com>"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "startbootstrap-sb-admin-2": "~1.0.3"
+  }
+}
