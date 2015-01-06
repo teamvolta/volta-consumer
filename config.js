@@ -7,18 +7,18 @@ exports.development.consumer = {
   systemIp: 'http://localhost:8000/consumers',
   brokerIp: 'http://localhost:8011/market',
   accountIp: 'http://localhost:8010/subscriptions',
-  consumerId: Math.random().toString(36).substr(2),
+  consumerId: Math.random() * 10000,
   min: 1,  
   max: 100,
   majorDeviation: 7,
   simulationTime: 60 * 1000, // In ms. Should be same as consumerProducer's!
   // Energy beyond which consumer is ready to sell 
   supplyMargin: 5, // % of consumption
-  bidPrice: 10,
+  bidPrice: 100,
   // For discovery server
   discoveryIp: 'http://104.40.181.157:8001',
   ip: 'http://localhost:8002',
-  id: Math.floor(Math.random() * 1000),
+  id: Math.floor(Math.random() * 100000),
   role: 'consumer',
   subRole: 'consumer'
   // peakTimeStart1: '9',
