@@ -2,7 +2,8 @@ var simulation = function(config) {
   this.config = config;
   // Defaults
   this.bidTime = Date.now();  
-  this.consumption = config.midConsumption;
+  this.consumption = config.mid;
+  console.log('--------' + config.mid);
 };
 
 // reporter.register('consumption', function(){return {bidTime: bidTime, consumption: consumption, bid: bid}});
@@ -10,7 +11,7 @@ var simulation = function(config) {
 
 simulation.prototype.bid = function(data, demandSystem, startTime, min, max) {
   this.bidTime = data.blockStart; // UTC date
-  this.expectedConsumption = this.timeBasedChange(this.consumption, startTime - data.blockDuration, min, max);
+  this.expectedConsumption = this.timeBasedChange(this.consumption, startTime + data.blockDuration, min, max);
   var bids = [{
     price: this.config.bidPrice,
     energy: demandSystem
@@ -35,7 +36,7 @@ simulation.prototype.deviate = function(number, deviation, min, max) {
 };
 
 simulation.prototype.checkForMinMax = function(number, min, max) {
-  var resetPercent = this.config.resetByPercent;
+  var resetPercent = this.config.resetByPercentage;
 
   if(number <= min) {
     return min + (min * resetPercent);
@@ -48,7 +49,8 @@ simulation.prototype.checkForMinMax = function(number, min, max) {
 
 simulation.prototype.timeBasedChange = function(number, startTime, min, max) {
   var simulationTime = this.config.simulationTime;
-  var timeElapsed = Date.now - startTime;
+  var timeElapsed = Date.now() - startTime;
+  // console.log('--------------  ' + timeElapsed);
   var stage = timeElapsed / simulationTime * 100;
   var majorDeviation = this.config.majorDeviation;
   var minorDeviation = this.config.minorDeviation;

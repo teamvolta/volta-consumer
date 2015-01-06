@@ -7,7 +7,7 @@ exports.development.consumer = {
   systemIp: 'http://localhost:8000/consumers',
   brokerIp: 'http://localhost:8011/market',
   accountIp: 'http://localhost:8010/subscriptions',
-  consumerId: Math.random() * 10000,
+  consumerId: Math.random().toString(36).substr(2),
   min: 1,  
   max: 100,
   majorDeviation: 7,
@@ -36,8 +36,8 @@ exports.development.consumerProducer = {
   port: 8006,
   consumerIp: 'http://localhost:8002/production',
   discoveryIp: 'http://104.40.181.157:8001',
-  min: 0,
-  max: 150,
+  min: 1,
+  max: 50,
   majorDeviation: 7,
   resetByPercentage: 1,
   simulationTime: 60 * 1000, // In ms. Should be same as consumer's!
@@ -45,6 +45,7 @@ exports.development.consumerProducer = {
 
 var producerDev = exports.development.consumerProducer;
 producerDev.mid = (producerDev.max + producerDev.min) / 2;
+producerDev.resetByPercentage = (producerDev.max - producerDev.min) / 10 / 100, // When consumption crosses min/max
 producerDev.minorDeviation = producerDev.majorDeviation/3;
 
 exports.development.client = {

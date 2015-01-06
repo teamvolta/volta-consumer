@@ -19,22 +19,50 @@ console.log('consumer consumption server listening on port ' + config.port);
 // var a = new (require('../utils/discoverClient'))(b);
 // a.register();
 
-var io = require('socket.io')(server);
+var io;
 var doneDiscovering = false;
 var system;
 var broker;
 var account;
 
+var consumerId;
+var currentConsumption = config.min; 
+var demandBroker = 0;
+var supplyBroker = 0;
+var demandSystem = 0;
+var allotedBySystem = 0;
+var allotedByBroker = 0;
+var currentProduction = 0;
+var simulationStartTime = Date.now();
+var maxConsumption = config.max;
+var minConsumption = config.min;
+var supplyMarginPercent = config.supplyMargin;
+var systemPrice = 0;
   
 var discoveryClient = new (require('../utils/discoverClient'))(config);
 discoveryClient.register()
 
 discoveryClient.discover('system', 'system', function(err, data) {
   system = require('socket.io-client')(JSON.parse(data.body)[0].ip + '/consumers');
+  system.on('connect', function () { 
+    consumerId = system.io.engine.id;
+    console.log('Connected to system!');
+  });
+
   discoveryClient.discover('system', 'broker', function(err, data) {
     broker = require('socket.io-client')(JSON.parse(data.body)[0].ip + '/market');
+    broker.on('connect', function () {
+      console.log('Connected to broker!');
+    });
+    
     discoveryClient.discover('system', 'accounting', function(err, data) {
       account = require('socket.io-client')(JSON.parse(data.body)[0].ip + '/subscriptions');
+      account.on('connect', function () {
+        console.log('Connected to account!');
+        account.emit('buyer', consumerId);
+        account.emit('seller', consumerId);
+      });
+      
       doneDiscovering = true;
 
     // // Setup reporter
@@ -43,27 +71,11 @@ discoveryClient.discover('system', 'system', function(err, data) {
 
     // if(doneDiscovering === true) {
 
-      var consumerId = config.consumerId;
-      var currentConsumption = 10; 
-      var demandBroker = 0;
-      var supplyBroker = 0;
-      var demandSystem = 0;
-      var allotedBySystem = 0;
-      var allotedByBroker = 0;
-      var currentProduction = 0;
-      var simulationStartTime = Date.now();
-      var maxConsumption = config.max;
-      var minConsumption = config.min;
-      var supplyMargin = config.supplyMargin;
-      var systemPrice = 0;
 
       console.log('NODE_ENV', process.env.NODE_ENV); //to check whether it's been set to production when deployed
 
 
       // System
-      system.on('connect', function () {
-        console.log('Connected to system!');
-      });
 
       // Receive time-slot and duration from system operator to send bids
       // {
@@ -97,11 +109,7 @@ discoveryClient.discover('system', 'system', function(err, data) {
       }, 100);
 
 
-
       // Broker 
-      broker.on('connect', function () {
-        console.log('Connected to broker!');
-      });
 
       broker.on('startCollection', function (timeBlock) {
         if (demandBroker) {
@@ -121,27 +129,24 @@ discoveryClient.discover('system', 'system', function(err, data) {
 
 
       // Accounting 
-      account.on('connect', function () {
-        console.log('Connected to account!');
-        account.emit('buyer', consumerId);
-        account.emit('seller', consumerId);
-      })
 
       account.on('transaction', function(transaction) {
-        console.log(transaction);
         allotedByBroker = transaction.energy;
+        console.log('ACCOUNT SENDS BACK TRANSACTION ' +allotedByBroker);
         demandSystem = currentConsumption - allotedByBroker;
         // In case the broker allots more than required, consumer should not demand from system
         demandSystem = demandSystem < 0 ? 0 : demandSystem;
-      })
+      });
 
-
+      io = require('socket.io')(server);
       // Consumer Production 
       var productionNsp = io.of('/production');
       productionNsp.on('connection', function (socket) {
         socket.on('production', function(data) {
           currentProduction = data.currentProduction;
           var net = currentProduction - currentConsumption;
+          supplyMargin = currentConsumption * supplyMarginPercent / 100;
+          console.log('--------------------------- '+ net);
           if (net > supplyMargin) {
             supplyBroker = net - supplyMargin;
             supplyBroker = supplyBroker < 0 ? 0 : supplyBroker;
@@ -177,7 +182,7 @@ discoveryClient.discover('system', 'system', function(err, data) {
         socket.on('configChanges', function (data) {
           minConsumption = data.minConsumption;
           maxConsumption = data.maxConsumption;
-          supplyMargin = data.supplyMargin;
+          supplyMarginPercent = data.supplyMarginPercent;
         });
       });
 
@@ -185,6 +190,3 @@ discoveryClient.discover('system', 'system', function(err, data) {
   });
 });
 
-
-
-// }

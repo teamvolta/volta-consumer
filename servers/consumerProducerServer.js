@@ -10,19 +10,19 @@ console.log('consumer production server listening on port ' + config.port);
 var discoveryClient = new (require('../utils/discoverClient'))(config);
 discoveryClient.discover('consumer', 'consumer', function(err, data) {
   
-  var socket = require('socket.io-client')(data.ip + '/production');
+  var socket = require('socket.io-client')(JSON.parse(data.body)[0].ip + '/production');
   var simulationStartTime = Date.now();
 
 
   socket.on('connect', function() {
-    console.log('Connected to my consumer');
+    console.log('Connected to my consumer!');
   });
 
-  var currentProduction = config.midProduction;
+  var currentProduction = config.min;
 
   // To change production ouput
   setInterval(function() {
-    currentProduction = simulation.timeBasedChange(currentProduction, simulationStartTime, config.minProduction, config.maxProduction);
+    currentProduction = simulation.timeBasedChange(currentProduction, simulationStartTime, config.min, config.max);
   }, 100) 
 
   setInterval(function () {
