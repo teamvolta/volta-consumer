@@ -29,5 +29,4 @@ discoveryClient.discover('consumer', 'consumer', function(err, data) {
       currentProduction: currentProduction
     });
   }, 1000);
-
 })

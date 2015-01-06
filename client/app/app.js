@@ -49,9 +49,3 @@ angular.module('consumer',[
     });
   }
 ])
-.run(['$rootScope', function($rootScope) {
-  $rootScope.sockectOn = false;
-  $rootScope.data;
-
-  console.log($rootScope.sockectOn, $rootScope.data);
-}])
