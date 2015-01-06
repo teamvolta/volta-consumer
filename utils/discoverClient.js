@@ -31,7 +31,7 @@ DiscoveryClient.prototype.register = function(opts){
 
 DiscoveryClient.prototype.discover = function(role, subrole, cb){
   request({
-    method: 'POST',
+    method: 'GET',
     url: this.discoveryIp + '/discover/' + role + '/' + subrole
   }, cb)
 };
