@@ -192,11 +192,13 @@ discoveryClient.discover('system', 'system', function(err, data) {
             demandSystem: demandSystem,
             allotedBySystem: allotedBySystem,
             allotedByBroker: allotedByBroker,
-            systemPrice: systemPrice
+            systemPrice: systemPrice,
+            supplyMarginPercent: supplyMarginPercent
           });
         }, 1000);
 
         socket.on('configChanges', function (data) {
+          console.log('Changes received', data);
           minConsumption = data.minConsumption;
           maxConsumption = data.maxConsumption;
           supplyMarginPercent = data.supplyMarginPercent;

@@ -14,13 +14,8 @@
                           <i class="fa fa-sliders fa-5x"></i>
                       </div>
                   </div>
-                  <div class="row">
-                  <div class="col-xs-3"></div>
-                  <div class="col-xs-9 text-right">
-                    <!-- {{data.currentConsumption}} -->
-                      <!-- <div style="font-size:3em">34</div> -->
+                  <div class="row"><br>
                   </div>
-                </div>
               </div>
               
               <a ui-sref="controls">
@@ -39,6 +34,10 @@
                           <i class="fa fa-bar-chart-o fa-5x"></i>
                       </div>
                   </div>
+                  <div class="row text-center">
+                    C(mW-h): {{data.currentConsumption | number:2}}
+                    P(mW-h): {{data.currentProduction | number:2}}
+                  </div>
               </div>
               <a ui-sref="usage">
                   <div class="panel-footer">
@@ -56,6 +55,9 @@
                           <i class="fa fa-usd fa-5x"></i>
                       </div>
                   </div>
+                  <div class="row text-center">
+                    Rate: {{data.systemPrice | number:2}}
+                  </div>
               </div>
               <a ui-sref="market">
                   <div class="panel-footer">
@@ -72,6 +74,8 @@
                       <div class="col-lg-6 col-lg-offset-3 text-center">
                           <i class="fa fa-table fa-5x"></i>
                       </div>
+                  </div>
+                  <div class="row"><br/>
                   </div>
               </div>
               <a ui-sref="transactions">
