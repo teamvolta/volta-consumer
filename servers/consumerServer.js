@@ -72,6 +72,9 @@ discoveryClient.discover('system', 'system', function(err, data) {
       
       doneDiscovering = true;
 
+      io = require('socket.io')(server);
+      var productionNsp = io.of('/production');
+      var clientNsp = io.of('/client');
     // // Setup reporter
     // var reporter = new (require('./adminReporter'))();
     // global.reporter = reporter;
@@ -100,9 +103,15 @@ discoveryClient.discover('system', 'system', function(err, data) {
 
       // System admin sends back the price/energy for the time-slot
       system.on('receipt', function (receipt) {
-        console.log('------------ RECEIPT FROM SYSTEM', receipt);
+       console.log('------------ RECEIPT FROM SYSTEM', receipt);
        allotedBySystem = receipt.energy;
        systemPrice = receipt.price;
+       clientNsp.emit('systemReceipt', {
+        energy: receipt.energy,
+        price: receipt.price,
+        time: receipt.block.blockStart,
+        seller: receipt.seller
+       });
       });
 
 
@@ -144,17 +153,21 @@ discoveryClient.discover('system', 'system', function(err, data) {
 
       // Accounting 
 
-      account.on('transaction', function(transaction) {
-        allotedByBroker = transaction.energy;
-        console.log('NICE---------',transaction);
+      account.on('transaction', function(receipt) {
+        allotedByBroker = receipt.energy;
+        console.log('NICE---------',receipt);
         demandSystem = currentConsumption - allotedByBroker;
         // In case the broker allots more than required, consumer should not demand from system
         demandSystem = demandSystem < 0 ? 0 : demandSystem;
+        clientNsp.emit('brokerReceipt', {
+        energy: receipt.energy,
+        price: receipt.price,
+        time: receipt.block.blockStart,
+        seller: receipt.seller
+       });
       });
 
-      io = require('socket.io')(server);
       // Consumer Production 
-      var productionNsp = io.of('/production');
       productionNsp.on('connection', function (socket) {
         socket.on('production', function(data) {
           currentProduction = data.currentProduction;
@@ -175,7 +188,6 @@ discoveryClient.discover('system', 'system', function(err, data) {
 
 
       // Client
-      var clientNsp = io.of('/client');
       // Client will connect to: 'http://localhost:8002/client'
       clientNsp.on('connection', function (socket) {
         console.log('Connected with client!');
