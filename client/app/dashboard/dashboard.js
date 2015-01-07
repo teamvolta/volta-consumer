@@ -4,8 +4,7 @@ angular.module('dashboard', [])
 
   Socket.on('dashboardView', function(data) {
     $scope.$apply(function(){
-      $scope.data = data
+      $scope.data = data;
     });
-    console.log($scope.data.currentConsumption)
-  })
+  });
 }])

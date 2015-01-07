@@ -2,17 +2,56 @@
   <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Adjust Your Usage Levels</h1>
+            <h1 class="page-header">Consumption and Production Plan</h1>
         </div>
     </div>
     <div class="row">
-      <div class="col-lg-12">
-        <form name="consumptionControl">
-          <label for="minConsume">Minimum Consumption</label>
-          <input name ="minConsume" autofocus/></br>
-          <label for="maxConsume">Maximum Consumption</label>
-          <input name="maxConsume"/></br>
-          <button type="submit">Submit</button>
+      <div class="col-lg-6">
+        <!-- Form -->
+        <form role="form" name="controlForm" ng-submit="submit()" novalidate>
+          <!-- Min Usage Input -->
+          <div class="form-group" ng-class="{ 'has-error' : controlForm.minCtrl.$invalid && !controlForm.minCtrl.$pristine }">
+
+            <label for="minCtrl">Minimum Usage Amount</label>
+            <input type="number" name="minCtrl" ng-model="control.minConsumption" class="form-control" min="1" max="100" autofocus integer required>
+
+            <p class="help-block">Current minimum consumption: {{data.minConsumption}} mW-h</p>
+            <p class="help-block">Valid Range is 1 to 100 and less than Maximum Usage Amount</p>
+            <p class="help-block" ng-show="controlForm.minCtrl.$error.required && !controlForm.minCtrl.$pristine">Amount required (Example: 10)</p>
+            <p class="help-block" ng-show="controlForm.minCtrl.$error.integer">Invalid integer</p>
+            <p class="help-block" ng-show="controlForm.minCtrl.$error.min || controlForm.minCtrl.$error.max">Invalid range</p>
+          </div>
+
+
+          <!-- Max Usage Input  -->
+          <div class="form-group" ng-class="{ 'has-error' : controlForm.maxCtrl.$invalid && !controlForm.maxCtrl.$pristine }">
+
+            <label for="maxCtrl">Maximum Usage Amount</label>
+            <input type="number" name="maxCtrl" ng-model="control.maxConsumption" class="form-control" min="1" max="100" required>
+
+            <p class="help-block">Current maximum consumption: {{data.maxConsumption}} mW-h</p>
+            <p class="help-block">Valid Range is 1 to 100 and greater than Minimum Usage Amount</p>
+            <p class="help-block" ng-show="controlForm.maxCtrl.$error.required && !controlForm.maxCtrl.$pristine">Amount required (Example: 10)</p>
+            <p class="help-block" ng-show="controlForm.maxCtrl.$error.integer">Invalid integer</p>
+            <p class="help-block" ng-show="controlForm.maxCtrl.$error.min || controlForm.maxCtrl.$error.max">Invalid range</p>
+          </div>
+
+         
+          <!-- Production Input -->
+          <div class="form-group" ng-class="{ 'has-error' : controlForm.prodCtrl.$invalid && !controlForm.prodCtrl.$pristine }">
+
+            <label for="prodCtrl">Production Reserve Rate</label>
+            <input type="number" name="prodCtrl" ng-model="control.supplyMarginPercent" class="form-control" min="0" max="10" required>
+
+            <p class="help-block">Current reserve percentage: {{data.supplyMarginPercent}}%</p>
+            <p class="help-block">Please enter 0 to 10, as the percentage of energy production to be reserved</p>
+            <p class="help-block" ng-show="controlForm.prodCtrl.$error.required && !controlForm.prodCtrl.$pristine">Amount Required (Example: 5)</p>
+            <p class="help-block" ng-show="controlForm.prodCtrl.$error.min || controlForm.prodCtrl.$error.max">Invalid range</p>
+          </div>
+          
+          <!-- Submit and Reset Buttons -->
+          <button type="submit" class="btn btn-default" ng-disabled="controlForm.$invalid">Submit</button>
+          <button type="reset" class="btn btn-default">Reset</button>
         </form>
       </div>
     </div>
