@@ -56,11 +56,18 @@ discoveryClient.discover('system', 'system', function(err, data) {
     });
     
     discoveryClient.discover('system', 'accounting', function(err, data) {
+      console.log('-------NN---------', JSON.parse(data.body)[0].ip + '/subscriptions');
       account = require('socket.io-client')(JSON.parse(data.body)[0].ip + '/subscriptions');
       account.on('connect', function () {
         console.log('Connected to account!');
-        account.emit('buyer', consumerId);
-        account.emit('seller', consumerId);
+        account.emit('subscribe', {
+          key: 'buyer',
+          subkey: consumerId
+        });
+        account.emit('subscribe', {
+          key: 'seller',
+          subkey: consumerId
+        });
       });
       
       doneDiscovering = true;
@@ -93,7 +100,7 @@ discoveryClient.discover('system', 'system', function(err, data) {
 
       // System admin sends back the price/energy for the time-slot
       system.on('receipt', function (receipt) {
-        // console.log('------------ RECEIPT FROM SYSTEM', receipt);
+        console.log('------------ RECEIPT FROM SYSTEM', receipt);
        allotedBySystem = receipt.energy;
        systemPrice = receipt.price;
       });
@@ -102,6 +109,9 @@ discoveryClient.discover('system', 'system', function(err, data) {
       // System admin keeps track of total consumption of all consumers
       setInterval(function () {
         // console.log('BEFORE CURRENT CONSUMPTION---- ' + currentConsumption);
+        if(Date.now() > simulationStartTime + config.simulationTime) {
+          simulationStartTime = Date.now();
+        }
         currentConsumption = simulation.currentConsumption(simulationStartTime, minConsumption, maxConsumption);
         console.log('currentConsumption ' + currentConsumption, 'currentProduction ' + currentProduction);
         system.emit('consume', {
@@ -136,7 +146,7 @@ discoveryClient.discover('system', 'system', function(err, data) {
 
       account.on('transaction', function(transaction) {
         allotedByBroker = transaction.energy;
-        // console.log('NICE---------',transaction);
+        console.log('NICE---------',transaction);
         demandSystem = currentConsumption - allotedByBroker;
         // In case the broker allots more than required, consumer should not demand from system
         demandSystem = demandSystem < 0 ? 0 : demandSystem;
@@ -173,6 +183,8 @@ discoveryClient.discover('system', 'system', function(err, data) {
         setInterval(function() {
           socket.emit('data', {
             consumerId: consumerId,
+            minConsumption: minConsumption,
+            maxConsumption: maxConsumption,
             currentConsumption: currentConsumption,
             currentProduction: currentProduction, 
             demandBroker: demandBroker,
