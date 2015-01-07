@@ -22,9 +22,6 @@ angular.module('consumer.directives', [])
               }
             }
           },
-          title: {
-            text: 'Current Consumption and Production'
-          },
           xAxis: {
             title: {
               text: 'Time'
@@ -32,7 +29,7 @@ angular.module('consumer.directives', [])
           },
           yAxis: {
             title: {
-              text: 'Energy Usage and Production'
+              text: 'Energy Usage and Production (mW-h)'
             },
             labels: {
               formatter: function() {
@@ -41,7 +38,7 @@ angular.module('consumer.directives', [])
             }
           },
           series: [{
-            name:'currCons',
+            name:'Engergy Usage',
             data: (function () {
               var data = [];
               for (var i = -9; i <= 0; i += 1) {
@@ -51,7 +48,7 @@ angular.module('consumer.directives', [])
             }())
           },
           {
-            name:'currProd',
+            name:'Solar Production',
             data: (function () {
               var data = [];
               for (var i = -9; i <= 0; i += 1) {
@@ -80,15 +77,16 @@ angular.module('consumer.directives', [])
             events: {
               load: function(){
                 console.dir(scope);
-                var currCons = this.series[0];
+                var systemPrice = this.series[0];
+                var brokerPrice = this.series[1];
                 Socket.on('priceChart', function(data){
-                currCons.addPoint(data.systemPrice,true,true);
+                  systemPrice.addPoint(data.systemPrice,true,true);
+                });
+                Socket.onBrokerReceipt('priceChart', function(data){
+                  brokerPrice.addPoint(data.price,true,true);
                 });
               }
             }
-          },
-          title: {
-            text: 'Current Price'
           },
           xAxis: {
             title: {
@@ -97,16 +95,21 @@ angular.module('consumer.directives', [])
           },
           yAxis: {
             title: {
-              text: 'USD'
-            },
-            labels: {
-              formatter: function() {
-                return this.value + ' $';
-              }
+              text: 'USD ($)'
             }
           },
           series: [{
-            name:'Price per mW-h',
+            name:'Market price per mW-h',
+            data: (function () {
+              var data = [];
+              for (var i = -9; i <= 0; i += 1) {
+                data.push(Math.random());
+              }
+              return data;
+            }())
+          },
+          {
+            name:'Brokerage purchase price per mW-h',
             data: (function () {
               var data = [];
               for (var i = -9; i <= 0; i += 1) {

@@ -5,5 +5,11 @@ angular.module('usage', [])
       $scope.$apply(function(){
         $scope.data = data;
       });
-    });        
+    });
+
+    Socket.onBrokerReceipt('usageView', function(data){
+      $scope.$apply(function(){
+        $scope.receiptData = data;
+      });
+    });    
   }])
