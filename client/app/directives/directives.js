@@ -17,8 +17,8 @@ angular.module('consumer.directives', [])
                 var reserve = this.series[2];
                 Socket.on('consChart', function(data){
                   // console.log(data)
-                  currCons.addPoint(data.currentConsumption,true,true);
-                  currProd.addPoint(data.currentProduction,true,true);
+                  currCons.addPoint(scope.data.currentConsumption,true,true);
+                  currProd.addPoint(scope.data.currentProduction,true,true);
                   // var prodSupply = data.currentProduction - (data.currentProduction*(data.supplyMarginPercent/100))
                   // reserve.addPoint(prodSupply,true,true);
                 });
@@ -98,10 +98,10 @@ angular.module('consumer.directives', [])
                 var systemPrice = this.series[0];
                 var brokerPrice = this.series[1];
                 Socket.on('priceChart', function(data){
-                  systemPrice.addPoint(data.systemPrice,true,true);
+                  systemPrice.addPoint(scope.data.systemPrice,true,true);
                 });
                 Socket.onBrokerReceipt('priceChart', function(data){
-                  brokerPrice.addPoint(data.price,true,true);
+                  brokerPrice.addPoint(scope.receiptData.price,true,true);
                 });
               }
             }
@@ -162,15 +162,15 @@ angular.module('consumer.directives', [])
                 var prodRevenue  = this.series[1];
                 var prod;
                 Socket.on('costChart', function(data){
-                  prod = data.currentConsumption;
-                  var cons = data.currentConsumption;
-                  var sysPrice = data.systemPrice;
+                  prod = scope.data.currentConsumption;
+                  var cons = scope.data.currentConsumption;
+                  var sysPrice = scope.data.systemPrice;
                   usageCost.addPoint(cons*sysPrice,true,true);
                 });
                 Socket.onBrokerReceipt('priceChart', function(data){
-                  console.log(prod);
-                  var bkrPrice = data.price;
-                  brokerPrice.addPoint(prod*data.price,true,true);
+                  console.log('hello-------', prod);
+                  var bkrPrice = scope.receiptData.price;
+                  prodRevenue.addPoint(prod*bkrPrice,true,true);
                 });
               }
             }

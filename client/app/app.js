@@ -5,7 +5,7 @@ angular.module('consumer',[
   'dashboard',
   'controls',
   'usage',
-  'market',
+  // 'market',
   'transactions',
   'ui.router'
 ])
@@ -32,11 +32,11 @@ angular.module('consumer',[
         controller: 'usageController',
         url: '/usage'
       })
-      .state('market', {
-        templateUrl: 'app/market/market.html',
-        controller: 'marketController',
-        url: '/market'
-      })
+      // .state('market', {
+      //   templateUrl: 'app/market/market.html',
+      //   controller: 'marketController',
+      //   url: '/market'
+      // })
       .state('transactions', {
         templateUrl: 'app/transactions/transactions.html',
         controller: 'transactionsController',
