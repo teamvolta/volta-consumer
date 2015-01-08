@@ -6,7 +6,7 @@ angular.module('consumer.services', [])
     var systemReceiptCallbacks = {};
 
     socket.on('data', function(data){
-      console.log(data);
+      // console.log(data);
       for (var key in dataCallbacks) {
         dataCallbacks[key](data);
       }
