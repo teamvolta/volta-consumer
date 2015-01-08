@@ -15,13 +15,24 @@ angular.module('consumer.directives', [])
                 var currCons = this.series[0];
                 var currProd = this.series[1];
                 var reserve = this.series[2];
+                var self = this;
                 Socket.on('consChart', function(data){
                   // console.log(data)
-                  currCons.addPoint(scope.data.currentConsumption,true,true);
-                  currProd.addPoint(scope.data.currentProduction,true,true);
+
+                  currCons.addPoint(Math.round(scope.data.currentConsumption*100)/100,false,true);
+                  currProd.addPoint(Math.round(scope.data.currentProduction*100)/100,false,true);
+                  self.redraw();
+
                   // var prodSupply = data.currentProduction - (data.currentProduction*(data.supplyMarginPercent/100))
                   // reserve.addPoint(prodSupply,true,true);
                 });
+              }
+            }
+          },
+          plotOptions: {
+            spline: {
+              dataLabels: {
+                enabled: true
               }
             }
           },
@@ -48,7 +59,7 @@ angular.module('consumer.directives', [])
             data: (function () {
               var data = [];
               for (var i = -9; i <= 0; i += 1) {
-                data.push(Math.random());
+                data.push(0);
               }
               return data;
             }())
@@ -58,18 +69,18 @@ angular.module('consumer.directives', [])
             data: (function () {
               var data = [];
               for (var i = -9; i <= 0; i += 1) {
-                data.push(Math.random());
+                data.push(0);
               }
               return data;
             }()),
-            color: '#ffff66'
+            color: '#f2d007'/*'#ffff66'*/
           }/*,
           {
             name:'Solar Production Supply',
             data: (function () {
               var data = [];
               for (var i = -9; i <= 0; i += 1) {
-                data.push(Math.random());
+                data.push(0);
               }
               return data;
             }()),
@@ -91,18 +102,29 @@ angular.module('consumer.directives', [])
         var options = {
           chart: {
             renderTo: 'container2',
-            type: 'line',
+            type: 'spline',
             marginRight: 10,
             events: {
               load: function(){
                 var systemPrice = this.series[0];
                 var brokerPrice = this.series[1];
+                var self = this;
                 Socket.on('priceChart', function(data){
-                  systemPrice.addPoint(scope.data.systemPrice,true,true);
+                  systemPrice.addPoint(Math.round(scope.data.systemPrice*100)/100,false,true);
+                  brokerPrice.addPoint(Math.round(scope.data.brokerPrice*100)/100,false,true);
+                  self.redraw();
                 });
-                Socket.onBrokerReceipt('priceChart', function(data){
-                  brokerPrice.addPoint(scope.receiptData.price,true,true);
-                });
+                // Socket.onBrokerReceipt('priceChart', function(data){
+                //   brokerPrice.addPoint(Math.round(data.price*100)/100,false,true);
+                //   self.redraw();
+                // });
+              }
+            }
+          },
+          plotOptions: {
+            spline: {
+              dataLabels: {
+                enabled: true
               }
             }
           },
@@ -124,7 +146,7 @@ angular.module('consumer.directives', [])
             data: (function () {
               var data = [];
               for (var i = -9; i <= 0; i += 1) {
-                data.push(Math.random());
+                data.push(0);
               }
               return data;
             }())
@@ -134,10 +156,11 @@ angular.module('consumer.directives', [])
             data: (function () {
               var data = [];
               for (var i = -9; i <= 0; i += 1) {
-                data.push(Math.random());
+                data.push(0);
               }
               return data;
-            }())
+            }()),
+            color: '#f6546a'
           }]
         }
   
@@ -160,18 +183,27 @@ angular.module('consumer.directives', [])
               load: function(){
                 var usageCost = this.series[0];
                 var prodRevenue  = this.series[1];
-                var prod;
+                var self = this;
                 Socket.on('costChart', function(data){
-                  prod = scope.data.currentConsumption;
                   var cons = scope.data.currentConsumption;
                   var sysPrice = scope.data.systemPrice;
-                  usageCost.addPoint(cons*sysPrice,true,true);
+                  var supplyBrkr = scope.data.supplyBroker;
+                  var brokerBuyPrice = scope.data.brokerPrice;
+                  usageCost.addPoint(Math.round(cons*sysPrice*100)/100,false,true);
+                  prodRevenue.addPoint(Math.round(supplyBrkr*brokerBuyPrice*100)/100,false,true);
+                  self.redraw();
                 });
-                Socket.onBrokerReceipt('priceChart', function(data){
-                  console.log('hello-------', prod);
-                  var bkrPrice = scope.receiptData.price;
-                  prodRevenue.addPoint(prod*bkrPrice,true,true);
-                });
+                // Socket.onBrokerReceipt('consChart', function(data){
+                //   prodRevenue.addPoint(Math.round(prod*bkrPrice*100)/100,false,true);
+                //   self.redraw();
+                // });
+              }
+            }
+          },
+          plotOptions: {
+            column: {
+              dataLabels: {
+                enabled: true
               }
             }
           },
@@ -193,7 +225,7 @@ angular.module('consumer.directives', [])
             data: (function () {
               var data = [];
               for (var i = -9; i <= 0; i += 1) {
-                data.push(Math.random());
+                data.push(0);
               }
               return data;
             }())
@@ -203,7 +235,7 @@ angular.module('consumer.directives', [])
             data: (function () {
               var data = [];
               for (var i = -9; i <= 0; i += 1) {
-                data.push(Math.random());
+                data.push(0);
               }
               return data;
             }())

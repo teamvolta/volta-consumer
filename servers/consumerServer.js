@@ -38,6 +38,7 @@ var maxConsumption = config.max;
 var minConsumption = config.min;
 var supplyMarginPercent = config.supplyMargin;
 var systemPrice = 0;
+var brokerPrice = 0;
 var supplyMargin = 0;
   
 var discoveryClient = new (require('../utils/discoverClient'))(config);
@@ -157,13 +158,14 @@ discoveryClient.discover('system', 'system', function(err, data) {
 
       account.on('transaction', function(receipt) {
         allotedByBroker = receipt.energy;
+        brokerPrice = receipt.price
         console.log('NICE---------',receipt);
         demandSystem = currentConsumption - allotedByBroker;
         // In case the broker allots more than required, consumer should not demand from system
         demandSystem = demandSystem < 0 ? 0 : demandSystem;
         clientNsp.emit('brokerReceipt', {
-        energy: receipt.energy,
-        price: receipt.price,
+        energy: allotedByBroker,
+        price: brokerPrice,
         time: receipt.block.blockStart,
         seller: receipt.seller
        });
@@ -219,6 +221,7 @@ discoveryClient.discover('system', 'system', function(err, data) {
             allotedBySystem: allotedBySystem,
             allotedByBroker: allotedByBroker,
             systemPrice: systemPrice,
+            brokerPrice: brokerPrice,
             supplyMarginPercent: supplyMarginPercent
           });
         }, 1000);
