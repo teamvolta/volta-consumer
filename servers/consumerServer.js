@@ -38,6 +38,7 @@ var maxConsumption = config.max;
 var minConsumption = config.min;
 var supplyMarginPercent = config.supplyMargin;
 var systemPrice = 0;
+var supplyMargin = 0;
   
 var discoveryClient = new (require('../utils/discoverClient'))(config);
 discoveryClient.register()
@@ -172,10 +173,10 @@ discoveryClient.discover('system', 'system', function(err, data) {
         socket.on('production', function(data) {
           currentProduction = data.currentProduction;
           var net = currentProduction - currentConsumption;
-        // console.log('-----NET---- ' + net);
-          supplyMargin = currentConsumption * supplyMarginPercent / 100;
+          // console.log('-----NET---- ' + net);
           // console.log('--------------------------- '+ net);
-          if (net > supplyMargin) {
+          if (net > 0) {
+            supplyMargin = net * supplyMarginPercent;
             supplyBroker = net - supplyMargin;
             supplyBroker = supplyBroker < 0 ? 0 : supplyBroker;
             demandBroker = 0;
