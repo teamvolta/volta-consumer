@@ -8,19 +8,25 @@ angular.module('consumer.directives', [])
         var options = {
           chart: {
             renderTo: 'container1',
-            type: 'area',
+            type: 'spline',
             marginRight: 10,
             events: {
               load: function(){
-                console.dir(scope);
                 var currCons = this.series[0];
                 var currProd = this.series[1];
+                var reserve = this.series[2];
                 Socket.on('consChart', function(data){
-                currCons.addPoint(data.currentConsumption,true,true);
-                currProd.addPoint(data.currentProduction,true,true);
+                  // console.log(data)
+                  currCons.addPoint(data.currentConsumption,true,true);
+                  currProd.addPoint(data.currentProduction,true,true);
+                  // var prodSupply = data.currentProduction - (data.currentProduction*(data.supplyMarginPercent/100))
+                  // reserve.addPoint(prodSupply,true,true);
                 });
               }
             }
+          },
+          title: {
+            text: null
           },
           xAxis: {
             title: {
@@ -38,7 +44,7 @@ angular.module('consumer.directives', [])
             }
           },
           series: [{
-            name:'Engergy Usage',
+            name:'Energy Usage',
             data: (function () {
               var data = [];
               for (var i = -9; i <= 0; i += 1) {
@@ -48,15 +54,28 @@ angular.module('consumer.directives', [])
             }())
           },
           {
-            name:'Solar Production',
+            name:'Solar Production Reserve',
             data: (function () {
               var data = [];
               for (var i = -9; i <= 0; i += 1) {
                 data.push(Math.random());
               }
               return data;
-            }())
-          }]
+            }()),
+            color: '#ffff66'
+          }/*,
+          {
+            name:'Solar Production Supply',
+            data: (function () {
+              var data = [];
+              for (var i = -9; i <= 0; i += 1) {
+                data.push(Math.random());
+              }
+              return data;
+            }()),
+            color: '#f6546a'
+          }*/
+          ]
         }
 
         var currentConsProdChart = new Highcharts.Chart(options);
@@ -76,7 +95,6 @@ angular.module('consumer.directives', [])
             marginRight: 10,
             events: {
               load: function(){
-                console.dir(scope);
                 var systemPrice = this.series[0];
                 var brokerPrice = this.series[1];
                 Socket.on('priceChart', function(data){
@@ -87,6 +105,9 @@ angular.module('consumer.directives', [])
                 });
               }
             }
+          },
+          title: {
+            text: null
           },
           xAxis: {
             title: {
@@ -137,19 +158,25 @@ angular.module('consumer.directives', [])
             marginRight: 10,
             events: {
               load: function(){
-                console.dir(scope);
-                var currPurchPrice = this.series[0];
+                var usageCost = this.series[0];
+                var prodRevenue  = this.series[1];
+                var prod;
                 Socket.on('costChart', function(data){
+                  prod = data.currentConsumption;
                   var cons = data.currentConsumption;
-                  var prod = data.currentConsumption;
-                  var mktPrice = data.systemPrice;
-                  currPurchPrice.addPoint(cons*mktPrice,true,true);
+                  var sysPrice = data.systemPrice;
+                  usageCost.addPoint(cons*sysPrice,true,true);
+                });
+                Socket.onBrokerReceipt('priceChart', function(data){
+                  console.log(prod);
+                  var bkrPrice = data.price;
+                  brokerPrice.addPoint(prod*data.price,true,true);
                 });
               }
             }
           },
           title: {
-            text: 'Usage Cost and Green Energy Production Revenue'
+            text: null
           },
           xAxis: {
             title: {
@@ -158,12 +185,7 @@ angular.module('consumer.directives', [])
           },
           yAxis: {
             title: {
-              text: 'USD'
-            },
-            labels: {
-              formatter: function() {
-                return this.value + ' $';
-              }
+              text: 'USD ($)'
             }
           },
           series: [{
@@ -175,7 +197,18 @@ angular.module('consumer.directives', [])
               }
               return data;
             }())
-          }]
+          },
+          {
+            name:'Production Revenue',
+            data: (function () {
+              var data = [];
+              for (var i = -9; i <= 0; i += 1) {
+                data.push(Math.random());
+              }
+              return data;
+            }())
+          }
+          ]
         }
   
         var incomeChart = new Highcharts.Chart(options);
