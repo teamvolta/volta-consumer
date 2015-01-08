@@ -176,7 +176,7 @@ discoveryClient.discover('system', 'system', function(err, data) {
           // console.log('-----NET---- ' + net);
           // console.log('--------------------------- '+ net);
           if (net > 0) {
-            supplyMargin = net * supplyMarginPercent;
+            supplyMargin = net * (supplyMarginPercent/100);
             supplyBroker = net - supplyMargin;
             supplyBroker = supplyBroker < 0 ? 0 : supplyBroker;
             demandBroker = 0;
@@ -184,6 +184,18 @@ discoveryClient.discover('system', 'system', function(err, data) {
             demandBroker = Math.abs(net);
             supplyBroker = 0;
           }
+
+          // currentProduction = 85;
+          // var reserveRate = supplyMarginPercent/100;
+          // var netConsumption = currentConsumption - currentProduction;
+          
+          // if (netConsumption > 0) {
+          //   demandBroker = netConsumption;
+          //   supplyBroker = 0;
+          // } else {
+          //   demandBroker = 0;
+          //   supplyBroker = Math.abs(netConsumption)-Math.abs(netConsumption*reserveRate)
+          // }
         });
       });
 
