@@ -28,7 +28,7 @@ exports.development.consumer = {
 };
 var consumerDev = exports.development.consumer;
 consumerDev.mid = (consumerDev.max + consumerDev.min) / 2;
-consumerDev.resetByPercentage = (consumerDev.max - consumerDev.min) / 10 / 100, // When consumption crosses min/max
+consumerDev.resetByPercentage = (consumerDev.max - consumerDev.min) / 10 / 100; // When consumption crosses min/max
 consumerDev.minorDeviation = consumerDev.majorDeviation/3;
 
 
@@ -44,7 +44,7 @@ exports.development.consumerProducer = {
 
 var producerDev = exports.development.consumerProducer;
 producerDev.mid = (producerDev.max + producerDev.min) / 2;
-producerDev.resetByPercentage = (producerDev.max - producerDev.min) / 10 / 100, // When consumption crosses min/max
+producerDev.resetByPercentage = (producerDev.max - producerDev.min) / 10 / 100; // When consumption crosses min/max
 producerDev.minorDeviation = producerDev.majorDeviation/3;
 
 exports.development.client = {
@@ -64,7 +64,7 @@ exports.production.consumer = {
   min: 1, // Cannot be/Do not put 0 inplace of 1
   mid: 50,
   max: 100,
-  deviation: 7,
+  deviation: 7
   // supplyMargin: ,
   // bidPrice: 
 };

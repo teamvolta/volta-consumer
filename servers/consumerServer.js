@@ -42,7 +42,7 @@ var brokerPrice = 0;
 var supplyMargin = 0;
   
 var discoveryClient = new (require('../utils/discoverClient'))(config);
-discoveryClient.register()
+discoveryClient.register();
 
 discoveryClient.discover('system', 'system', function(err, data) {
   system = require('socket.io-client')(JSON.parse(data.body)[0].ip + '/consumers');
@@ -158,7 +158,7 @@ discoveryClient.discover('system', 'system', function(err, data) {
 
       account.on('transaction', function(receipt) {
         allotedByBroker = receipt.energy;
-        brokerPrice = receipt.price
+        brokerPrice = receipt.price;
         console.log('NICE---------',receipt);
         demandSystem = currentConsumption - allotedByBroker;
         // In case the broker allots more than required, consumer should not demand from system

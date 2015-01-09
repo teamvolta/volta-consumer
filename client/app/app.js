@@ -48,4 +48,4 @@ angular.module('consumer',[
       requireBase: false
     });
   }
-])
+]);

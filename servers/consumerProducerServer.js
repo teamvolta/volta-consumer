@@ -22,11 +22,11 @@ discoveryClient.discover('consumer', 'consumer', function(err, data) {
   // To change production ouput
   setInterval(function() {
     currentProduction = simulation.timeBasedChange(currentProduction, simulationStartTime, config.min, config.max);
-  }, 1000) 
+  }, 1000); 
 
   setInterval(function () {
     socket.emit('production', {
       currentProduction: currentProduction
     });
   }, 1000);
-})
+});
