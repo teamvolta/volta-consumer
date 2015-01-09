@@ -13,7 +13,7 @@ exports.development.consumer = {
   majorDeviation: 7,
   simulationTime: 60 * 1000, // In ms. Should be same as consumerProducer's!
   // Energy beyond which consumer is ready to sell 
-  supplyMargin: 2/100, // % of consumption
+  supplyMargin: 2, // % of consumption
   bidPrice: 100,
   // For discovery server
   discoveryIp: 'http://104.40.181.157:8001',
