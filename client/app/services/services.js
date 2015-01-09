@@ -4,29 +4,30 @@ angular.module('consumer.services', [])
     var dataCallbacks = {};
     var brokerReceiptCallbacks = {};
     var systemReceiptCallbacks = {};
+    var array = [];
 
     socket.on('data', function(data){
-      // console.log(data);
       for (var key in dataCallbacks) {
         dataCallbacks[key](data);
       }
     });
 
     socket.on('brokerReceipt', function(data) {
-      console.log(data);
+      array.unshift(data);
       for (var key in brokerReceiptCallbacks) {
         brokerReceiptCallbacks[key](data);
       } 
     });
 
     socket.on('systemReceipt', function(data) {
-      console.log(data);
+      array.unshift(data);
       for (var key in systemReceiptCallbacks) {
         systemReceiptCallbacks[key](data);
       } 
     });
 
     return {
+      array: array,
       on: function (view, callback) {
         dataCallbacks[view] = callback;
       },
