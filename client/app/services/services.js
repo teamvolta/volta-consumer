@@ -4,7 +4,7 @@ angular.module('consumer.services', [])
     var dataCallbacks = {};
     var brokerReceiptCallbacks = {};
     var systemReceiptCallbacks = {};
-    var array = [];
+    var receiptStorage = [];
     var storage = [];
 
     socket.on('data', function(data){
@@ -22,21 +22,39 @@ angular.module('consumer.services', [])
     });
 
     socket.on('brokerReceipt', function(data) {
-      array.unshift(data);
+      console.log('brokerReceipt')
+      if (data.energy > 0) {
+        if (receiptStorage.length < 15) {
+          receiptStorage.push(data);
+        } else {
+          receiptStorage.shift();
+          receiptStorage.push(data);
+        }
+      }
+
       for (var key in brokerReceiptCallbacks) {
         brokerReceiptCallbacks[key](data);
       } 
     });
 
     socket.on('systemReceipt', function(data) {
-      array.unshift(data);
+      console.log('systemReceipt')
+      if (data.energy > 0) {
+        if (receiptStorage.length < 15) {
+          receiptStorage.push(data);
+        } else {
+          receiptStorage.shift();
+          receiptStorage.push(data);
+        }
+      }
+
       for (var key in systemReceiptCallbacks) {
         systemReceiptCallbacks[key](data);
       } 
     });
 
     return {
-      array: array,
+      receiptStorage: receiptStorage,
       storage: storage,
       on: function (view, callback) {
         dataCallbacks[view] = callback;
