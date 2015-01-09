@@ -5,8 +5,17 @@ angular.module('consumer.services', [])
     var brokerReceiptCallbacks = {};
     var systemReceiptCallbacks = {};
     var array = [];
+    var storage = [];
 
     socket.on('data', function(data){
+      // console.log(data);
+      if (storage.length < 10) {
+        storage.push(data);
+      } else {
+        storage.shift();
+        storage.push(data);
+      }
+      
       for (var key in dataCallbacks) {
         dataCallbacks[key](data);
       }
@@ -28,6 +37,7 @@ angular.module('consumer.services', [])
 
     return {
       array: array,
+      storage: storage,
       on: function (view, callback) {
         dataCallbacks[view] = callback;
       },

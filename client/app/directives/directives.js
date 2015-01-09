@@ -63,8 +63,14 @@ angular.module('consumer.directives', [])
             name:'Energy Usage',
             data: (function () {
               var data = [];
-              for (var i = -9; i <= 0; i += 1) {
-                data.push(0);
+              if (Socket.storage.length) {
+                for (var j = 0; j < Socket.storage.length; j++) {
+                  data.push(Math.round(Socket.storage[j].currentConsumption*100)/100);
+                }
+              } else {
+                for (var i = -9; i <= 0; i += 1) {
+                  data.push(0);
+                }
               }
               return data;
             }())
@@ -73,8 +79,14 @@ angular.module('consumer.directives', [])
             name:'Solar Production',
             data: (function () {
               var data = [];
-              for (var i = -9; i <= 0; i += 1) {
-                data.push(0);
+              if (Socket.storage.length >=9) {
+                for (var j = 0; j < Socket.storage.length; j++) {
+                  data.push(Math.round(Socket.storage[j].currentProduction*100)/100);
+                }
+              } else {
+                for (var i = -9; i <= 0; i += 1) {
+                  data.push(0);
+                }
               }
               return data;
             }()),
@@ -155,8 +167,14 @@ angular.module('consumer.directives', [])
             name:'Market price per mW-h',
             data: (function () {
               var data = [];
-              for (var i = -9; i <= 0; i += 1) {
-                data.push(0);
+              if (Socket.storage.length >=9) {
+                for (var j = 0; j < Socket.storage.length; j++) {
+                  data.push(Math.round(Socket.storage[j].systemPrice*100)/100);
+                }
+              } else {
+                for (var i = -9; i <= 0; i += 1) {
+                  data.push(0);
+                }
               }
               return data;
             }())
@@ -165,8 +183,14 @@ angular.module('consumer.directives', [])
             name:'Brokerage purchase price per mW-h',
             data: (function () {
               var data = [];
-              for (var i = -9; i <= 0; i += 1) {
-                data.push(0);
+              if (Socket.storage.length >=9) {
+                for (var j = 0; j < Socket.storage.length; j++) {
+                  data.push(Math.round(Socket.storage[j].brokerPrice*100)/100);
+                }
+              } else {
+                for (var i = -9; i <= 0; i += 1) {
+                  data.push(0);
+                }
               }
               return data;
             }()),
@@ -240,8 +264,14 @@ angular.module('consumer.directives', [])
             name:'Usage Cost',
             data: (function () {
               var data = [];
-              for (var i = -9; i <= 0; i += 1) {
-                data.push(0);
+              if (Socket.storage.length >=9) {
+                for (var j = 0; j < Socket.storage.length; j++) {
+                  data.push(Math.round(Socket.storage[j].currentConsumption*Socket.storage[j].systemPrice*100)/100);
+                }
+              } else {
+                for (var i = -9; i <= 0; i += 1) {
+                  data.push(0);
+                }
               }
               return data;
             }()),
@@ -251,8 +281,14 @@ angular.module('consumer.directives', [])
             name:'Production Revenue',
             data: (function () {
               var data = [];
-              for (var i = -9; i <= 0; i += 1) {
-                data.push(0);
+              if (Socket.storage.length >=9) {
+                for (var j = 0; j < Socket.storage.length; j++) {
+                  data.push(Math.round(Socket.storage[j].supplyBroker*Socket.storage[j].brokerPrice*100)/100);
+                }
+              } else {
+                for (var i = -9; i <= 0; i += 1) {
+                  data.push(0);
+                }
               }
               return data;
             }()),
@@ -327,8 +363,14 @@ angular.module('consumer.directives', [])
             name:'Production Reserve',
             data: (function () {
               var data = [];
-              for (var i = -9; i <= 0; i += 1) {
-                data.push(0);
+              if (Socket.storage.length >=9) {
+                for (var j = 0; j < Socket.storage.length; j++) {
+                  data.push(Math.round((Socket.storage[j].currentProduction-Socket.storage[j].supplyBroker)*100)/100);
+                }
+              } else {
+                for (var i = -9; i <= 0; i += 1) {
+                  data.push(0);
+                }
               }
               return data;
             }()),
@@ -338,8 +380,14 @@ angular.module('consumer.directives', [])
             name:'Production Supply to Broker',
             data: (function () {
               var data = [];
-              for (var i = -9; i <= 0; i += 1) {
-                data.push(0);
+              if (Socket.storage.length >=9) {
+                for (var j = 0; j < Socket.storage.length; j++) {
+                  data.push(Math.round(Socket.storage[j].supplyBroker*100)/100);
+                }
+              } else {
+                for (var i = -9; i <= 0; i += 1) {
+                  data.push(0);
+                }
               }
               return data;
             }()),
@@ -424,8 +472,14 @@ angular.module('consumer.directives', [])
             name:'Usage From System',
             data: (function () {
               var data = [];
-              for (var i = -9; i <= 0; i += 1) {
-                data.push(0);
+              if (Socket.storage.length >=9) {
+                for (var j = 0; j < Socket.storage.length; j++) {
+                  data.push(Math.round(Socket.storage[j].allotedBySystem*100)/100);
+                }
+              } else {
+                for (var i = -9; i <= 0; i += 1) {
+                  data.push(0);
+                }
               }
               return data;
             }()),
@@ -435,8 +489,14 @@ angular.module('consumer.directives', [])
             name:'Usage From Broker',
             data: (function () {
               var data = [];
-              for (var i = -9; i <= 0; i += 1) {
-                data.push(0);
+              if (Socket.storage.length >=9) {
+                for (var j = 0; j < Socket.storage.length; j++) {
+                  data.push(Math.round(Socket.storage[j].allotedByBroker*100)/100);
+                }
+              } else {
+                for (var i = -9; i <= 0; i += 1) {
+                  data.push(0);
+                }
               }
               return data;
             }()),
@@ -446,8 +506,14 @@ angular.module('consumer.directives', [])
             name:'Usage From Reserve',
             data: (function () {
               var data = [];
-              for (var i = -9; i <= 0; i += 1) {
-                data.push(0);
+              if (Socket.storage.length >=9) {
+                for (var j = 0; j < Socket.storage.length; j++) {
+                  data.push(Math.round(Socket.storage[j].currentProduction*100)/100);
+                }
+              } else {
+                for (var i = -9; i <= 0; i += 1) {
+                  data.push(0);
+                }
               }
               return data;
             }()),
