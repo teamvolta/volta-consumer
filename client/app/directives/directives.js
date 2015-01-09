@@ -381,12 +381,14 @@ angular.module('consumer.directives', [])
                     useSystem.addPoint(Math.round(fromSystem*100)/100,false,true);
                     useBroker.addPoint(Math.round(fromBroker*100)/100,false,true);
                     useReserve.addPoint(Math.round(fromReserve*100)/100,false,true);
+                    self.redraw();
+
                   } else {
-                    useSystem.addPoint(0);
-                    useBroker.addPoint(0);
+                    useSystem.addPoint(0, false, true);
+                    useBroker.addPoint(0, false, true);
                     useReserve.addPoint(Math.round((currProd-((currProd-currCons)*reserveRate)-toBroker)*100)/100,false,true);
+                    self.redraw();
                   }
-                  self.redraw();
                 });
               }
             }
