@@ -21,21 +21,22 @@ gulp.task('install', function() {
 
 gulp.task('mochaTest', function() {  //I am still not sure what it actually does
 	                            // passing shared module in all tests (according to docs)
-  console.log("gulptest");
+  console.log('gulptest');
   return gulp.src('test/test.js', {read: false})   
            .pipe(mocha({reporter: 'spec'}));  //reporter spec is just the nested structure of Mocha output
 });
 
 gulp.task('style', function() {
-  gulp.src('./*.js')
+  gulp.src(['./*.js', './client/app/*.js', './servers/**/*.js', './test/**/*.js'])
     .pipe(jshint('.jshintrc'))
     .pipe(jshint.reporter('jshint-stylish'));
 });
 
 
 gulp.task('testCoverage', function (cb) {
-  gulp.src(['./*.js'])
-    .pipe(istanbul({includeUntested: true})) // Covering files; includeUntested is needed to include all files, and not only 'required' ones
+  gulp.src(['./*.js', './client/app/*.js', './servers/**/*.js'])
+    // Covering files; includeUntested is needed to include all files, and not only 'required' ones
+    .pipe(istanbul({includeUntested: true}))
     .pipe(istanbul.hookRequire()) // Force `require` to return covered files
     .on('finish', function () {
       gulp.src(['test/test.js'])

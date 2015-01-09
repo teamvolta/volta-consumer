@@ -1,27 +1,37 @@
-var expect = require('chai').expect;
-var stubs = require('./stubs.js');
+// var expect = require('chai').expect;
+// var stubs = require('./stubs.js').development;
+// var testConfig = stubs.consumer;
 
-var should = require('should');
-var io = require('socket.io-client');
+// describe('test for tests', function(){ //mock test, to test gulp and deployment
+//   it('tests should run', function(){
+//     var a = 2;
+//     expect(a).to.equal(2);
+//   });
+// });
 
-var socketURL = 'http://0.0.0.0:5000';
+// var makeSuite = function (name, tests) {
+//   describe (name, function () {
+//     console.log('befor express');
+//     before(function() {
+//       var express = require('express');
+//       var app = express();
+//       var server = require('http').Server(app);
+//       server.listen(testConfig.port);
+//       var io = require('socket.io')(server);
+//       var productionNsp = io.of('/production');
+//      } 
+//       tests(productionNsp);
 
-var options ={
-  transports: ['websocket'],
-  'force new connection': true
-};
+//   });
+// };
 
-describe("test for tests", function(){ //mock test, to test gulp and deployment
-  it("tests should run", function(){
-    var a = 2;
-    console.log("testing");  
-    expect(a).to.equal(2);
-  });
-
-  /*it("failing tests should stop deployment", function(){
-    var a = 2;
-    console.log("testing");  
-    expect(a).to.equal(3);
-  });*/
-
-});
+// makeSuite('Producer functionality', function (productionNsp) {
+//   productionNsp.on('connection', function (socket) {
+//   console.log('afterserver listen');
+//     it('should send current production', function () {
+//       socket.on('production', function(data) {
+//         expect(data.currentProduction).to.be.a('number');
+//       });  
+//     })
+//   });
+// });
