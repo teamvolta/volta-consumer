@@ -174,7 +174,7 @@ discoveryClient.discover('system', 'system', function(err, data) {
       // Consumer Production 
       productionNsp.on('connection', function (socket) {
         socket.on('production', function(data) {
-          currentProduction = data.currentProduction;
+          currentProduction = 50;
           var net = currentProduction - currentConsumption;
           // console.log('-----NET---- ' + net);
           // console.log('--------------------------- '+ net);
