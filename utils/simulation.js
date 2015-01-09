@@ -1,6 +1,7 @@
 var simulation = function(config) {
   this.config = config;
   // Defaults
+  this.test = false;
   this.bidTime = Date.now();  
   this.consumption = config.min;
   this.expectedConsumption = 0;
@@ -11,10 +12,19 @@ var simulation = function(config) {
 
 
 simulation.prototype.bid = function(data, demandSystem, startTime, min, max) {
-  // var blockDuration = data.blockDuration;
-  // this.bidTime = data.blockStart + blockDuration; // UTC date
-
-  // this.expectedConsumption = this.timeBasedChange(this.consumption, startTime + blockDuration, min, max);
+  var blockDuration = data.blockDuration
+  this.bidTime = Date.now() + blockDuration; // UTC date
+  var a = Date.now();
+  this.test = true;
+  // console.log('---------startTime------', new Date(startTime));
+  // console.log('--------blockDuration-------', blockDuration);
+  var expected = this.consumption;
+  for(var i = 1000; i < blockDuration; i+=1000) {
+    a += 1000;
+    expected = this.timeBasedChange(expected, a, min, max);
+  }
+  this.expectedConsumption = expected;
+  // this.expectedConsumption = this.timeBasedChange(this.consumption, this.bidTime, min, max);
   var bids = [{
     price: this.config.bidPrice,
     energy: demandSystem
@@ -27,10 +37,13 @@ simulation.prototype.bid = function(data, demandSystem, startTime, min, max) {
 simulation.prototype.currentConsumption = function(startTime, min, max) {
   
   // console.log('-------CURRENT-----', this.expectedConsumption);
-  // if(Date.now() > this.bidTime) {
-  //   this.consumption = this.expectedConsumption;
-  // }
-  this.consumption = this.timeBasedChange(this.consumption, startTime, min, max);
+  console.log('-------bidTime--------', new Date(this.bidTime));
+  if(this.test && Date.now() > this.bidTime) {
+    this.test = false;
+    this.consumption = this.expectedConsumption;
+  } else {
+    this.consumption = this.timeBasedChange(this.consumption, startTime, min, max);
+  }
   // console.log('INSIDE SIMULATION ' + this.consumption);
   return this.timeBasedChange(this.consumption, startTime, min, max);
 };

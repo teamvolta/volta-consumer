@@ -29,7 +29,7 @@ var consumerId;
 var currentConsumption = config.min; 
 var demandBroker = 0;
 var supplyBroker = 0;
-var demandSystem = 1; // To be changed to 0 when accounting works
+var demandSystem = 0; // To be changed to 0 when accounting works
 var allotedBySystem = 0;
 var allotedByBroker = 0;
 var currentProduction = 0;
@@ -94,6 +94,7 @@ discoveryClient.discover('system', 'system', function(err, data) {
       //   duration: ms
       // }
       system.on('startBidding', function (data) {
+        console.log('----SHURUHOJAAYO----------',new Date(data.blockStart));
         system.emit('bid', {
           // Better name for 'data' property
           consumerId: consumerId,
@@ -176,7 +177,7 @@ discoveryClient.discover('system', 'system', function(err, data) {
           // console.log('-----NET---- ' + net);
           // console.log('--------------------------- '+ net);
           if (net > 0) {
-            supplyMargin = net * supplyMarginPercent;
+            supplyMargin = net * supplyMarginPercent / 100;
             supplyBroker = net - supplyMargin;
             supplyBroker = supplyBroker < 0 ? 0 : supplyBroker;
             demandBroker = 0;
