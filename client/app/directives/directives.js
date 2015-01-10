@@ -227,10 +227,6 @@ angular.module('consumer.directives', [])
                   prodRevenue.addPoint(Math.round(supplyBrkr*brokerBuyPrice*100)/100,false,true);
                   self.redraw();
                 });
-                // Socket.onBrokerReceipt('consChart', function(data){
-                //   prodRevenue.addPoint(Math.round(prod*bkrPrice*100)/100,false,true);
-                //   self.redraw();
-                // });
               }
             }
           },
@@ -331,10 +327,6 @@ angular.module('consumer.directives', [])
                   prodSupply.addPoint(Math.round(supplyBrkr*100)/100,false,true);
                   self.redraw();
                 });
-                // Socket.onBrokerReceipt('consChart', function(data){
-                //   prodRevenue.addPoint(Math.round(prod*bkrPrice*100)/100,false,true);
-                //   self.redraw();
-                // });
               }
             }
           },
@@ -347,7 +339,7 @@ angular.module('consumer.directives', [])
               }
             },
             series: {
-              pointWidth: 33,
+              pointWidth: 20,
               borderColor: '#333333',
               shadow: true
             }
@@ -433,17 +425,16 @@ angular.module('consumer.directives', [])
                   var currCons = scope.data.currentConsumption;
                   var fromSystem = scope.data.allotedBySystem;
                   var fromBroker = scope.data.allotedByBroker;
-                  var fromReserve = scope.data.currentProduction;
                   var toBroker = scope.data.supplyBroker;
-                  var reserveRate = scope.data.supplyMarginPercent;
+                  var reserveRate = scope.data.supplyMarginPercent/100;
 
-                  if (currCons >= currProd) {
+                  if (currCons - currProd > 0) {
                     useSystem.addPoint(Math.round(fromSystem*100)/100,false,true);
                     useBroker.addPoint(Math.round(fromBroker*100)/100,false,true);
-                    useReserve.addPoint(Math.round(fromReserve*100)/100,false,true);
+                    useReserve.addPoint(Math.round(currProd*100)/100,false,true);
                     self.redraw();
 
-                  } else {
+                  } else if (currProd - currCons > 0) {
                     useSystem.addPoint(0, false, true);
                     useBroker.addPoint(0, false, true);
                     useReserve.addPoint(Math.round((currProd-((currProd-currCons)*reserveRate)-toBroker)*100)/100,false,true);
@@ -458,11 +449,15 @@ angular.module('consumer.directives', [])
               stacking: 'normal',
               dataLabels: {
                 enabled: true,
-                color: '#000000'
+                color: '#000000',
+                // align: 'center',
+                // rotation: 270,
+                // x: 2,
+                // y: -10
               }
             },
             series: {
-              pointWidth: 33,
+              pointWidth: 20,
               borderColor: '#333333',
               shadow: true
             }
