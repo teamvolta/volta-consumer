@@ -38,10 +38,11 @@ var maxConsumption = config.max;
 var minConsumption = config.min;
 var supplyMarginPercent = config.supplyMargin;
 var systemPrice = 0;
+var brokerPrice = 0;
 var supplyMargin = 0;
   
 var discoveryClient = new (require('../utils/discoverClient'))(config);
-discoveryClient.register()
+discoveryClient.register();
 
 discoveryClient.discover('system', 'system', function(err, data) {
   system = require('socket.io-client')(JSON.parse(data.body)[0].ip + '/consumers');
@@ -157,13 +158,14 @@ discoveryClient.discover('system', 'system', function(err, data) {
 
       account.on('transaction', function(receipt) {
         allotedByBroker = receipt.energy;
+        brokerPrice = receipt.price;
         console.log('NICE---------',receipt);
         demandSystem = currentConsumption - allotedByBroker;
         // In case the broker allots more than required, consumer should not demand from system
         demandSystem = demandSystem < 0 ? 0 : demandSystem;
         clientNsp.emit('brokerReceipt', {
-        energy: receipt.energy,
-        price: receipt.price,
+        energy: allotedByBroker,
+        price: brokerPrice,
         time: receipt.block.blockStart,
         seller: receipt.seller
        });
@@ -172,7 +174,7 @@ discoveryClient.discover('system', 'system', function(err, data) {
       // Consumer Production 
       productionNsp.on('connection', function (socket) {
         socket.on('production', function(data) {
-          currentProduction = data.currentProduction;
+          currentProduction = 50;
           var net = currentProduction - currentConsumption;
           // console.log('-----NET---- ' + net);
           // console.log('--------------------------- '+ net);
@@ -219,6 +221,7 @@ discoveryClient.discover('system', 'system', function(err, data) {
             allotedBySystem: allotedBySystem,
             allotedByBroker: allotedByBroker,
             systemPrice: systemPrice,
+            brokerPrice: brokerPrice,
             supplyMarginPercent: supplyMarginPercent
           });
         }, 1000);

@@ -1,34 +1,39 @@
 
 angular.module('transactions', [])
 .controller('transactionsController', ['$scope', 'Socket', function($scope, Socket){
-  var arr = Socket.array;
+  var receiptStorage = Socket.receiptStorage;
   $scope.array = [];
 
-  for (var j = 0; j < 15; j++) {
-    if(arr[j] && arr[j].energy > 0) {
-      $scope.array.push(arr[j]);  
+
+  if (receiptStorage.length) {
+    for (var j = receiptStorage.length; j >=0 ; j--) {
+      $scope.array.push(receiptStorage[j]);  
     }
   }
 
 
   Socket.onBrokerReceipt('transactionView', function(data){
     $scope.$apply(function(){
-      if(data && data.energy > 0) {
-        $scope.array.unshift({energy: data.energy,
-                              seller: data.seller,
-                              price: data.price
-                            });
+      if (data.energy > 0) {
+        if ($scope.array.length < 15) {
+          $scope.array.unshift(data);
+        } else {
+          $scope.array.pop();
+          $scope.array.unshift(data);
+        }
       }
     });
   });
 
   Socket.onSystemReceipt('transactionView', function(data){
     $scope.$apply(function(){
-      if(data && data.energy > 0) {
-        $scope.array.unshift({energy: data.energy,
-                              seller: data.seller,
-                              price: data.price
-                            });
+      if (data.energy > 0) {
+        if ($scope.array.length < 15) {
+          $scope.array.unshift(data);
+        } else {
+          $scope.array.pop();
+          $scope.array.unshift(data);
+        }
       }
     });
   });
