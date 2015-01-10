@@ -15,7 +15,7 @@
             <label for="minCtrl">Minimum Usage Amount</label>
             <input type="number" name="minCtrl" ng-model="control.minConsumption" class="form-control" min="1" max="100" autofocus integer required>
 
-            <p class="help-block">Current minimum consumption: {{data.minConsumption}} mW-h</p>
+            <p class="help-block">Current minimum consumption: {{data.minConsumption}} KW</p>
             <p class="help-block">Valid Range is 1 to 100 and less than Maximum Usage Amount</p>
             <p class="help-block" ng-show="controlForm.minCtrl.$error.required && !controlForm.minCtrl.$pristine">Amount required (Example: 10)</p>
             <p class="help-block" ng-show="controlForm.minCtrl.$error.integer">Invalid integer</p>
@@ -29,7 +29,7 @@
             <label for="maxCtrl">Maximum Usage Amount</label>
             <input type="number" name="maxCtrl" ng-model="control.maxConsumption" class="form-control" min="1" max="100" required>
 
-            <p class="help-block">Current maximum consumption: {{data.maxConsumption}} mW-h</p>
+            <p class="help-block">Current maximum consumption: {{data.maxConsumption}} KW</p>
             <p class="help-block">Valid Range is 1 to 100 and greater than Minimum Usage Amount</p>
             <p class="help-block" ng-show="controlForm.maxCtrl.$error.required && !controlForm.maxCtrl.$pristine">Amount required (Example: 10)</p>
             <p class="help-block" ng-show="controlForm.maxCtrl.$error.integer">Invalid integer</p>

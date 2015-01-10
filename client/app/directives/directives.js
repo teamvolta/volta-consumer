@@ -47,15 +47,17 @@ angular.module('consumer.directives', [])
           xAxis: {
             title: {
               text: 'Time'
-            }
+            },
+            type: 'datetime',
+            tickInterval: 900000 //15 minutes
           },
           yAxis: {
             title: {
-              text: 'Energy Usage and Production (mW-h)'
+              text: 'Energy Usage and Production (KW)'
             },
             labels: {
               formatter: function() {
-                return this.value + ' mW-h';
+                return this.value + ' KW';
               }
             }
           },
@@ -73,7 +75,9 @@ angular.module('consumer.directives', [])
                 }
               }
               return data;
-            }())
+            }()),
+            pointStart: Date.UTC(2014, 0, 1, 5, 29), //start at 6:30am
+            pointInterval: 720000 // 12 minutes
           },
           {
             name:'Solar Production',
@@ -90,20 +94,10 @@ angular.module('consumer.directives', [])
               }
               return data;
             }()),
-            color: '#f2d007'/*'#ffff66'*/
-          }/*,
-          {
-            name:'Solar Production Supply',
-            data: (function () {
-              var data = [];
-              for (var i = -9; i <= 0; i += 1) {
-                data.push(0);
-              }
-              return data;
-            }()),
-            color: '#f6546a'
-          }*/
-          ]
+            color: '#f2d007',/*'#ffff66'*/
+            pointStart: Date.UTC(2014, 0, 1, 5, 29), //start at 6:30am
+            pointInterval: 720000 // 12 minutes
+          }]
         }
 
         var currentConsProdChart = new Highcharts.Chart(options);
@@ -156,7 +150,9 @@ angular.module('consumer.directives', [])
           xAxis: {
             title: {
               text: 'Time'
-            }
+            },
+            type: 'datetime',
+            tickInterval: 900000 //15 minutes
           },
           yAxis: {
             title: {
@@ -164,7 +160,7 @@ angular.module('consumer.directives', [])
             }
           },
           series: [{
-            name:'Market price per mW-h',
+            name:'Market price per KW',
             data: (function () {
               var data = [];
               if (Socket.storage.length >=9) {
@@ -177,10 +173,12 @@ angular.module('consumer.directives', [])
                 }
               }
               return data;
-            }())
+            }()),
+            pointStart: Date.UTC(2014, 0, 1, 5, 29), //start at 6:30am
+            pointInterval: 720000 // 12 minutes
           },
           {
-            name:'Brokerage purchase price per mW-h',
+            name:'Brokerage purchase price per KW',
             data: (function () {
               var data = [];
               if (Socket.storage.length >=9) {
@@ -194,7 +192,9 @@ angular.module('consumer.directives', [])
               }
               return data;
             }()),
-            color: '#f6546a'
+            color: '#f6546a',
+            pointStart: Date.UTC(2014, 0, 1, 5, 29), //start at 6:30am
+            pointInterval: 720000 // 12 minutes
           }]
         }
   
@@ -253,7 +253,9 @@ angular.module('consumer.directives', [])
           xAxis: {
             title: {
               text: 'Time'
-            }
+            },
+            type: 'datetime',
+            tickInterval: 900000 //15 minutes
           },
           yAxis: {
             title: {
@@ -275,7 +277,9 @@ angular.module('consumer.directives', [])
               }
               return data;
             }()),
-            color: '#f75151'
+            color: '#f75151',
+            pointStart: Date.UTC(2014, 0, 1, 5, 29), //start at 6:30am
+            pointInterval: 720000 // 12 minutes
           },
           {
             name:'Production Revenue',
@@ -292,7 +296,9 @@ angular.module('consumer.directives', [])
               }
               return data;
             }()),
-            color: '#7eca67'
+            color: '#7eca67',
+            pointStart: Date.UTC(2014, 0, 1, 5, 29), //start at 6:30am
+            pointInterval: 720000 // 12 minutes
           }
           ]
         }
@@ -352,11 +358,13 @@ angular.module('consumer.directives', [])
           xAxis: {
             title: {
               text: 'Time'
-            }
+            },
+            type: 'datetime',
+            tickInterval: 900000 //15 minutes
           },
           yAxis: {
             title: {
-              text: 'Solar Production (mW-h)'
+              text: 'Solar Production (KW)'
             }
           },
           series: [{
@@ -374,7 +382,9 @@ angular.module('consumer.directives', [])
               }
               return data;
             }()),
-            color: '#f2d007'
+            color: '#f2d007',
+            pointStart: Date.UTC(2014, 0, 1, 5, 29), //start at 6:30am
+            pointInterval: 720000 // 12 minutes
           },
           {
             name:'Production Supply to Broker',
@@ -391,7 +401,9 @@ angular.module('consumer.directives', [])
               }
               return data;
             }()),
-            color: '#ff5500'
+            color: '#ff5500',
+            pointStart: Date.UTC(2014, 0, 1, 5, 29), //start at 6:30am
+            pointInterval: 720000 // 12 minutes
           }]
         }
   
@@ -461,11 +473,13 @@ angular.module('consumer.directives', [])
           xAxis: {
             title: {
               text: 'Time'
-            }
+            },
+            type: 'datetime',
+            tickInterval: 900000 //15 minutes
           },
           yAxis: {
             title: {
-              text: 'Energy Usage (mW-h)'
+              text: 'Energy Usage (KW)'
             }
           },
           series: [{
@@ -483,6 +497,8 @@ angular.module('consumer.directives', [])
               }
               return data;
             }()),
+            pointStart: Date.UTC(2014, 0, 1, 5, 29), //start at 6:30am
+            pointInterval: 720000 // 12 minutes
             // color: '#f2d007'
           },
           {
@@ -500,7 +516,9 @@ angular.module('consumer.directives', [])
               }
               return data;
             }()),
-            color: '#ff5500'
+            color: '#ff5500',
+            pointStart: Date.UTC(2014, 0, 1, 5, 29), //start at 6:30am
+            pointInterval: 720000 // 12 minutes
           },
           {
             name:'Usage From Reserve',
@@ -517,7 +535,9 @@ angular.module('consumer.directives', [])
               }
               return data;
             }()),
-            color: '#f2d007'
+            color: '#f2d007',
+            pointStart: Date.UTC(2014, 0, 1, 5, 29), //start at 6:30am
+            pointInterval: 720000 // 12 minutes
           }]
         }
   
