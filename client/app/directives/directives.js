@@ -238,7 +238,7 @@ angular.module('consumer.directives', [])
               }
             },
             series: {
-              pointWidth: 20,
+              pointWidth: 17,
               borderColor: '#333333',
               shadow: true
             }
