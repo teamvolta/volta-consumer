@@ -24,9 +24,9 @@ angular.module('controls', [])
         //submit change to server
         Socket.emit('configChanges', data);
         //notify user with confirmation
-        alert('Your request has been submitted');
+        // alert('Your request has been submitted');
         //redirect to dashboard
-        $state.go('dashboard')
+        // $state.go('dashboard')
       }
     }
   }]);
