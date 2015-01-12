@@ -174,33 +174,33 @@ discoveryClient.discover('system', 'system', function(err, data) {
       // Consumer Production 
       productionNsp.on('connection', function (socket) {
         socket.on('production', function(data) {
-          currentProduction = 50;
-          // var net = currentProduction - currentConsumption;
-          // console.log('-----NET---- ' + net);
-          // console.log('--------------------------- '+ net);
-          // if (net > 0) {
-          //   supplyMargin = net * (supplyMarginPercent/100);
-          //   supplyBroker = net - supplyMargin;
-          //   supplyBroker = supplyBroker < 0 ? 0 : supplyBroker;
-          //   demandBroker = 0;
-          // } else {
-          //   demandBroker = Math.abs(net);
-          //   supplyBroker = 0;
-          // }
-
-          var reserveRate = supplyMarginPercent/100;
-          console.log('rate', supplyMarginPercent, 'percentage', reserveRate)
-          
-          var netConsumption = currentConsumption - currentProduction;
-          console.log(netConsumption)
-
-          if (netConsumption > 0) {
-            demandBroker = netConsumption;
-            supplyBroker = 0;
-          } else {
+          currentProduction = data.currentProduction;
+          var net = currentProduction - currentConsumption;
+          console.log('-----NET---- ' + net);
+          console.log('--------------------------- '+ net);
+          if (net > 0) {
+            supplyMargin = net * (supplyMarginPercent/100);
+            supplyBroker = net - supplyMargin;
+            supplyBroker = supplyBroker < 0 ? 0 : supplyBroker;
             demandBroker = 0;
-            supplyBroker = Math.abs(netConsumption)-(Math.abs(netConsumption)*reserveRate)
+          } else {
+            demandBroker = Math.abs(net);
+            supplyBroker = 0;
           }
+
+          // var reserveRate = supplyMarginPercent/100;
+          // console.log('rate', supplyMarginPercent, 'percentage', reserveRate)
+          
+          // var netConsumption = currentConsumption - currentProduction;
+          // console.log(netConsumption)
+
+          // if (netConsumption > 0) {
+          //   demandBroker = netConsumption;
+          //   supplyBroker = 0;
+          // } else {
+          //   demandBroker = 0;
+          //   supplyBroker = Math.abs(netConsumption)-(Math.abs(netConsumption)*reserveRate)
+          // }
         });
       });
 
