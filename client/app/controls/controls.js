@@ -13,20 +13,88 @@ angular.module('controls', [])
       supplyMarginPercent: ''
     }
 
-    $scope.submit = function(){
-      var data = $scope.control;
-      data.supplyMarginPercent = +data.supplyMarginPercent.toFixed(4);
+    $scope.appliance = {
+      car: 85,
+      tv: 27,
+      refrigerator: 78,
+      laundry: 9
+    }
 
+    $scope.submitMin = function() {
+      var data = $scope.control;
+      if (data.maxConsumption === '') {
+        data.maxConsumption = $scope.data.maxConsumption;
+      }
+      if (data.supplyMarginPercent === '') {
+        data.supplyMarginPercent = +$scope.data.supplyMarginPercent.toFixed(4);
+      }
       if (data.minConsumption >= data.maxConsumption) {
         alert('Minimum consumption level must be below maximum consumption level');
         return;
-      } else {
-        //submit change to server
-        Socket.emit('configChanges', data);
-        //notify user with confirmation
-        // alert('Your request has been submitted');
-        //redirect to dashboard
-        // $state.go('dashboard')
       }
+      Socket.emit('configChanges', data);
+      $('input').val('');
     }
+
+    $scope.submitMax = function() {
+      var data = $scope.control;
+      if (data.minConsumption === '') {
+        data.minConsumption = $scope.data.minConsumption;
+      }
+      if (data.supplyMarginPercent === '') {
+        data.supplyMarginPercent = +$scope.data.supplyMarginPercent.toFixed(4);
+      }
+      if (data.minConsumption >= data.maxConsumption) {
+        alert('Minimum consumption level must be below maximum consumption level');
+        return;
+      }
+      Socket.emit('configChanges', data);
+      $('input').val('');
+    }
+
+    $scope.submitReserve = function() {
+      var data = $scope.control;
+      data.supplyMarginPercent = +data.supplyMarginPercent.toFixed(4);
+
+      if (data.minConsumption === '') {
+        data.minConsumption = $scope.data.minConsumption;
+      }
+
+      if (data.maxConsumption === '') {
+        data.maxConsumption = $scope.data.maxConsumption;
+      }
+      if (data.minConsumption >= data.maxConsumption) {
+        alert('Minimum consumption level must be below maximum consumption level');
+        return;
+      }
+      Socket.emit('configChanges', data);
+      $('input').val('');
+    }
+
+    $scope.controlCar = function() {
+      console.log("car")
+      $(this).css('background-color',"#ccc")
+      var data = $scope.appliance;
+      Socket.emit('appChanges', data);
+
+    }
+
+    $scope.controlTV = function() {
+      alert("tv")
+      var data = $scope.appliance
+
+    }
+
+    $scope.controlRefrigerator = function() {
+      alert("ice")
+      var data = $scope.appliance
+
+    }
+
+    $scope.controlLaundry = function() {
+      alert("wash")
+      var data = $scope.appliance
+
+    }
+
   }]);

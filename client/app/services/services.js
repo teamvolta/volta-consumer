@@ -22,7 +22,7 @@ angular.module('consumer.services', [])
     });
 
     socket.on('brokerReceipt', function(data) {
-      console.log('brokerReceipt')
+      // console.log('brokerReceipt')
       if (data.energy > 0) {
         if (receiptStorage.length < 15) {
           receiptStorage.push(data);
@@ -38,7 +38,7 @@ angular.module('consumer.services', [])
     });
 
     socket.on('systemReceipt', function(data) {
-      console.log('systemReceipt')
+      // console.log('systemReceipt')
       if (data.energy > 0) {
         if (receiptStorage.length < 15) {
           receiptStorage.push(data);
