@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="consumer">
+<html lang="en" ng-app="consumer">
 <head>
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -37,14 +37,16 @@
 </head>
 <body>
   <div id="wrapper">
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-fixed-top" style="background-color:white">
       <div class="container-fluid">
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
               <!-- <li style="padding:5px 30px 0 0"><i class="fa fa-bolt fa-3x">Volta Energy</i></li> -->
-              <li style="padding:0 30px 0 0; font-size:3em">Volta Energy</li>
+              <!-- font-family: Copperplate, 'Copperplate Gothic Light', fantasy" -->
+
+              <li style="font-size:2.5em; font-family:'Open Sans',sans-serif"><img src="styles/logo.jpg" style="height:1.7em;"> Volta Energy</li>
               <!-- overall nav view -->
-              <li style="padding:10px 0 0 0"><a ui-sref="dashboard">Dashboard</a></li>
+              <li style="padding:10px 0 0 20px"><a ui-sref="dashboard">Dashboard</a></li>
               <!-- user controls -->
               <li style="padding:10px 0 0 0"><a ui-sref="controls">User Controls</a></li>
               <!-- consumption and production -->
