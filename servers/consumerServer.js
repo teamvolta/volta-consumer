@@ -148,7 +148,7 @@ discoveryClient.discover('system', 'system', function(err, data) {
           broker.emit('supply', {
             timeBlock: blockStart,
             energy: supplyBroker,
-            consumerId: consumerId
+            producerId: consumerId
           });
         }
       });
