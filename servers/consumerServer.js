@@ -10,15 +10,6 @@ var server = require('http').Server(app);
 server.listen(config.port);
 console.log('consumer consumption server listening on port ' + config.port);
 
-// var b = {discoveryIp:'http://104.40.181.157:8001',
-//          ip: 'http://localhost:8010',
-//          id: 3,
-//          role: 'system',
-//          subRole: 'accounting'
-//         }
-// var a = new (require('../utils/discoverClient'))(b);
-// a.register();
-
 var io;
 var doneDiscovering = false;
 var system;
@@ -58,7 +49,6 @@ discoveryClient.discover('system', 'system', function(err, data) {
     });
     
     discoveryClient.discover('system', 'accounting', function(err, data) {
-      console.log('-------NN---------', JSON.parse(data.body)[0].ip + '/subscriptions');
       account = require('socket.io-client')(JSON.parse(data.body)[0].ip + '/subscriptions');
       account.on('connect', function () {
         console.log('Connected to account!');
@@ -77,12 +67,6 @@ discoveryClient.discover('system', 'system', function(err, data) {
       io = require('socket.io')(server);
       var productionNsp = io.of('/production');
       var clientNsp = io.of('/client');
-    // // Setup reporter
-    // var reporter = new (require('./adminReporter'))();
-    // global.reporter = reporter;
-
-    // if(doneDiscovering === true) {
-
 
       console.log('NODE_ENV', process.env.NODE_ENV); //to check whether it's been set to production when deployed
 
@@ -95,7 +79,6 @@ discoveryClient.discover('system', 'system', function(err, data) {
       //   duration: ms
       // }
       system.on('startBidding', function (data) {
-        console.log('----SHURUHOJAAYO----------',new Date(data.blockStart));
         system.emit('bid', {
           // Better name for 'data' property
           consumerId: consumerId,
@@ -106,7 +89,6 @@ discoveryClient.discover('system', 'system', function(err, data) {
 
       // System admin sends back the price/energy for the time-slot
       system.on('receipt', function (receipt) {
-       console.log('------------ RECEIPT FROM SYSTEM', receipt);
        allotedBySystem = receipt.energy;
        systemPrice = receipt.price;
        clientNsp.emit('systemReceipt', {
@@ -120,12 +102,11 @@ discoveryClient.discover('system', 'system', function(err, data) {
 
       // System admin keeps track of total consumption of all consumers
       setInterval(function () {
-        // console.log('BEFORE CURRENT CONSUMPTION---- ' + currentConsumption);
         if(Date.now() > simulationStartTime + config.simulationTime) {
           simulationStartTime = Date.now();
         }
         currentConsumption = simulation.currentConsumption(simulationStartTime, minConsumption, maxConsumption);
-        console.log('currentConsumption ' + currentConsumption, 'currentProduction ' + currentProduction);
+        // console.log('currentConsumption ' + currentConsumption, 'currentProduction ' + currentProduction);
         system.emit('consume', {
           currentConsumption: currentConsumption,
           consumerId: consumerId
@@ -137,7 +118,6 @@ discoveryClient.discover('system', 'system', function(err, data) {
 
       broker.on('startCollection', function (timeBlock) {
         var blockStart = timeBlock.blockStart;
-        // console.log('BROKER TIMEBLOCK---------- '+blockStart);
         if (demandBroker) {
           broker.emit('demand', {
             timeBlock: blockStart,
@@ -148,7 +128,7 @@ discoveryClient.discover('system', 'system', function(err, data) {
           broker.emit('supply', {
             timeBlock: blockStart,
             energy: supplyBroker,
-            consumerId: consumerId
+            producerId: consumerId
           });
         }
       });
@@ -160,7 +140,7 @@ discoveryClient.discover('system', 'system', function(err, data) {
         allotedByBroker = receipt.energy;
         brokerPrice = receipt.price;
         console.log('NICE---------',receipt);
-        demandSystem = demandBroker - allotedByBroker;
+        demandSystem = currentConsumption - allotedByBroker;
         // In case the broker allots more than required, consumer should not demand from system
         demandSystem = demandSystem < 0 ? 0 : demandSystem;
         clientNsp.emit('brokerReceipt', {
@@ -176,8 +156,6 @@ discoveryClient.discover('system', 'system', function(err, data) {
         socket.on('production', function(data) {
           currentProduction = data.currentProduction;
           var net = currentProduction - currentConsumption;
-          console.log('-----NET---- ' + net);
-          console.log('--------------------------- '+ net);
           if (net > 0) {
             supplyMargin = net * (supplyMarginPercent/100);
             supplyBroker = net - supplyMargin;
@@ -188,19 +166,6 @@ discoveryClient.discover('system', 'system', function(err, data) {
             supplyBroker = 0;
           }
 
-          // var reserveRate = supplyMarginPercent/100;
-          // console.log('rate', supplyMarginPercent, 'percentage', reserveRate)
-          
-          // var netConsumption = currentConsumption - currentProduction;
-          // console.log(netConsumption)
-
-          // if (netConsumption > 0) {
-          //   demandBroker = netConsumption;
-          //   supplyBroker = 0;
-          // } else {
-          //   demandBroker = 0;
-          //   supplyBroker = Math.abs(netConsumption)-(Math.abs(netConsumption)*reserveRate)
-          // }
         });
       });
 

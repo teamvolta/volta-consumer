@@ -62,7 +62,7 @@ angular.module('consumer.directives', [])
             }
           },
           series: [{
-            name:'Energy Usage',
+            name:'Energy Consumption',
             data: (function () {
               var data = [];
               if (Socket.storage.length) {
@@ -360,7 +360,7 @@ angular.module('consumer.directives', [])
             }
           },
           series: [{
-            name:'Production Reserve',
+            name:'Reserve',
             data: (function () {
               var data = [];
               if (Socket.storage.length >=9) {
@@ -379,7 +379,7 @@ angular.module('consumer.directives', [])
             pointInterval: 720000 // 12 minutes
           },
           {
-            name:'Production Supply to Broker',
+            name:'Supply to Broker',
             data: (function () {
               var data = [];
               if (Socket.storage.length >=9) {
