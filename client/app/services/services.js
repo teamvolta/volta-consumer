@@ -1,5 +1,5 @@
 angular.module('consumer.services', [])
-  .factory('Socket', function ($rootScope) {
+  .factory('Socket', function () {
     var socket = io.connect('http://localhost:8002/client');
     var dataCallbacks = {};
     var brokerReceiptCallbacks = {};
@@ -75,3 +75,19 @@ angular.module('consumer.services', [])
       }
     }
   })
+
+  .factory('Appliance', function() {
+    var applianceStates = {
+      car: false,
+      tv: false,
+      refrigerator: false,
+      laundry: false
+    };
+
+    return {
+      applianceStates: applianceStates,
+      changeState: function(appliance) {
+      applianceStates[appliance] = !applianceStates[appliance];
+      }
+    };
+  });

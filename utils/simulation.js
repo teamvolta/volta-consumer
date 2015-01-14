@@ -11,12 +11,12 @@ var simulation = function(config) {
 simulation.prototype.bid = function(data, demandSystem, startTime, min, max) {
   var blockDuration = data.blockDuration;
   this.bidTime = Date.now() + blockDuration; // UTC date
-  var a = startTime;
+  var simulateTime = startTime;
   this.changedConsumption = true;
   var expected = this.consumption;
   for(var i = 1000; i <= blockDuration; i+=1000) {
-    a -= 1000;
-    expected = this.timeBasedChange(expected, a, min, max);
+    simulateTime -= 1000;
+    expected = this.timeBasedChange(expected, simulateTime, min, max);
   }
 
   this.expectedConsumption = expected;
@@ -79,5 +79,10 @@ simulation.prototype.timeBasedChange = function(number, startTime, min, max) {
     return number;
   }
 };
+
+simulation.prototype.changeConsumption = function (newConsumption) {
+  this.consumption = newConsumption;
+  this.expectedConsumption = newConsumption;
+}
 
 module.exports = simulation;

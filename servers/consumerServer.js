@@ -8,7 +8,6 @@ var app = express();
 // Setup server.
 var server = require('http').Server(app);
 server.listen(config.port);
-console.log('consumer consumption server listening on port ' + config.port);
 
 var io;
 var doneDiscovering = false;
@@ -31,6 +30,7 @@ var supplyMarginPercent = config.supplyMargin;
 var systemPrice = 0;
 var brokerPrice = 0;
 var supplyMargin = 0;
+var applianceUse = 0;
   
 var discoveryClient = new (require('../utils/discoverClient'))(config);
 discoveryClient.register();
@@ -73,11 +73,6 @@ discoveryClient.discover('system', 'system', function(err, data) {
 
       // System
 
-      // Receive time-slot and duration from system operator to send bids
-      // {
-      //   timeslot: UTC ms,
-      //   duration: ms
-      // }
       system.on('startBidding', function (data) {
         system.emit('bid', {
           // Better name for 'data' property
@@ -106,7 +101,7 @@ discoveryClient.discover('system', 'system', function(err, data) {
           simulationStartTime = Date.now();
         }
         currentConsumption = simulation.currentConsumption(simulationStartTime, minConsumption, maxConsumption);
-        // console.log('currentConsumption ' + currentConsumption, 'currentProduction ' + currentProduction);
+        console.log('currentConsumption ' + currentConsumption, 'currentProduction ' + currentProduction);
         system.emit('consume', {
           currentConsumption: currentConsumption,
           consumerId: consumerId
@@ -202,13 +197,25 @@ discoveryClient.discover('system', 'system', function(err, data) {
 
          socket.on('applianceEngaged', function (data) {
           console.log('appliance changes received', data);
-          var netApplianceUse = 0;
+          var incoming = 0;
           for (var appliance in data) {
             if (data.hasOwnProperty(appliance)) {
-              netApplianceUse += data[appliance];
+              incoming += data[appliance];
             }
           } 
-          currentConsumption += netApplianceUse;
+          var diff = applianceUse - incoming;
+          applianceUse = incoming;
+          if(diff < 0) {
+            currentConsumption += Math.abs(diff);
+            simulation.changeConsumption(currentConsumption);
+            if(currentConsumption > maxConsumption) {
+              var increaseMaxBy = currentConsumption - maxConsumption;
+              maxConsumption += increaseMaxBy;
+            }
+          } else {
+            currentConsumption -= diff;
+            simulation.changeConsumption(currentConsumption);
+          }
         });
 
 
