@@ -216,11 +216,24 @@ discoveryClient.discover('system', 'system', function(err, data) {
         }, 1000);
 
         socket.on('configChanges', function (data) {
-          console.log('Changes received', data);
+          console.log('config changes received', data);
           minConsumption = data.minConsumption;
           maxConsumption = data.maxConsumption;
           supplyMarginPercent = data.supplyMarginPercent;
         });
+
+         socket.on('applianceEngaged', function (data) {
+          console.log('appliance changes received', data);
+          var netApplianceUse = 0;
+          for (var appliance in data) {
+            if (data.hasOwnProperty(appliance)) {
+              netApplianceUse += data[appliance];
+            }
+          } 
+          currentConsumption += netApplianceUse;
+        });
+
+
       });
 
     });
