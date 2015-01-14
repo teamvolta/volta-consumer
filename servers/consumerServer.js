@@ -8,7 +8,6 @@ var app = express();
 // Setup server.
 var server = require('http').Server(app);
 server.listen(config.port);
-console.log('consumer consumption server listening on port ' + config.port);
 
 var io;
 var doneDiscovering = false;
@@ -204,21 +203,17 @@ discoveryClient.discover('system', 'system', function(err, data) {
               incoming += data[appliance];
             }
           } 
-          console.log('----------------incoming------------------------'+incoming);
           var diff = applianceUse - incoming;
           applianceUse = incoming;
           if(diff < 0) {
             currentConsumption += Math.abs(diff);
             simulation.changeConsumption(currentConsumption);
-            console.log('---------------INCREASE-------------------------'+currentConsumption);
             if(currentConsumption > maxConsumption) {
               var increaseMaxBy = currentConsumption - maxConsumption;
               maxConsumption += increaseMaxBy;
             }
           } else {
             currentConsumption -= diff;
-            console.log('----------------diff------------------------'+diff);
-            console.log('----------------DECREASE------------------------'+currentConsumption);
             simulation.changeConsumption(currentConsumption);
           }
         });
