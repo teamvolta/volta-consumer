@@ -20,6 +20,13 @@ angular.module('controls', [])
       laundry: 9
     }
 
+    $scope.use = {
+      car: false,
+      tv: false,
+      refrigerator: false,
+      laundry: false
+    }
+
     $scope.submitMin = function() {
       var data = $scope.control;
       if (data.maxConsumption === '') {
@@ -72,29 +79,43 @@ angular.module('controls', [])
     }
 
     $scope.controlCar = function() {
-      console.log("car")
-      $(this).css('background-color',"#ccc")
-      var data = $scope.appliance;
-      Socket.emit('appChanges', data);
+      $scope.use.car = !$scope.use.car;
+      var data = {};
+      for (var key in $scope.use) {
+        data[key] = $scope.use[key] ? $scope.appliance[key] : 0;
+      }
+      Socket.emit('applianceEngaged', data);
 
     }
 
     $scope.controlTV = function() {
-      alert("tv")
-      var data = $scope.appliance
+      $scope.use.tv = !$scope.use.tv;
+      var data = {};
+      for (var key in $scope.use) {
+        data[key] = $scope.use[key] ? $scope.appliance[key] : 0;
+      }
+      Socket.emit('applianceEngaged', data);
 
     }
 
     $scope.controlRefrigerator = function() {
-      alert("ice")
-      var data = $scope.appliance
+      $scope.use.refrigerator = !$scope.use.refrigerator;
+      var data = {};
+      for (var key in $scope.use) {
+        data[key] = $scope.use[key] ? $scope.appliance[key] : 0;
+      }
+      Socket.emit('applianceEngaged', data);
 
     }
 
     $scope.controlLaundry = function() {
-      alert("wash")
-      var data = $scope.appliance
+      $scope.use.laundry = !$scope.use.laundry;
+      var data = {};
+      for (var key in $scope.use) {
+        data[key] = $scope.use[key] ? $scope.appliance[key] : 0;
+      }
+      Socket.emit('applianceEngaged', data);
 
     }
-
+    
   }]);

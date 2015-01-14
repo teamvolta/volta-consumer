@@ -235,9 +235,15 @@ discoveryClient.discover('system', 'system', function(err, data) {
           supplyMarginPercent = data.supplyMarginPercent;
         });
 
-         socket.on('appChanges', function (data) {
+         socket.on('applianceEngaged', function (data) {
           console.log('appliance changes received', data);
-
+          var netApplianceUse = 0;
+          for (var appliance in data) {
+            if (data.hasOwnProperty(appliance)) {
+              netApplianceUse += data[appliance];
+            }
+          } 
+          currentConsumption += netApplianceUse;
         });
 
 
