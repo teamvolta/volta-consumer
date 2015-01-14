@@ -1,5 +1,5 @@
 angular.module('controls', [])
-  .controller('controlsController', ['$scope', 'Socket', '$state', function($scope, Socket, $state){
+  .controller('controlsController', ['$scope', 'Socket', 'Appliance', '$state', function($scope, Socket, Appliance, $state){
 
     Socket.on('controlView', function(data) {
       $scope.$apply(function(){
@@ -20,12 +20,7 @@ angular.module('controls', [])
       laundry: 9
     }
 
-    $scope.use = {
-      car: false,
-      tv: false,
-      refrigerator: false,
-      laundry: false
-    }
+    $scope.use = Appliance.applianceStates;
 
     $scope.submitMin = function() {
       var data = $scope.control;
@@ -79,40 +74,44 @@ angular.module('controls', [])
     }
 
     $scope.controlCar = function() {
-      $scope.use.car = !$scope.use.car;
+      Appliance.changeState('car');
+      $scope.use.car = Appliance.applianceStates.car;
       var data = {};
-      for (var key in $scope.use) {
-        data[key] = $scope.use[key] ? $scope.appliance[key] : 0;
+      for (var key in Appliance.applianceStates) {
+        data[key] = Appliance.applianceStates[key] ? $scope.appliance[key] : 0;
       }
       Socket.emit('applianceEngaged', data);
 
     }
 
     $scope.controlTV = function() {
-      $scope.use.tv = !$scope.use.tv;
+       Appliance.changeState('tv');
+      $scope.use.tv = Appliance.applianceStates.tv;
       var data = {};
-      for (var key in $scope.use) {
-        data[key] = $scope.use[key] ? $scope.appliance[key] : 0;
+      for (var key in Appliance.applianceStates) {
+        data[key] = Appliance.applianceStates[key] ? $scope.appliance[key] : 0;
       }
       Socket.emit('applianceEngaged', data);
 
     }
 
     $scope.controlRefrigerator = function() {
-      $scope.use.refrigerator = !$scope.use.refrigerator;
+       Appliance.changeState('refrigerator');
+      $scope.use.refrigerator = Appliance.applianceStates.refrigerator;
       var data = {};
-      for (var key in $scope.use) {
-        data[key] = $scope.use[key] ? $scope.appliance[key] : 0;
+      for (var key in Appliance.applianceStates) {
+        data[key] = Appliance.applianceStates[key] ? $scope.appliance[key] : 0;
       }
       Socket.emit('applianceEngaged', data);
 
     }
 
     $scope.controlLaundry = function() {
-      $scope.use.laundry = !$scope.use.laundry;
+       Appliance.changeState('laundry');
+      $scope.use.laundry = Appliance.applianceStates.laundry;
       var data = {};
-      for (var key in $scope.use) {
-        data[key] = $scope.use[key] ? $scope.appliance[key] : 0;
+      for (var key in Appliance.applianceStates) {
+        data[key] = Appliance.applianceStates[key] ? $scope.appliance[key] : 0;
       }
       Socket.emit('applianceEngaged', data);
 
