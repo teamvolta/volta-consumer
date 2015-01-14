@@ -1,1 +1,23 @@
 /*add custom styles*/
+
+.page-header {
+  text-align: center;
+}
+
+.controlNum {
+  text-align: center;
+}
+
+.appliance {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.appliance img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 150px;
+  width: 150px;
+}
