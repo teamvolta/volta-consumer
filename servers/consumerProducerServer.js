@@ -21,6 +21,9 @@ discoveryClient.discover('consumer', 'consumer', function(err, data) {
 
   // To change production ouput
   setInterval(function() {
+    if(Date.now() > simulationStartTime + config.simulationTime) {
+          simulationStartTime = Date.now();
+    }
     currentProduction = simulation.timeBasedChange(currentProduction, simulationStartTime, config.min, config.max);
   }, 1000); 
 

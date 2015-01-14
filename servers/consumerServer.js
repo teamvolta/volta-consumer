@@ -188,17 +188,6 @@ discoveryClient.discover('system', 'system', function(err, data) {
             supplyBroker = 0;
           }
 
-          // currentProduction = 85;
-          // var reserveRate = supplyMarginPercent/100;
-          // var netConsumption = currentConsumption - currentProduction;
-          
-          // if (netConsumption > 0) {
-          //   demandBroker = netConsumption;
-          //   supplyBroker = 0;
-          // } else {
-          //   demandBroker = 0;
-          //   supplyBroker = Math.abs(netConsumption)-Math.abs(netConsumption*reserveRate)
-          // }
         });
       });
 
