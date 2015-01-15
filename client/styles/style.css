@@ -8,10 +8,16 @@
 .controlNum {
   text-align: center;
   font-weight: normal;
+  margin-top: 20px;
+  font-family: sans-serif;
 }
 
-.margin {
-  margin-top: 40px;
+.currCons {
+  font-size: 19px;
+}
+
+.currCons span {
+  color: rgb(45, 83, 172);
 }
 
 .appliance {
