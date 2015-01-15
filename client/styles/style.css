@@ -33,3 +33,7 @@
   height: 150px;
   width: 150px;
 }
+
+.tile {
+  min-height: 45px !important;
+}
