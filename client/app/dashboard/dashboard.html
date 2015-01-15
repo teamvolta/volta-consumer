@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-4 col-md-6">
+      <div class="col-lg-4 col-md-6 tile">
         <div class="panel panel-primary">
           <div class="panel-heading">
             <div class="row">
@@ -35,8 +35,8 @@
               </div>
             </div>
             <div class="row text-center">
-              C(KW): {{data.currentConsumption | number:2}}
-              P(KW): {{data.currentProduction | number:2}}
+              C(kWh): {{data.currentConsumption | number:2}}
+              P(kWh): {{data.currentProduction | number:2}}
             </div>
           </div>
           <a ui-sref="usage">
@@ -58,8 +58,8 @@
               </div>
             </div>
             <div class="row text-center">
-              Rate: {{data.systemPrice | number:2}}
-              Rate: {{data.brokerPrice | number:2}}
+              Grid: ${{data.systemPrice | number:2}}
+              Broker: ${{data.brokerPrice | number:2}}
             </div>
           </div>
           <a ui-sref="market">

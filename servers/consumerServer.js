@@ -56,7 +56,6 @@ discoveryClient.discover('system', 'system', function(err, data) {
           accountIp = value.ip;
         }
       });
-      console.log('______________----------__________'+accountIp);
       account = require('socket.io-client')(accountIp + '/subscriptions');
       account.on('connect', function () {
         console.log('Connected to account!');

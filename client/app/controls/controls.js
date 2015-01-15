@@ -31,7 +31,7 @@ angular.module('controls', [])
         data.supplyMarginPercent = +$scope.data.supplyMarginPercent.toFixed(4);
       }
       if (data.minConsumption >= data.maxConsumption) {
-        alert('Minimum consumption level must be below maximum consumption level');
+        alert('Minimum usage level must be less than maximum usage level');
         return;
       }
       Socket.emit('configChanges', data);
@@ -47,7 +47,7 @@ angular.module('controls', [])
         data.supplyMarginPercent = +$scope.data.supplyMarginPercent.toFixed(4);
       }
       if (data.minConsumption >= data.maxConsumption) {
-        alert('Minimum consumption level must be below maximum consumption level');
+        alert('Maximum usage level must be greater than minimum usage level');
         return;
       }
       Socket.emit('configChanges', data);
@@ -66,7 +66,7 @@ angular.module('controls', [])
         data.maxConsumption = $scope.data.maxConsumption;
       }
       if (data.minConsumption >= data.maxConsumption) {
-        alert('Minimum consumption level must be below maximum consumption level');
+        alert('Reserve percentage must be between 0 - 100 %');
         return;
       }
       Socket.emit('configChanges', data);

@@ -15,15 +15,15 @@
             <label for="minAmt">Minimum Usage Amount</label>
             <input type="number" name="minAmt" ng-model="control.minConsumption" class="form-control" min="1" max="100" autofocus integer required>
 
-            <p class="help-block">Valid Range is 1 to 100 and less than Maximum Usage Amount</p>
-            <p class="help-block" ng-show="controlMinCons.minAmt.$error.required && !controlMinCons.minAmt.$pristine">Amount required (Example: 10)</p>
+            <p class="help-block">1 - 100</p>
+            <p class="help-block" ng-show="controlMinCons.minAmt.$error.required && !controlMinCons.minAmt.$pristine">Input a number</p>
             <p class="help-block" ng-show="controlMinCons.minAmt.$error.integer">Invalid integer</p>
             <p class="help-block" ng-show="controlMinCons.minAmt.$error.min || controlMinCons.minAmt.$error.max">Invalid range</p>
           </div>
 
           <button type="submit" class="btn btn-default" ng-disabled="controlMinCons.$invalid">Submit</button>
           <button type="reset" class="btn btn-default">Reset</button><br/>
-          <h4 class="controlNum margin">{{data.minConsumption | number:2}} kWh</h4>
+          <h4 class="controlNum">{{data.minConsumption | number:2}} kWh</h4>
         </form>
       </div>
       <!-- /column -->
@@ -35,10 +35,10 @@
           <div class="form-group" ng-class="{ 'has-error' : controlMaxCons.maxAmt.$invalid && !controlMaxCons.maxAmt.$pristine }">
 
             <label for="maxAmt">Maximum Usage Amount</label>
-            <input type="number" name="maxAmt" ng-model="control.maxConsumption" class="form-control" min="1" max="100" required>
+            <input type="number" name="maxAmt" ng-model="control.maxConsumption" class="form-control" min=data.minConsumption required>
 
-            <p class="help-block">Valid Range is 1 to 100 and greater than Minimum Usage Amount</p>
-            <p class="help-block" ng-show="controlMaxCons.maxAmt.$error.required && !controlMaxCons.maxAmt.$pristine">Amount required (Example: 10)</p>
+            <p class="help-block">Should be greater than minimum usage</p>
+            <p class="help-block" ng-show="controlMaxCons.maxAmt.$error.required && !controlMaxCons.maxAmt.$pristine">Input a number</p>
             <p class="help-block" ng-show="controlMaxCons.maxAmt.$error.integer">Invalid integer</p>
             <p class="help-block" ng-show="controlMaxCons.maxAmt.$error.min || controlMaxCons.maxAmt.$error.max">Invalid range</p>
           </div>
@@ -58,41 +58,42 @@
             <label for="rate">Production Reserve Rate</label>
             <input type="number" name="rate" ng-model="control.supplyMarginPercent" class="form-control" min="0" max="100" required>
 
-            <p class="help-block">Please enter 0 to 100 (percentage to be reserved)</p>
+            <p class="help-block">0 - 100 % of net of consumption and production</p>
             <p class="help-block" ng-show="controlReserve.rate.$error.required && !controlReserve.rate.$pristine">Amount Required (Example: 5)</p>
             <p class="help-block" ng-show="controlReserve.rate.$error.min || controlReserve.rate.$error.max">Invalid range</p>
           </div>
           <button type="submit" class="btn btn-default" ng-disabled="controlReserve.$invalid">Submit</button>
           <button type="reset" class="btn btn-default">Reset</button><br/>
-          <h4 class="controlNum margin">{{data.supplyMarginPercent | number:2}}%</h4>
+          <h4 class="controlNum">{{data.supplyMarginPercent | number:2}}%</h4>
         </form>
       </div>
       <!-- /column -->
     </div>
     <div style="border-bottom: 1px solid #eeeeee;"></div>
     <div class="row">
-      <h3 class="controlNum">Current Consumption - {{data.currentConsumption | number:2}} kWh</h3>
-      <!-- <h3 class="controlNum">{{data.currentConsumption | number:2}} kWh</h3> -->
-    <div>
+      <h3 class="controlNum currCons">Current Consumption - <span class="currColor">{{data.currentConsumption | number:2}}</span> kWh</h3>
+    </div>
     <!-- /row -->
+    <p>
+    </p>
     <p>
     </p>
     <div class="row">
       <div class="col-md-3">
-        <h4 ng-show="use.car" class="controlNum" style="color: #ff1a00">ON</h4>
-        <h4 ng-hide="use.car" class="controlNum" style="color: #39ff14">OFF</h4>
+        <h4 ng-show="use.car" class="controlNum" style="color: #39ff14">ON</h4>
+        <h4 ng-hide="use.car" class="controlNum" style="color: #ff1a00">OFF</h4>
       </div>
       <div class="col-md-3">
-        <h4 ng-show="use.tv" class="controlNum" style="color: #ff1a00">ON</h4>
-        <h4 ng-hide="use.tv" class="controlNum" style="color: #39ff14">OFF</h4>
+        <h4 ng-show="use.tv" class="controlNum" style="color: #39ff14">ON</h4>
+        <h4 ng-hide="use.tv" class="controlNum" style="color: #ff1a00">OFF</h4>
       </div>
       <div class="col-md-3">
-        <h4 ng-show="use.refrigerator" class="controlNum" style="color: #ff1a00">ON</h4>
-        <h4 ng-hide="use.refrigerator" class="controlNum" style="color: #39ff14">OFF</h4>
+        <h4 ng-show="use.refrigerator" class="controlNum" style="color: #39ff14">ON</h4>
+        <h4 ng-hide="use.refrigerator" class="controlNum" style="color: #ff1a00">OFF</h4>
       </div>
       <div class="col-md-3">
-        <h4 ng-show="use.laundry" class="controlNum" style="color: #ff1a00">ON</h4>
-        <h4 ng-hide="use.laundry" class="controlNum" style="color: #39ff14">OFF</h4>
+        <h4 ng-show="use.laundry" class="controlNum" style="color: #39ff14">ON</h4>
+        <h4 ng-hide="use.laundry" class="controlNum" style="color: #ff1a00">OFF</h4>
       </div>
     </div>
     <div class="row">
