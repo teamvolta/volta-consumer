@@ -1,11 +1,17 @@
 /*add custom styles*/
 
-.page-header {
+.smartControl {
   text-align: center;
+  font-weight: normal;
 }
 
 .controlNum {
   text-align: center;
+  font-weight: normal;
+}
+
+.margin {
+  margin-top: 40px;
 }
 
 .appliance {
