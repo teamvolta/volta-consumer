@@ -49,7 +49,15 @@ discoveryClient.discover('system', 'system', function(err, data) {
     });
     
     discoveryClient.discover('system', 'accounting', function(err, data) {
-      account = require('socket.io-client')(JSON.parse(data.body)[0].ip + '/subscriptions');
+      var accountIp;
+      var parsed = JSON.parse(data.body);
+      parsed.forEach(function(value) {
+        if(value.id === '5') {
+          accountIp = value.ip;
+        }
+      });
+      console.log('______________----------__________'+accountIp);
+      account = require('socket.io-client')(accountIp + '/subscriptions');
       account.on('connect', function () {
         console.log('Connected to account!');
         account.emit('subscribe', {
