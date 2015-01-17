@@ -1,16 +1,14 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-var config = require('../config')[process.env.NODE_ENV]['consumerProducer'];
+var config = require('./config')[process.env.NODE_ENV];
 var simulation = new (require('../utils/simulation'))(config);
 var app = require('express')();
 var server = require('http').Server(app);
 server.listen(config.port);
 console.log('consumer production server listening on port ' + config.port);
 
-var discoveryClient = new (require('../utils/discoverClient'))(config);
-discoveryClient.discover('consumer', 'consumer', function(err, data) {
-  
-  var socket = require('socket.io-client')(JSON.parse(data.body)[0].ip + '/production');
+
+  var socket = require('socket.io-client')(config.consumerIp + '/production');
   var simulationStartTime = Date.now();
 
   socket.on('connect', function() {
@@ -32,4 +30,3 @@ discoveryClient.discover('consumer', 'consumer', function(err, data) {
       currentProduction: currentProduction
     });
   }, 1000);
-});
