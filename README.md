@@ -32,7 +32,7 @@ Also see:
 
 ##Development
 
-#Installing Dependencies
+###Installing Dependencies
 
 From within the root directory:
 
@@ -43,7 +43,7 @@ bower install
 
 ```
 
-##Distributive System Tool
+###Distributive System Tool
 The Volta Energy system requires running multiple servers for each [consumer](https://github.com/teamvolta/volta-consumer), [system](https://github.com/teamvolta/volta-system) and [producer](https://github.com/teamvolta/volta-producer) model. To assist running multiple servers simultaneously, please refer to [Distributive System Tool](https://github.com/teamvolta/distmanager).
 
 ### Roadmap
