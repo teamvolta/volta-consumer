@@ -1,5 +1,5 @@
 var Q = require('q');
-var discoveryClient = new (require('../discoverClient'));
+var discoveryClient = new (require('./discoverClient'));
 
 exports.getIp = function(role, subRole, id) {
   var deferred = Q.defer();

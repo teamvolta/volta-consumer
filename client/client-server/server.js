@@ -6,9 +6,9 @@ var app = express();
 var path = require('path');
 
 // Setup middleware
-var clientPath = path.resolve(__dirname, '../client');
-var nodeModulePath = path.resolve(__dirname, '../node_modules');
-var bowerPath = path.resolve(__dirname, '../bower_components');
+var clientPath = path.resolve(__dirname, '../');
+var nodeModulePath = path.resolve(__dirname, '../../node_modules');
+var bowerPath = path.resolve(__dirname, '../../bower_components');
 
 app.use(express.static(clientPath));
 app.use(express.static(bowerPath));
