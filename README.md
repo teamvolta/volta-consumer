@@ -8,8 +8,8 @@ A smart grid management system with dynamic energy pricing that enables customer
 
 Also see: 
 
-*[Volta Energy-Producer](https://github.com/teamvolta/volta-producer)
-*[Volta Energy-System](https://github.com/teamvolta/volta-system)
+* [Volta Energy-Producer](https://github.com/teamvolta/volta-producer)
+* [Volta Energy-System](https://github.com/teamvolta/volta-system)
 
 ##Table of Contents
 
@@ -22,10 +22,10 @@ Also see:
 
 ##Team
 
-*Product Manager: [Anastasia Zotova](https://github.com/azotova)
-*Technical Lead: [John Tan](https://github.com/johnttan)
-*Scrum Master: [Michael Lom](https://github.com/mlom)
-*Development Team: [Nikhil Ballaney](https://github.com/NBallaney)
+* Product Manager: [Anastasia Zotova](https://github.com/azotova)
+* Technical Lead: [John Tan](https://github.com/johnttan)
+* Scrum Master: [Michael Lom](https://github.com/mlom)
+* Development Team: [Nikhil Ballaney](https://github.com/NBallaney)
 
 ##Requirements
 * Node.js
