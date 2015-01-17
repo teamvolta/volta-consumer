@@ -160,7 +160,7 @@ generalHelpers.getIp('system', 'system', '10')
 
 
 
-    // Consumer Production 
+    // Consumer Production -----------------------
     productionNsp.on('connection', function (socket) {
       socket.on('production', function(data) {
         currentProduction = data.currentProduction;
@@ -202,12 +202,14 @@ generalHelpers.getIp('system', 'system', '10')
         });
       }, 1000);
 
+
       socket.on('configChanges', function (data) {
         console.log('config changes received', data);
         minConsumption = data.minConsumption;
         maxConsumption = data.maxConsumption;
         supplyMarginPercent = data.supplyMarginPercent;
       });
+
 
        socket.on('applianceEngaged', function (data) {
         console.log('appliance changes received', data);
