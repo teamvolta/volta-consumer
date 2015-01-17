@@ -2,6 +2,7 @@
 exports.development = {
 
   port: 8006,
+  consumerIp: 'http://localhost:8002',
   discoveryIp: 'http://104.40.181.157:8001',
 
   // For simulation
