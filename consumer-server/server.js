@@ -11,8 +11,6 @@ var app = express();
 var server = require('http').Server(app);
 server.listen(config.port);
 
-var io;
-var doneDiscovering = false;
 var system;
 var broker;
 var account;
@@ -34,6 +32,7 @@ var brokerPrice = 0;
 var supplyMargin = 0;
 var applianceUse = 0;
 
+
 var discoveryClient = new (require('../utils/discoverClient'))();
 discoveryClient.register(config);
 
@@ -46,6 +45,7 @@ generalHelpers.getIp('system', 'system', '10')
     });
     return generalHelpers.getIp('system', 'broker', '25');
   })
+
   .then(function(ip) {
     broker = require('socket.io-client')(ip + '/market');
     broker.on('connect', function () {
@@ -53,6 +53,7 @@ generalHelpers.getIp('system', 'system', '10')
     });
     return generalHelpers.getIp('system', 'accounting', '5');
   })
+
   .then(function(ip) {
     account = require('socket.io-client')(ip + '/subscriptions');
     account.on('connect', function () {
@@ -67,20 +68,21 @@ generalHelpers.getIp('system', 'system', '10')
       });
     });
   })
-  .then(function() {
 
-    io = require('socket.io')(server);
+  .then(function() {
+    var io = require('socket.io')(server);
     var productionNsp = io.of('/production');
     var clientNsp = io.of('/client');
 
-    console.log('NODE_ENV', process.env.NODE_ENV); //to check whether it's been set to production when deployed
+    //to check whether it's been set to production when deployed
+    console.log('NODE_ENV', process.env.NODE_ENV);
 
 
-    // System
+
+    // SYSTEM --------------------------------------------------------
 
     system.on('startBidding', function (data) {
       system.emit('bid', {
-        // Better name for 'data' property
         consumerId: consumerId,
         data: simulation.bid(data, demandSystem, simulationStartTime, minConsumption, maxConsumption)
       });
@@ -114,7 +116,9 @@ generalHelpers.getIp('system', 'system', '10')
     }, 1000);
 
 
-    // Broker 
+
+
+    // Broker ------------------------------------------
 
     broker.on('startCollection', function (timeBlock) {
       var blockStart = timeBlock.blockStart;
@@ -134,7 +138,9 @@ generalHelpers.getIp('system', 'system', '10')
     });
 
 
-    // Accounting 
+
+
+    // Accounting ---------------------------------
 
     account.on('transaction', function(receipt) {
       allotedByBroker = receipt.energy;
@@ -150,6 +156,9 @@ generalHelpers.getIp('system', 'system', '10')
       seller: receipt.seller
      });
     });
+
+
+
 
     // Consumer Production 
     productionNsp.on('connection', function (socket) {
@@ -223,7 +232,8 @@ generalHelpers.getIp('system', 'system', '10')
         }
       });
     });
-
   })
 
-
+  .catch(function(err) {
+    console.error('ERROR!', err);
+  })
