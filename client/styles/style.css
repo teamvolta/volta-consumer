@@ -48,3 +48,9 @@
 .text {
   color: black;
 }
+
+.font {
+  font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-size:2em;
+  margin-top:3em;
+}
