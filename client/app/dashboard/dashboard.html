@@ -8,16 +8,16 @@
     <div class="row">
       <div class="col-lg-4 col-md-6">
         <div class="panel panel-primary box">
-          <div class="panel-heading tile">
-            <div class="row">
-              <div class="col-lg-6 col-lg-offset-3 text-center">
-                <i class="fa fa-sliders fa-5x"></i>
+          <a ui-sref="controls">
+            <div class="panel-heading tile">
+              <div class="row">
+                <div class="col-lg-6 col-lg-offset-3 text-center">
+                  <i class="fa fa-sliders fa-5x color"></i>
+                </div>
+              </div>
+              <div class="row"><br>
               </div>
             </div>
-            <div class="row"><br>
-            </div>
-          </div>
-          <a ui-sref="controls">
             <div class="panel-footer">
               <span class="pull-left text">User Controls</span>
               <div class="clearfix"></div>
@@ -27,18 +27,18 @@
       </div>
       <div class="col-lg-4 col-md-6">
         <div class="panel panel-primary box">
-          <div class="panel-heading tile">
-            <div class="row">
-              <div class="col-lg-6 col-lg-offset-3 text-center">
-                <i class="fa fa-bar-chart-o fa-5x"></i>
+          <a ui-sref="usage">
+            <div class="panel-heading tile">
+              <div class="row">
+                <div class="col-lg-6 col-lg-offset-3 text-center">
+                  <i class="fa fa-bar-chart-o fa-5x color"></i>
+                </div>
+              </div>
+              <div class="row text-center color">
+                C(kWh): {{data.currentConsumption | number:2}}
+                P(kWh): {{data.currentProduction | number:2}}
               </div>
             </div>
-            <div class="row text-center">
-              C(kWh): {{data.currentConsumption | number:2}}
-              P(kWh): {{data.currentProduction | number:2}}
-            </div>
-          </div>
-          <a ui-sref="usage">
             <div class="panel-footer">
               <span class="pull-left text">Usage and Production</span>
               <div class="clearfix"></div>
@@ -50,18 +50,18 @@
     <div class="row">
       <div class="col-lg-4 col-md-6">
         <div class="panel panel-primary box">
-          <div class="panel-heading tile">
-            <div class="row">
-              <div class="col-lg-6 col-lg-offset-3 text-center">
-                <i class="fa fa-usd fa-5x"></i>
+          <a ui-sref="market">
+            <div class="panel-heading tile">
+              <div class="row">
+                <div class="col-lg-6 col-lg-offset-3 text-center">
+                  <i class="fa fa-usd fa-5x color"></i>
+                </div>
+              </div>
+              <div class="row text-center color">
+                Grid: ${{data.systemPrice | number:2}}
+                Broker: ${{data.brokerPrice | number:2}}
               </div>
             </div>
-            <div class="row text-center">
-              Grid: ${{data.systemPrice | number:2}}
-              Broker: ${{data.brokerPrice | number:2}}
-            </div>
-          </div>
-          <a ui-sref="market">
             <div class="panel-footer">
               <span class="pull-left text">Market Data</span>
               <div class="clearfix"></div>
@@ -71,16 +71,16 @@
       </div>
       <div class="col-lg-4 col-md-6">
         <div class="panel panel-primary box">
-          <div class="panel-heading tile">
-            <div class="row">
-              <div class="col-lg-6 col-lg-offset-3 text-center">
-                <i class="fa fa-table fa-5x"></i>
+          <a ui-sref="transactions">
+            <div class="panel-heading tile">
+              <div class="row">
+                <div class="col-lg-6 col-lg-offset-3 text-center">
+                  <i class="fa fa-table fa-5x color"></i>
+                </div>
+              </div>
+              <div class="row"><br/>
               </div>
             </div>
-            <div class="row"><br/>
-            </div>
-          </div>
-          <a ui-sref="transactions">
             <div class="panel-footer">
               <span class="pull-left text">Transaction History</span>
               <div class="clearfix"></div>
