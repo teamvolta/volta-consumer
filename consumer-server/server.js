@@ -5,7 +5,8 @@ var simulation = new (require('./lib/simulation'))(config);
 var generalHelpers = require('./lib/helpers');
 var express = require('express');
 var app = express();
-
+var timer1 = new (require('nanotimer'))();
+var timer2 = new (require('nanotimer'))();
 
 // Setup server.
 var server = require('http').Server(app);
@@ -103,7 +104,7 @@ generalHelpers.getIp('system', 'system', '10')
 
 
     // System admin keeps track of total consumption of all consumers
-    setInterval(function () {
+    var sendConsumption = function () {
       if(Date.now() > simulationStartTime + config.simulationTime) {
         simulationStartTime = Date.now();
       }
@@ -113,7 +114,9 @@ generalHelpers.getIp('system', 'system', '10')
         currentConsumption: currentConsumption,
         consumerId: consumerId
       });
-    }, 1000);
+    };
+
+    timer1.setInterval(sendConsumption,'', '1s');
 
 
 
@@ -184,7 +187,7 @@ generalHelpers.getIp('system', 'system', '10')
     clientNsp.on('connection', function (socket) {
       console.log('Connected with client!');
 
-      setInterval(function() {
+      var sendData = function() {
         socket.emit('data', {
           consumerId: consumerId,
           minConsumption: minConsumption,
@@ -200,8 +203,9 @@ generalHelpers.getIp('system', 'system', '10')
           brokerPrice: brokerPrice,
           supplyMarginPercent: supplyMarginPercent
         });
-      }, 1000);
+      };
 
+      timer2.setInterval(sendData,'', '1200m');
 
       socket.on('configChanges', function (data) {
         console.log('config changes received', data);

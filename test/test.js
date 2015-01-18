@@ -1,6 +1,6 @@
 var expect = require('chai').expect;
 var stubs = require('./stubs.js').development;
-var simulation = require('../lib/simulation');
+var simulation = new (require('../consumer-server/lib/simulation'))(stubs);
 
 describe('test for tests', function(){ //mock test, to test gulp and deployment
   it('tests should run', function(){
@@ -9,6 +9,11 @@ describe('test for tests', function(){ //mock test, to test gulp and deployment
   });
 });
 
-describe('Simulation works properly', function() {
-  it('')
-})
+describe('Simulation', function() {
+  it('should not let a number go beyond the min and max values', function() {
+    expect(simulation.checkForMinMax(5,3,6)).to.equal(5);
+    expect(simulation.checkForMinMax(2,3,6)).to.be.within(3,6);
+    expect(simulation.checkForMinMax(7,3,6)).to.be.within(3,6);
+  });
+
+});
