@@ -9,6 +9,6 @@ if (process.env.SITE_TYPE === "backend") {
 } else if (process.env.SITE_TYPE === "frontend") {
   console.log("choosing frontend run script");
   spawn('node', ['client/client-server/server.js']);
-else {
+} else {
   console.log("SITE_TYPE variable should be set to backend, producer or frontend");
 }
