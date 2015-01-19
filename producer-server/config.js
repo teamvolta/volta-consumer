@@ -13,7 +13,7 @@ exports.development = {
   simulationTime: 60 * 1000
 };
 
-var producerProd = exports.development;
+var producerDev = exports.development;
 // When consumption crosses min/max
 producerDev.resetByPercentage = (producerDev.max - producerDev.min) / 1000;
 producerDev.minorDeviation = producerDev.majorDeviation/3;
