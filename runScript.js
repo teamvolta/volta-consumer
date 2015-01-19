@@ -7,7 +7,9 @@ if (process.env.SITE_TYPE === "backend") {
 } else if (process.env.SITE_TYPE === "producer") {
   console.log("choosing producer run script");
   console.log(__dirname);
-  spawn('node', ['producer-server/server.js']);
+  var path = __dirname + '\\producer-server\\server.js'
+  console.log("path", path);
+  spawn('node', [path]);
 } else if (process.env.SITE_TYPE === "frontend") {
   console.log("choosing frontend run script");
   console.log(__dirname);

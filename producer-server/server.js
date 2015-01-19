@@ -1,3 +1,4 @@
+console.log("started consumer production server");
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var config = require('./config')[process.env.NODE_ENV];
