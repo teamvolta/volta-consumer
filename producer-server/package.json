@@ -1,0 +1,13 @@
+{
+  "name": "volta-consumer-producer",
+  "version": "1.0.0",
+  "description": "Consumer node for Volta smart grid",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.10.6",
+    "request": "^2.51.0",
+    "socket.io-client": "^1.2.1"
+  }
+}
