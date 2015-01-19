@@ -8,7 +8,6 @@ var server = require('http').Server(app);
 server.listen(config.port);
 console.log('consumer production server listening on port ' + config.port);
 
-
   var socket = require('socket.io-client')(config.consumerIp + '/production');
   var simulationStartTime = Date.now();
 
