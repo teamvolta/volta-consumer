@@ -16,8 +16,9 @@ console.log('consumer production server listening on port ' + config.port);
   });
 
   var currentProduction = config.min;
-
+  console.log("current", currentProduction);
   // To change production ouput
+
   setInterval(function() {
     if(Date.now() > simulationStartTime + config.simulationTime) {
           simulationStartTime = Date.now();
