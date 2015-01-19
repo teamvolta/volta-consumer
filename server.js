@@ -1,8 +1,8 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-var config = require('./config')[process.env.NODE_ENV];
-var simulation = new (require('./lib/simulation'))(config);
-var generalHelpers = require('./lib/helpers');
+var config = require('./consumer-server/config')[process.env.NODE_ENV];
+var simulation = new (require('./consumer-server/lib/simulation'))(config);
+var generalHelpers = require('./consumer-server/lib/helpers');
 var express = require('express');
 var app = express();
 
@@ -33,7 +33,7 @@ var supplyMargin = 0;
 var applianceUse = 0;
 
 
-var discoveryClient = new (require('./lib/discoverClient'))();
+var discoveryClient = new (require('./consumer-server/lib/discoverClient'))();
 discoveryClient.register(config);
 
 generalHelpers.getIp('system', 'system', '10')
