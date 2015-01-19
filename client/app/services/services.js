@@ -1,6 +1,7 @@
 angular.module('consumer.services', [])
-  .factory('Socket', function () {
-    var socket = io.connect('http://localhost:8002/client');
+  .factory('Socket', function (backend) {
+    var api = backend + '/client';
+    var socket = io.connect(api);
     var dataCallbacks = {};
     var brokerReceiptCallbacks = {};
     var systemReceiptCallbacks = {};

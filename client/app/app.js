@@ -7,7 +7,8 @@ angular.module('consumer',[
   'usage',
   'market',
   'transactions',
-  'ui.router'
+  'ui.router',
+  'consumer.config'
 ])
 .config([
   '$stateProvider',
