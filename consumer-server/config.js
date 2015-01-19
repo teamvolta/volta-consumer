@@ -42,14 +42,14 @@ exports.production = {
   subRole: 'consumer',
 
   // For simulation
-  min: process.env.min,  
-  max: process.env.max,
-  majorDeviation: process.env.majorDeviation,
+  min: Number(process.env.min),  
+  max: Number(process.env.max),
+  majorDeviation: Number(process.env.majorDeviation),
   // In ms. Should be same as consumer's producer!
   simulationTime: 60 * 1000, 
   // % of net of consumption and production beyond which consumer is ready to sell 
-  supplyMargin: process.env.supplyMargin, 
-  bidPrice: process.env.bidPrice
+  supplyMargin: Number(process.env.supplyMargin), 
+  bidPrice: Number(process.env.bidPrice)
 };
 
 var consumerProd = exports.production;
