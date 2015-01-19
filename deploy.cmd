@@ -9,7 +9,7 @@ IF "%SITE_TYPE%" == "backend" (
     IF "%SITE_TYPE%" == "producer" (
       bash deployprod.sh
     ) ELSE (
-      echo You have to set SITE_TYPE setting to either "backend" or "frontend"
+      echo You have to set SITE_TYPE setting to either "backend", "producer" or "frontend"
       exit /b 1
     )
   )
