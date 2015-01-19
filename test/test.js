@@ -1,6 +1,6 @@
 var expect = require('chai').expect;
 var stubs = require('./stubs.js').development;
-var simulation = require('../lib/simulation');
+// var simulation = require('../lib/simulation');
 
 describe('test for tests', function(){ //mock test, to test gulp and deployment
   it('tests should run', function(){
