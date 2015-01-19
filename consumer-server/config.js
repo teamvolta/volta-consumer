@@ -18,7 +18,7 @@ exports.development = {
   simulationTime: 60 * 1000, 
   // % of net of consumption and production beyond which consumer is ready to sell 
   supplyMargin: 2, 
-  bidPrice: 100,
+  bidPrice: 100
 };
 
 var consumerDev = exports.development;
@@ -32,5 +32,27 @@ consumerDev.minorDeviation = consumerDev.majorDeviation/3;
 
 // Production Configuration
 exports.production = {
-  port: process.env.PORT
+  port: process.env.PORT,
+  discoveryIp: 'http://104.40.181.157:8001',
+  
+  // To register with discovery server
+  ip: process.env.thisIP,
+  id: Math.floor(Math.random() * 100000),
+  role: 'consumer',
+  subRole: 'consumer',
+
+  // For simulation
+  min: process.env.min,  
+  max: process.env.max,
+  majorDeviation: process.env.majorDeviation,
+  // In ms. Should be same as consumer's producer!
+  simulationTime: 60 * 1000, 
+  // % of net of consumption and production beyond which consumer is ready to sell 
+  supplyMargin: process.env.supplyMargin, 
+  bidPrice: process.env.bidPrice
 };
+
+var consumerProd = exports.production;
+// When consumption crosses min/max
+consumerProd.resetByPercentage = (consumerProd.max - consumerProd.min) / 1000; 
+consumerProd.minorDeviation = consumerProd.majorDeviation/3;
