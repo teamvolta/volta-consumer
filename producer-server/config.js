@@ -29,9 +29,9 @@ exports.production = {
   discoveryIp: 'http://104.40.181.157:8001',
 
   // For simulation
-  min: process.env.min,
-  max: process.env.max,
-  majorDeviation: process.env.majorDeviation,
+  min: Number(process.env.min),
+  max: Number(process.env.max),
+  majorDeviation: Number(process.env.majorDeviation),
   // In ms. Should be same as consumer's!
   simulationTime: 60 * 1000
 };
