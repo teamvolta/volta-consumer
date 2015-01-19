@@ -2,6 +2,7 @@ var spawn = require('child_process').spawn;
 
 if (process.env.SITE_TYPE === "backend") {
   console.log("choosing backend run script");
+  
   spawn('node', ['consumer-server/server.js']);	
 } else if (process.env.SITE_TYPE === "producer") {
   console.log("choosing producer run script");
