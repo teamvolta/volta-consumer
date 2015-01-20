@@ -1,0 +1,136 @@
+<div id="wrapper">
+  <div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header font">User Controls</h2>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4">
+        <!-- Form -->
+        <form role="form" name="controlMinCons" ng-submit="submitMin()" novalidate>
+          <!-- Min Usage Input -->
+          <div class="form-group" ng-class="{ 'has-error' : controlMinCons.minAmt.$invalid && !controlMinCons.minAmt.$pristine }">
+
+            <label for="minAmt">Minimum Usage Amount</label>
+            <input type="number" name="minAmt" ng-model="control.minConsumption" class="form-control" autofocus min='1' max='100' required>
+
+            <p class="help-block">1 - 100</p>
+            <p class="help-block" ng-show="controlMinCons.minAmt.$error.required && !controlMinCons.minAmt.$pristine">Input a number</p>
+            <p class="help-block" ng-show="controlMinCons.minAmt.$error.integer">Invalid integer</p>
+            <p class="help-block" ng-show="controlMinCons.minAmt.$error.min || controlMinCons.minAmt.$error.max">Invalid range</p>
+          </div>
+
+          <button type="submit" class="btn btn-default" ng-disabled="controlMinCons.$invalid">Submit</button>
+          <button type="reset" class="btn btn-default">Reset</button><br/>
+          <h4 class="controlNum">{{data.minConsumption | number:2}} kWh</h4>
+        </form>
+      </div>
+      <!-- /column -->
+
+      <div class="col-lg-4">
+        <!-- Form -->
+        <form role="form" name="controlMaxCons" ng-submit="submitMax()" novalidate>
+          <!-- Max Usage Input  -->
+          <div class="form-group" ng-class="{ 'has-error' : controlMaxCons.maxAmt.$invalid && !controlMaxCons.maxAmt.$pristine }">
+
+            <label for="maxAmt">Maximum Usage Amount</label>
+            <input type="number" name="maxAmt" ng-model="control.maxConsumption" class="form-control" min='1' max='1000' required>
+
+            <p class="help-block">Should be greater than minimum usage</p>
+            <p class="help-block" ng-show="controlMaxCons.maxAmt.$error.required && !controlMaxCons.maxAmt.$pristine">Input a number</p>
+            <p class="help-block" ng-show="controlMaxCons.maxAmt.$error.integer">Invalid integer</p>
+            <p class="help-block" ng-show="controlMaxCons.maxAmt.$error.min || controlMaxCons.maxAmt.$error.max">Invalid range</p>
+          </div>
+          <button type="submit" class="btn btn-default" ng-disabled="controlMaxCons.$invalid">Submit</button>
+          <button type="reset" class="btn btn-default">Reset</button><br/>
+          <h4 class="controlNum">{{data.maxConsumption | number:2}} kWh</h4>
+        </form>
+      </div>
+      <!-- /column -->
+
+      <div class="col-lg-4">
+        <!-- Form -->
+        <form role="form" name="controlReserve" ng-submit="submitReserve()" novalidate>
+          <!-- Production Input -->
+          <div class="form-group" ng-class="{ 'has-error' : controlReserve.rate.$invalid && !controlReserve.rate.$pristine }">
+
+            <label for="rate">Production Reserve Rate</label>
+            <input type="number" name="rate" ng-model="control.supplyMarginPercent" class="form-control" min="0" max="100" required>
+
+            <p class="help-block">0 - 100 % of net of consumption and production</p>
+            <p class="help-block" ng-show="controlReserve.rate.$error.required && !controlReserve.rate.$pristine">Amount Required (Example: 5)</p>
+            <p class="help-block" ng-show="controlReserve.rate.$error.min || controlReserve.rate.$error.max">Invalid range</p>
+          </div>
+          <button type="submit" class="btn btn-default" ng-disabled="controlReserve.$invalid">Submit</button>
+          <button type="reset" class="btn btn-default">Reset</button><br/>
+          <h4 class="controlNum">{{data.supplyMarginPercent | number:2}}%</h4>
+        </form>
+      </div>
+      <!-- /column -->
+    </div>
+    <div style="border-bottom: 1px solid #eeeeee;"></div>
+    <div class="row">
+      <h3 class="controlNum currCons">Current Consumption: <span class="currColor">{{data.currentConsumption | number:2}}</span> kWh</h3>
+    </div>
+    <!-- /row -->
+    <p>
+    </p>
+    <p>
+    </p>
+    <div class="row">
+      <div class="col-md-3">
+        <h4 ng-show="use.car" class="controlNum" style="color: #39ff14">ON</h4>
+        <h4 ng-hide="use.car" class="controlNum" style="color: #ff1a00">OFF</h4>
+      </div>
+      <div class="col-md-3">
+        <h4 ng-show="use.tv" class="controlNum" style="color: #39ff14">ON</h4>
+        <h4 ng-hide="use.tv" class="controlNum" style="color: #ff1a00">OFF</h4>
+      </div>
+      <div class="col-md-3">
+        <h4 ng-show="use.refrigerator" class="controlNum" style="color: #39ff14">ON</h4>
+        <h4 ng-hide="use.refrigerator" class="controlNum" style="color: #ff1a00">OFF</h4>
+      </div>
+      <div class="col-md-3">
+        <h4 ng-show="use.laundry" class="controlNum" style="color: #39ff14">ON</h4>
+        <h4 ng-hide="use.laundry" class="controlNum" style="color: #ff1a00">OFF</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="appliance car">
+          <img ng-click="controlCar()" class="car" src="styles/appliance_icons/car2.png">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="appliance tv">
+          <img ng-click="controlTV()" class="tv" src="styles/appliance_icons/tv.png">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="appliance refrigerator">
+          <img ng-click="controlRefrigerator()" class="refrigerator" src="styles/appliance_icons/refrigerator.png">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="appliance laundry">
+          <img ng-click="controlLaundry()" class="laundry" src="styles/appliance_icons/laundry.png">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <h4 class="controlNum">{{appliance.car | number:2}} kWh</h4>
+      </div>
+      <div class="col-md-3">
+        <h4 class="controlNum">{{appliance.tv | number:2}} kWh</h4>
+      </div>
+      <div class="col-md-3">
+        <h4 class="controlNum">{{appliance.refrigerator | number:2}} kWh</h4>
+      </div>
+      <div class="col-md-3">
+        <h4 class="controlNum">{{appliance.laundry | number:2}} kWh</h4>
+      </div>
+    </div>
+  </div>
+</div>

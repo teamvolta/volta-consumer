@@ -1,0 +1,82 @@
+<doctype! html>
+<html ng-app="consumer">
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Consumer</title>
+  <!-- jQuery -->
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <!-- HighCharts -->
+  <script src="http://code.highcharts.com/highcharts.js"></script>
+  <!-- Socket.io-Client -->
+  <script src="bower_components/socket.io-client/socket.io.js"></script>
+  <!-- Bootstrap Core CSS -->
+  <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- MetisMenu CSS -->
+  <link href="bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+  <!-- Morris Charts CSS -->
+  <link href="bower_components/morrisjs/morris.css" rel="stylesheet">
+  <!-- Custom Fonts -->
+  <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <!-- Bootstrap Core JavaScript -->
+  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <!-- Metis Menu Plugin JavaScript -->
+  <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+  <!-- Custom Theme JavaScript -->
+  <script src="bower_components/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
+  <link rel="stylesheet" type="text/css" href="styles/style.css"/>
+</head>
+<body>
+  <div id="wrapper">
+    <nav class="navbar navbar-default navbar-fixed-top" style="background-color:white">
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li style="font-size:2.5em; font-family:'Open Sans',sans-serif; margin-top:5px;">Volta Energy</li>
+              <!-- overall nav view -->
+              <li style="padding:10px 0 0 20px"><a ui-sref="dashboard">Dashboard</a></li>
+              <!-- consumption and production -->
+              <li style="padding:10px 0 0 0"><a ui-sref="usage">Usage & Production</a></li>
+              <!-- user controls -->
+              <li style="padding:10px 0 0 0"><a ui-sref="controls">User Controls</a></li>
+              <!-- market data -->
+              <li style="padding:10px 0 0 0"><a ui-sref="market">Market Performance</a></li>
+              <!-- historical data-->
+              <li style="padding:10px 0 0 0"><a ui-sref="transactions">Transaction History</a></li>
+            </ul>
+          </div>
+      </div>
+    </nav>
+    <!-- Page Content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12"><br/><br/>
+                    <div ui-view></div>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /#page-wrapper -->
+  </div>
+
+  <script type="text/javascript" src="bower_components/angular/angular.js"></script>
+  <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <script src="app/config.js"></script>
+  <script src="app/filters/filters.js"></script>
+  <script src="app/services/services.js"></script>
+  <script src="app/directives/directives.js"></script>
+  <script src="app/dashboard/dashboard.js"></script>
+  <script src="app/controls/controls.js"></script>
+  <script src="app/usage/usage.js"></script>
+  <script src="app/market/market.js"></script>
+  <script src="app/transactions/transactions.js"></script>
+  <script src="app/app.js"></script>
+</body>
+</html>
