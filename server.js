@@ -2,11 +2,9 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var config = require('./consumer-server/config')[process.env.NODE_ENV];
 var simulation = new (require('./consumer-server/lib/simulation'))(config);
-var generalHelpers = require('./consumer-server/lib/helpers');
+var helpers = require('./consumer-server/lib/helpers');
 var express = require('express');
 var app = express();
-var timer1 = new (require('nanotimer'))();
-var timer2 = new (require('nanotimer'))();
 
 // Setup server.
 var server = require('http').Server(app);
@@ -37,14 +35,14 @@ var applianceUse = 0;
 var discoveryClient = new (require('./consumer-server/lib/discoverClient'))();
 discoveryClient.register(config);
 
-generalHelpers.getIp('system', 'system', '10')
+helpers.getIp('system', 'system', '10')
   .then(function(ip) {
     system = require('socket.io-client')(ip + '/consumers');
     system.on('connect', function () { 
       consumerId = system.io.engine.id;
       console.log('Connected to system!');
     });
-    return generalHelpers.getIp('system', 'broker', '25');
+    return helpers.getIp('system', 'broker', '25');
   })
 
   .then(function(ip) {
@@ -52,7 +50,7 @@ generalHelpers.getIp('system', 'system', '10')
     broker.on('connect', function () {
       console.log('Connected to broker!');
     });
-    return generalHelpers.getIp('system', 'accounting', '5');
+    return helpers.getIp('system', 'accounting', '5');
   })
 
   .then(function(ip) {
@@ -116,7 +114,7 @@ generalHelpers.getIp('system', 'system', '10')
       });
     };
 
-    timer1.setInterval(sendConsumption,'', '1s');
+    setInterval(sendConsumption, 1000);
 
 
 
@@ -205,7 +203,7 @@ generalHelpers.getIp('system', 'system', '10')
         });
       };
 
-      timer2.setInterval(sendData,'', '1200m');
+      setInterval(sendData, 1200);
 
       socket.on('configChanges', function (data) {
         console.log('config changes received', data);
