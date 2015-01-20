@@ -13,7 +13,7 @@
           <div class="form-group" ng-class="{ 'has-error' : controlMinCons.minAmt.$invalid && !controlMinCons.minAmt.$pristine }">
 
             <label for="minAmt">Minimum Usage Amount</label>
-            <input type="number" name="minAmt" ng-model="control.minConsumption" class="form-control" min="1" max="100" autofocus integer required>
+            <input type="number" name="minAmt" ng-model="control.minConsumption" class="form-control" autofocus min='1' max='100' required>
 
             <p class="help-block">1 - 100</p>
             <p class="help-block" ng-show="controlMinCons.minAmt.$error.required && !controlMinCons.minAmt.$pristine">Input a number</p>
@@ -35,7 +35,7 @@
           <div class="form-group" ng-class="{ 'has-error' : controlMaxCons.maxAmt.$invalid && !controlMaxCons.maxAmt.$pristine }">
 
             <label for="maxAmt">Maximum Usage Amount</label>
-            <input type="number" name="maxAmt" ng-model="control.maxConsumption" class="form-control" min=data.minConsumption required>
+            <input type="number" name="maxAmt" ng-model="control.maxConsumption" class="form-control" min='1' max='1000' required>
 
             <p class="help-block">Should be greater than minimum usage</p>
             <p class="help-block" ng-show="controlMaxCons.maxAmt.$error.required && !controlMaxCons.maxAmt.$pristine">Input a number</p>
