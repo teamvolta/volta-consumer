@@ -65,7 +65,7 @@ angular.module('consumer.directives', [])
             name:'Energy Consumption',
             data: (function () {
               var data = [];
-              if (Socket.storage.length) {
+              if (Socket.storage.length >=9) {
                 for (var j = 0; j < Socket.storage.length; j++) {
                   data.push(Math.round(Socket.storage[j].currentConsumption*100)/100);
                 }

@@ -2,10 +2,9 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var config = require('./consumer-server/config')[process.env.NODE_ENV];
 var simulation = new (require('./consumer-server/lib/simulation'))(config);
-var generalHelpers = require('./consumer-server/lib/helpers');
+var helpers = require('./consumer-server/lib/helpers');
 var express = require('express');
 var app = express();
-
 
 // Setup server.
 var server = require('http').Server(app);
@@ -36,14 +35,14 @@ var applianceUse = 0;
 var discoveryClient = new (require('./consumer-server/lib/discoverClient'))();
 discoveryClient.register(config);
 
-generalHelpers.getIp('system', 'system', '10')
+helpers.getIp('system', 'system', '10')
   .then(function(ip) {
     system = require('socket.io-client')(ip + '/consumers');
     system.on('connect', function () { 
       consumerId = system.io.engine.id;
       console.log('Connected to system!');
     });
-    return generalHelpers.getIp('system', 'broker', '25');
+    return helpers.getIp('system', 'broker', '25');
   })
 
   .then(function(ip) {
@@ -51,7 +50,7 @@ generalHelpers.getIp('system', 'system', '10')
     broker.on('connect', function () {
       console.log('Connected to broker!');
     });
-    return generalHelpers.getIp('system', 'accounting', '5');
+    return helpers.getIp('system', 'accounting', '5');
   })
 
   .then(function(ip) {
@@ -103,7 +102,7 @@ generalHelpers.getIp('system', 'system', '10')
 
 
     // System admin keeps track of total consumption of all consumers
-    setInterval(function () {
+    var sendConsumption = function () {
       if(Date.now() > simulationStartTime + config.simulationTime) {
         simulationStartTime = Date.now();
       }
@@ -113,7 +112,9 @@ generalHelpers.getIp('system', 'system', '10')
         currentConsumption: currentConsumption,
         consumerId: consumerId
       });
-    }, 1000);
+    };
+
+    setInterval(sendConsumption, 1000);
 
 
 
@@ -184,7 +185,7 @@ generalHelpers.getIp('system', 'system', '10')
     clientNsp.on('connection', function (socket) {
       console.log('Connected with client!');
 
-      setInterval(function() {
+      var sendData = function() {
         socket.emit('data', {
           consumerId: consumerId,
           minConsumption: minConsumption,
@@ -200,8 +201,9 @@ generalHelpers.getIp('system', 'system', '10')
           brokerPrice: brokerPrice,
           supplyMarginPercent: supplyMarginPercent
         });
-      }, 1000);
+      };
 
+      setInterval(sendData, 1200);
 
       socket.on('configChanges', function (data) {
         console.log('config changes received', data);
